@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="1200" viewBox="0 0 900 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Portrait placeholder</title>
+  <desc id="desc">Neutral placeholder image for profile portrait.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ece4d8"/>
+      <stop offset="100%" stop-color="#d8c9b3"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg)"/>
+  <circle cx="450" cy="430" r="165" fill="#f4ede2"/>
+  <rect x="265" y="620" width="370" height="360" rx="185" fill="#f4ede2"/>
+  <text x="450" y="1080" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="34" fill="#5a5a5a" letter-spacing="2">PORTRAIT</text>
+</svg>
