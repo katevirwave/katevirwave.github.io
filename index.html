@@ -1,410 +1,330 @@
-:root{
-  --bg: #f6f1ea;            /* cream */
-  --text: #1f1f1f;          /* near-black */
-  --muted: #5a5a5a;         /* warm gray */
-  --line: rgba(31,31,31,.14);
-  --card: rgba(255,255,255,.55);
-  --card2: rgba(255,255,255,.35);
-  --shadow: 0 18px 50px rgba(0,0,0,.07);
-  --accent: #0a7ea4;        /* restrained VirWave teal */
-  --gold: rgba(171, 130, 72, .45); /* subtle brushed gold */
-  --serif: "Cormorant Garamond", serif;
-  --sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --radius: 18px;
-}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kate Julia</title>
+    <meta name="description" content="Founder. Systems thinker. Designing emotional infrastructure for high-pressure systems." />
+    <link rel="stylesheet" href="./styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Elegant serif + clean sans (free + reliable) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
 
-*{ box-sizing: border-box; }
-html{ scroll-behavior: smooth; }
-body{
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--sans);
-  line-height: 1.45;
-}
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
 
-.skip-link{
-  position: absolute;
-  left: -9999px;
-  top: 10px;
-  padding: 10px 12px;
-  background: white;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-}
-.skip-link:focus{ left: 10px; z-index: 999; }
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <a href="#top" class="brand-link" aria-label="Back to top">KATE JULIA</a>
+        </div>
 
-.container{
-  max-width: 1080px;
-  margin: 0 auto;
-  padding: 0 22px;
-}
+        <nav class="nav" aria-label="Primary">
+          <a href="#work">Work</a>
+          <a href="#speaking">Speaking</a>
+          <a href="#experiments">Explorations</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
 
-.section{
-  padding: 78px 0;
-  border-top: 1px solid var(--line);
-}
+    <main id="main">
+      <!-- HERO -->
+      <section id="top" class="section hero">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <h1 class="hero-title">Built under pressure.</h1>
+            <p class="hero-subtitle">
+              Founder of VirWave. Designing emotional infrastructure for high-pressure systems.
+            </p>
 
-.site-header{
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: color-mix(in srgb, var(--bg) 86%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
-}
+            <div class="hero-actions">
+              <a class="btn" href="#work">Enter</a>
+              <a class="btn btn-ghost" href="#speaking">Upcoming events</a>
+            </div>
 
-.header-inner{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  height: 72px;
-}
+            <p class="hero-note">
+              I’m rebuilding in public — with restraint, clarity, and design.
+            </p>
+          </div>
 
-.brand-link{
-  font-family: var(--serif);
-  letter-spacing: .18em;
-  font-size: 18px;
-  text-decoration: none;
-  color: var(--text);
-}
+          <!-- Optional: keep hero minimal; the portrait appears in the next section -->
+          <div class="hero-rule" aria-hidden="true"></div>
+        </div>
+      </section>
 
-.nav{
-  display:flex;
-  gap: 18px;
-  align-items:center;
-}
-.nav a{
-  color: var(--text);
-  text-decoration: none;
-  font-size: 14px;
-  letter-spacing: .06em;
-  padding: 10px 8px;
-  border-radius: 10px;
-}
-.nav a:hover{
-  background: rgba(255,255,255,.35);
-}
+      <!-- ORIGIN + PHOTO -->
+      <section class="section origin">
+        <div class="container origin-grid">
+          <figure class="portrait-card">
+            <!-- Replace ./assets/kate.jpg with your real photo -->
+            <img
+              src="./assets/kate.jpg"
+              alt="Portrait of Kate Julia"
+              class="portrait"
+              loading="lazy"
+            />
+            <figcaption class="portrait-caption">
+              London · Global
+            </figcaption>
+          </figure>
 
-.hero{
-  border-top: 0;
-  padding-top: 64px;
-}
-.hero-inner{
-  display:grid;
-  grid-template-columns: 1fr;
-  gap: 28px;
-}
-.hero-title{
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: clamp(44px, 5vw, 68px);
-  line-height: 1.05;
-  margin: 0 0 10px 0;
-}
-.hero-subtitle{
-  margin: 0 0 20px 0;
-  color: var(--muted);
-  font-size: 16px;
-  max-width: 62ch;
-}
-.hero-actions{
-  display:flex;
-  flex-wrap:wrap;
-  gap: 12px;
-  margin: 12px 0 10px 0;
-}
-.hero-note{
-  margin: 14px 0 0 0;
-  color: var(--muted);
-  font-size: 14px;
-  max-width: 62ch;
-}
-.hero-rule{
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--line), transparent);
-}
+          <div class="origin-copy">
+            <h2 class="section-title">Pressure → Design</h2>
+            <p class="lead">
+              My work began at the intersection of personal pressure and institutional response.
+              I became interested in how systems interpret stress — and what happens when they misread it.
+            </p>
+            <p class="muted">
+              I build frameworks, products, and public work that make regulation practical, visible, and humane.
+            </p>
 
-.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap: 10px;
-  padding: 12px 18px;
-  border-radius: 12px;
-  border: 1px solid color-mix(in srgb, var(--line) 70%, var(--gold));
-  text-decoration:none;
-  color: var(--text);
-  background: rgba(255,255,255,.35);
-  transition: transform .08s ease, background .12s ease;
-  font-size: 14px;
-  letter-spacing: .02em;
-}
-.btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.55); }
-.btn:active{ transform: translateY(0px); }
+            <div class="micro-pillars">
+              <span class="pill">Luxury restraint</span>
+              <span class="pill">Structural reform</span>
+              <span class="pill">Nervous system design</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
-.btn-ghost{
-  background: transparent;
-  border: 1px solid var(--line);
-}
+      <!-- SELECTED WORK -->
+      <section id="work" class="section work">
+        <div class="container">
+          <div class="section-head">
+            <h2 class="section-title">Selected Work</h2>
+            <p class="muted">Curated signals. No clutter.</p>
+          </div>
 
-.section-head{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap: 20px;
-  margin-bottom: 24px;
-}
-.section-title{
-  font-family: var(--serif);
-  font-weight: 500;
-  font-size: 34px;
-  margin: 0;
-}
-.lead{
-  font-size: 16px;
-  max-width: 68ch;
-  margin: 0 0 12px 0;
-}
-.muted{ color: var(--muted); }
-.small{ font-size: 13px; }
+          <div class="card-grid">
+            <article class="card">
+              <div class="card-eyebrow">Emotional Regulation Platform</div>
+              <h3 class="card-title">VirWave</h3>
+              <p class="card-text">
+                Breathing shapes, journaling, and structured connection — designed to support regulation in real life.
+              </p>
+              <div class="card-actions">
+                <!-- Replace with your VirWave URL when ready -->
+                <a class="link" href="#" aria-disabled="true" title="Add your VirWave link">Explore VirWave →</a>
+              </div>
+            </article>
 
-.origin-grid{
-  display:grid;
-  grid-template-columns: 420px 1fr;
-  gap: 34px;
-  align-items:center;
-}
-.portrait-card{
-  margin: 0;
-  border-radius: var(--radius);
-  overflow:hidden;
-  background: var(--card);
-  box-shadow: var(--shadow);
-  border: 1px solid var(--line);
-}
-.portrait{
-  width: 100%;
-  height: 520px;
-  object-fit: cover;
-  display:block;
-  filter: contrast(1.02) saturate(.98);
-}
-.portrait-caption{
-  padding: 14px 16px;
-  font-size: 13px;
-  color: var(--muted);
-  letter-spacing: .03em;
-}
-.micro-pillars{
-  display:flex;
-  flex-wrap:wrap;
-  gap: 10px;
-  margin-top: 16px;
-}
-.pill{
-  padding: 10px 12px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: rgba(255,255,255,.28);
-  font-size: 13px;
-}
+            <article class="card">
+              <div class="card-eyebrow">Policy + Systems Reform</div>
+              <h3 class="card-title">A4 Safety Alliance</h3>
+              <p class="card-text">
+                Advocacy and systems reform work focused on institutional accountability and child safety.
+              </p>
+              <div class="card-actions">
+                <a class="link" href="https://a4safetyalliance.org" target="_blank" rel="noopener noreferrer">
+                  Visit A4SafetyAlliance.org →
+                </a>
+              </div>
+            </article>
 
-.card-grid{
-  display:grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-.card{
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background: var(--card);
-  box-shadow: var(--shadow);
-  padding: 20px 18px;
-}
-.card.subtle{
-  background: var(--card2);
-  box-shadow: none;
-}
-.card-eyebrow{
-  font-size: 12px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 10px;
-}
-.card-title{
-  font-family: var(--serif);
-  font-weight: 600;
-  font-size: 24px;
-  margin: 0 0 10px 0;
-}
-.card-text{
-  margin: 0 0 14px 0;
-  color: color-mix(in srgb, var(--text) 88%, var(--muted));
-}
-.link{
-  text-decoration: none;
-  color: var(--text);
-  border-bottom: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
-  padding-bottom: 2px;
-}
-.link:hover{
-  color: color-mix(in srgb, var(--text) 80%, var(--accent));
-  border-bottom-color: var(--accent);
-}
+            <article class="card">
+              <div class="card-eyebrow">Children’s Digital Wellbeing</div>
+              <h3 class="card-title">Fundamentally Children</h3>
+              <p class="card-text">
+                Regulation panel contributor supporting healthier digital environments for children.
+              </p>
+              <div class="card-actions">
+                <a class="link" href="https://fundamentallychildren.com" target="_blank" rel="noopener noreferrer">
+                  View FundamentallyChildren.com →
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
 
-.events-wrap{
-  display:grid;
-  grid-template-columns: 1.25fr .75fr;
-  gap: 16px;
-  align-items:start;
-}
-.events-list{
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  overflow:hidden;
-  background: rgba(255,255,255,.30);
-}
-.event{
-  display:flex;
-  justify-content:space-between;
-  gap: 18px;
-  padding: 16px 18px;
-  border-top: 1px solid var(--line);
-}
-.event:first-child{ border-top: 0; }
-.event-title{
-  font-family: var(--serif);
-  font-size: 20px;
-  margin-bottom: 2px;
-}
-.event-meta{
-  font-size: 13px;
-  color: var(--muted);
-}
-.event-right{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  gap: 8px;
-}
-.event-date{
-  font-size: 13px;
-  color: var(--muted);
-}
-.event-link{
-  text-decoration:none;
-  color: var(--text);
-  font-size: 13px;
-  border-bottom: 1px solid var(--line);
-}
-.event-link:hover{ border-bottom-color: var(--accent); color: color-mix(in srgb, var(--text) 80%, var(--accent)); }
+      <!-- SPEAKING & EVENTS -->
+      <section id="speaking" class="section speaking">
+        <div class="container">
+          <div class="section-head">
+            <h2 class="section-title">Speaking & Events</h2>
+            <p class="muted">
+              Conversations on stress, structure, and reform.
+            </p>
+          </div>
 
-.quote-block{
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.28);
-  padding: 20px 18px;
-}
-.quote{
-  font-family: var(--serif);
-  font-size: 28px;
-  margin: 0 0 10px 0;
-}
+          <div class="events-wrap">
+            <div class="events-list" role="list">
+              <!-- IMPORTANT: You asked not to miss these dates -->
+              <div class="event" role="listitem">
+                <div class="event-left">
+                  <div class="event-title">TEDxHult London</div>
+                  <div class="event-meta">London · Talk</div>
+                </div>
+                <div class="event-right">
+                  <time datetime="2026-02-28" class="event-date">Feb 28, 2026</time>
+                  <a class="event-link" href="#signup">Sign up →</a>
+                </div>
+              </div>
 
-.signup-grid{
-  display:grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-.form{
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.30);
-  padding: 20px 18px;
-}
-.field{
-  display:flex;
-  flex-direction:column;
-  gap: 8px;
-  margin-bottom: 14px;
-}
-.label{
-  font-size: 13px;
-  color: var(--muted);
-}
-input, select{
-  width: 100%;
-  padding: 12px 12px;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.55);
-  font: inherit;
-  color: var(--text);
-}
-input:focus, select:focus{
-  outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent);
-  outline-offset: 2px;
-}
+              <div class="event" role="listitem">
+                <div class="event-left">
+                  <div class="event-title">TEDxUCL</div>
+                  <div class="event-meta">London · Talk</div>
+                </div>
+                <div class="event-right">
+                  <time datetime="2026-03-11" class="event-date">Mar 11, 2026</time>
+                  <a class="event-link" href="#signup">Sign up →</a>
+                </div>
+              </div>
 
-.list{
-  margin: 10px 0 0 18px;
-  padding: 0;
-  color: var(--muted);
-}
-details summary{
-  cursor: pointer;
-  margin-top: 10px;
-}
+              <!-- Replace these two with your real upcoming events -->
+              <div class="event" role="listitem">
+                <div class="event-left">
+                  <div class="event-title">Event #3 (Add title)</div>
+                  <div class="event-meta">City · Format</div>
+                </div>
+                <div class="event-right">
+                  <time datetime="2026-03-00" class="event-date">Mar __, 2026</time>
+                  <a class="event-link" href="#signup">Sign up →</a>
+                </div>
+              </div>
 
-.chips{
-  display:grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 10px;
-}
-.chip{
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: rgba(255,255,255,.28);
-  padding: 14px 14px;
-  text-align:center;
-  font-size: 13px;
-  letter-spacing: .02em;
-}
+              <div class="event" role="listitem">
+                <div class="event-left">
+                  <div class="event-title">Event #4 (Add title)</div>
+                  <div class="event-meta">City · Format</div>
+                </div>
+                <div class="event-right">
+                  <time datetime="2026-04-00" class="event-date">Apr __, 2026</time>
+                  <a class="event-link" href="#signup">Sign up →</a>
+                </div>
+              </div>
+            </div>
 
-.contact-inner{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap: 16px;
-}
-.contact-actions{
-  display:flex;
-  gap: 10px;
-  flex-wrap:wrap;
-}
+            <div class="quote-block" aria-label="Statement">
+              <p class="quote">Healing can be structured.</p>
+              <p class="muted small">
+                Not perfection. Practice. Design you can repeat.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-.site-footer{
-  padding: 26px 0;
-  border-top: 1px solid var(--line);
-}
-.footer-inner{
-  display:flex;
-  justify-content:space-between;
-  gap: 12px;
-  color: var(--muted);
-  font-size: 13px;
-}
-.dot{ margin: 0 8px; }
+      <!-- SIGNUP -->
+      <section id="signup" class="section signup">
+        <div class="container">
+          <div class="section-head">
+            <h2 class="section-title">Get event updates</h2>
+            <p class="muted">
+              Sign up once. I’ll email upcoming speaking dates and releases. No noise.
+            </p>
+          </div>
 
-@media (max-width: 980px){
-  .origin-grid{ grid-template-columns: 1fr; }
-  .portrait{ height: 460px; }
-  .card-grid{ grid-template-columns: 1fr; }
-  .events-wrap{ grid-template-columns: 1fr; }
-  .signup-grid{ grid-template-columns: 1fr; }
-  .chips{ grid-template-columns: 1fr 1fr; }
-  .section-head{ flex-direction:column; align-items:flex-start; }
-  .contact-inner{ flex-direction:column; align-items:flex-start; }
-}
+          <div class="signup-grid">
+            <form id="signupForm" class="form" autocomplete="on">
+              <label class="field">
+                <span class="label">Name</span>
+                <input name="name" type="text" placeholder="Kate" required />
+              </label>
+
+              <label class="field">
+                <span class="label">Email</span>
+                <input name="email" type="email" placeholder="you@email.com" required />
+              </label>
+
+              <label class="field">
+                <span class="label">Interest</span>
+                <select name="interest">
+                  <option value="events">Events only</option>
+                  <option value="speaking">Speaking + media</option>
+                  <option value="virwave">VirWave updates</option>
+                  <option value="all">All updates</option>
+                </select>
+              </label>
+
+              <button class="btn" type="submit">Sign up</button>
+
+              <p id="formStatus" class="muted small" role="status" aria-live="polite"></p>
+
+              <details class="muted small">
+                <summary>Want signups to go to a mailing list?</summary>
+                <p class="muted small">
+                  Easiest options:
+                  (1) replace this form with your Mailchimp/Buttondown embed,
+                  or (2) use a Google Form endpoint in <code>script.js</code>.
+                </p>
+              </details>
+            </form>
+
+            <div class="signup-note card subtle">
+              <h3 class="card-title">If you want this to actually collect emails</h3>
+              <p class="card-text">
+                This template saves signups locally (so you can test instantly).
+                For real collection, connect to:
+              </p>
+              <ul class="list">
+                <li>Mailchimp / Buttondown embed (fastest)</li>
+                <li>Google Forms (simple + free)</li>
+                <li>Netlify Forms (if you deploy on Netlify)</li>
+              </ul>
+              <p class="card-text muted small">
+                Tell me which option you want and I’ll tailor the exact snippet.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- EXPLORATIONS -->
+      <section id="experiments" class="section experiments">
+        <div class="container">
+          <div class="section-head">
+            <h2 class="section-title">Constructive Experiments</h2>
+            <p class="muted">Explorations at the intersection of design, regulation, and narrative.</p>
+          </div>
+
+          <div class="chips">
+            <div class="chip">Narrative Systems</div>
+            <div class="chip">Emotional AI</div>
+            <div class="chip">Institutional Research</div>
+            <div class="chip">Design Prototypes</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTACT -->
+      <section id="contact" class="section contact">
+        <div class="container contact-inner">
+          <div>
+            <h2 class="section-title">Contact</h2>
+            <p class="muted">
+              Speaking · Partnerships · Research collaboration
+            </p>
+          </div>
+
+          <div class="contact-actions">
+            <!-- Replace with your preferred email -->
+            <a class="btn btn-ghost" href="mailto:info@katejulia.com">info@katejulia.com</a>
+            <!-- Replace with your LinkedIn -->
+            <a class="btn" href="#" aria-disabled="true" title="Add your LinkedIn URL">LinkedIn</a>
+          </div>
+        </div>
+      </section>
+
+      <footer class="site-footer">
+        <div class="container footer-inner">
+          <div class="footer-left">Kate Julia</div>
+          <div class="footer-right">
+            <span>London</span>
+            <span class="dot" aria-hidden="true">•</span>
+            <span>Global</span>
+          </div>
+        </div>
+      </footer>
+    </main>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
