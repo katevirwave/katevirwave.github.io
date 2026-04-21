@@ -233,35 +233,83 @@
     defs.appendChild(markerFilter);
 
     // Spray-paint filter — used by the graffiti section text.
-    // Creates rough, slightly eaten-away alpha edges on any element.
+    // Wobbles edges with displacement so it looks hand-sprayed but stays readable.
     const sprayFilter = mk("filter", {
       id: "spray-rough",
       x: "-8%", y: "-20%",
       width: "116%", height: "140%",
-      colorInterpolationFilters: "sRGB",
     });
     const turbSpray = mk("feTurbulence", {
-      type: "turbulence",
-      baseFrequency: "0.052 0.048",
-      numOctaves: "4",
+      type: "fractalNoise",
+      baseFrequency: "0.038 0.028",
+      numOctaves: "3",
       seed: "14",
       result: "noiseOut",
     });
-    const cmSpray = mk("feColorMatrix", {
-      type: "matrix",
-      values: "0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -4 0 0 12 -2",
-      in: "noiseOut",
-      result: "alphaMask",
-    });
-    const compSpray = mk("feComposite", {
-      operator: "in",
+    const dispSpray = mk("feDisplacementMap", {
       in: "SourceGraphic",
-      in2: "alphaMask",
+      in2: "noiseOut",
+      scale: "5",
+      xChannelSelector: "R",
+      yChannelSelector: "G",
     });
     sprayFilter.appendChild(turbSpray);
-    sprayFilter.appendChild(cmSpray);
-    sprayFilter.appendChild(compSpray);
+    sprayFilter.appendChild(dispSpray);
     defs.appendChild(sprayFilter);
+
+    // Name-rebuild filter — starts with high displacement (shattered, broken),
+    // SMIL-animates scale from 85 → 0 so the name heals into a whole form.
+    const rebuildFilter = mk("filter", {
+      id: "name-rebuild",
+      x: "-20%", y: "-35%",
+      width: "140%", height: "170%",
+    });
+    const turbRebuild = mk("feTurbulence", {
+      type: "fractalNoise",
+      baseFrequency: "0.038 0.028",
+      numOctaves: "4",
+      seed: "11",
+      result: "noise",
+    });
+    const dispRebuild = mk("feDisplacementMap", {
+      in: "SourceGraphic",
+      in2: "noise",
+      xChannelSelector: "R",
+      yChannelSelector: "G",
+    });
+    // Animate: shattered (scale=85) → whole (scale=0)
+    const animScale = mk("animate", {
+      attributeName: "scale",
+      from: "85",
+      to: "0",
+      dur: "2.8s",
+      begin: `${SIG_DELAY.toFixed(2)}s`,
+      fill: "freeze",
+      calcMode: "spline",
+      keyTimes: "0;1",
+      keySplines: "0.05 0.85 0.1 1",
+    });
+    dispRebuild.appendChild(animScale);
+    rebuildFilter.appendChild(turbRebuild);
+    rebuildFilter.appendChild(dispRebuild);
+    defs.appendChild(rebuildFilter);
+
+    // Wavelength gradient for the name — horizontal, userSpaceOnUse so it
+    // spans the actual pixel coordinates where "Kate Julia" lives.
+    const nameGrad = mk("linearGradient", {
+      id: "name-grad",
+      gradientUnits: "userSpaceOnUse",
+      x1: "130", y1: "262",
+      x2: "870", y2: "262",
+    });
+    WAVES.forEach((hex, i) => {
+      const s = mk("stop", {
+        offset: `${((i / (WAVES.length - 1)) * 100).toFixed(2)}%`,
+      });
+      s.setAttribute("stop-color", hex);
+      nameGrad.appendChild(s);
+    });
+    defs.appendChild(nameGrad);
 
     // Motion path, referenced by <mpath> for each chip.
     const wind = mk("path", { id: "wind-path", d: WIND_D, fill: "none" });
@@ -275,17 +323,19 @@
     svg.appendChild(trailThick);
     svg.appendChild(trailThin);
 
-    // Signature — drawn over the wave once it's painted.
+    // "Kate Julia" — starts shattered in wavelength colors, heals to whole.
+    // The name-rebuild filter's SMIL animate handles the reconstruction;
+    // CSS handles the initial fade-in via --sig-delay.
     const text = mk("text", {
-      class: "signature-text",
+      class: "signature-rebuild",
       x: VIEW_W / 2,
       y: 262,
       "text-anchor": "middle",
+      filter: "url(#name-rebuild)",
     });
+    text.setAttribute("fill", "url(#name-grad)");
     text.textContent = "Kate Julia";
-    text.style.setProperty("--sig-delay",     `${SIG_DELAY.toFixed(2)}s`);
-    text.style.setProperty("--sig-draw-dur",  `${SIG_DRAW_DUR.toFixed(2)}s`);
-    text.style.setProperty("--sig-ink-delay", `${SIG_INK_DELAY.toFixed(2)}s`);
+    text.style.setProperty("--sig-delay", `${SIG_DELAY.toFixed(2)}s`);
     svg.appendChild(text);
 
     stage.appendChild(svg);
