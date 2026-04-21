@@ -158,16 +158,16 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
    Delay is set per-element via --sig-delay / --sig-ink-delay. */
 .signature-text{
   font-family: "Caveat", cursive;
-  font-size: 200px;
+  font-size: 170px;
   font-weight: 600;
   letter-spacing: -0.01em;
   fill: transparent;
   stroke: var(--text);
-  stroke-width: 1.6;
+  stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 3200;
-  stroke-dashoffset: 3200;
+  stroke-dasharray: 3000;
+  stroke-dashoffset: 3000;
   animation:
     sig-draw 2.8s cubic-bezier(.22,.1,.25,1) var(--sig-delay, 2.5s) forwards,
     sig-ink  0.8s ease-out var(--sig-ink-delay, 5.3s) forwards;
@@ -197,7 +197,7 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
 }
 
 @media (max-width: 680px){
-  .signature-text{ font-size: 160px; }
+  .signature-text{ font-size: 130px; }
 }
 
 @media (prefers-reduced-motion: reduce){

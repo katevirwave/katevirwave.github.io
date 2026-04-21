@@ -115,20 +115,18 @@
 (() => {
   const SVG_NS = "http://www.w3.org/2000/svg";
   const VIEW_W = 1000;
-  const VIEW_H = 360;
+  const VIEW_H = 420;
 
-  // The path logos are arrayed along. Undulates like cursive writing —
-  // peaks for ascenders (K, t, J, l), dips for x-height letters.
+  // Two bands:
+  //   • upper band (y ≈ 30–180) — logos arranged along a gentle wave
+  //   • lower band (y ≈ 240–360) — the handwritten signature
+  // Keeping them visually separate prevents the letters reading through
+  // the logos.
   const TRAIL_D =
-    "M 30 180 " +
-    "Q 100 70 170 160 " +   // K peak
-    "Q 230 220 290 150 " +  // a
-    "Q 340 80 400 160 " +   // t peak
-    "Q 460 200 520 150 " +  // e → space
-    "Q 570 260 620 130 " +  // J swing (down then up)
-    "Q 670 170 730 140 " +  // u
-    "Q 780 60 840 160 " +   // l peak
-    "Q 900 200 970 160";    // i / a
+    "M 40 120 " +
+    "Q 160 50 280 110 " +
+    "S 500 160 620 90 " +
+    "S 860 30 970 130";
 
   // Logos — add / reorder / swap freely. `end` is fraction along the
   // trail (0–1) where that chip sits.
@@ -145,9 +143,9 @@
   ];
 
   // Chip box size. preserveAspectRatio="xMidYMid meet" fits any logo.
-  const CHIP_W = 116;
-  const CHIP_H = 44;
-  const PAD = 6;
+  const CHIP_W = 96;
+  const CHIP_H = 36;
+  const PAD = 5;
 
   // Timing (seconds)
   const CHIP_DUR   = 0.55;  // per-chip pop-in
@@ -193,7 +191,7 @@
     const text = mk("text", {
       class: "signature-text",
       x: VIEW_W / 2,
-      y: 230,
+      y: 340,
       "text-anchor": "middle",
     });
     text.textContent = "Kate Julia";
