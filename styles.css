@@ -57,6 +57,7 @@ html{ scroll-behavior: smooth; }
 
 body{
   margin: 0;
+  overflow-x: hidden;
   background: var(--bg);
   color: var(--text);
   font-family: var(--sans);
@@ -216,28 +217,17 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
 .wave-trail-thick{ opacity: 0; }  /* set by JS */
 .wave-trail-thin{  opacity: 0; }
 
-/* "Kate Julia" — starts shattered and colorful, heals into a whole name.
-   The turbulence filter (name-rebuild) is animated via SMIL in script.js.
-   CSS only handles the fade-in; the reconstruction is all SVG filter. */
-.signature-rebuild{
+/* "Kate Julia" — individual letter pieces, scattered from page load,
+   each SMIL-animates back to its home position in script.js.
+   No CSS animation needed — letters are visible from t=0 as scattered pieces. */
+.letter-piece{
   font-family: "Caveat", cursive;
-  font-size: 180px;
+  font-size: 160px;
   font-weight: 700;
-  letter-spacing: -0.01em;
-  /* fill set to url(#name-grad) inline from JS */
-  opacity: 0;
-  animation: rebuild-fade .4s ease var(--sig-delay, 2s) forwards;
+  /* fill set per-letter from JS (wavelength palette) */
 }
-@keyframes rebuild-fade{ to{ opacity: 1; } }
-
 @media (max-width: 680px){
-  .signature-rebuild{ font-size: 100px; }
-}
-@media (prefers-reduced-motion: reduce){
-  .signature-rebuild{
-    opacity: 1;
-    filter: none !important;
-  }
+  .letter-piece{ font-size: 90px; }
 }
 
 /* Chip visual styling. Motion + fade are driven by SMIL inside the SVG. */

@@ -258,42 +258,7 @@
     sprayFilter.appendChild(dispSpray);
     defs.appendChild(sprayFilter);
 
-    // Name-rebuild filter — starts with high displacement (shattered, broken),
-    // SMIL-animates scale from 85 → 0 so the name heals into a whole form.
-    const rebuildFilter = mk("filter", {
-      id: "name-rebuild",
-      x: "-20%", y: "-35%",
-      width: "140%", height: "170%",
-    });
-    const turbRebuild = mk("feTurbulence", {
-      type: "fractalNoise",
-      baseFrequency: "0.038 0.028",
-      numOctaves: "4",
-      seed: "11",
-      result: "noise",
-    });
-    const dispRebuild = mk("feDisplacementMap", {
-      in: "SourceGraphic",
-      in2: "noise",
-      xChannelSelector: "R",
-      yChannelSelector: "G",
-    });
-    // Animate: shattered (scale=85) → whole (scale=0)
-    const animScale = mk("animate", {
-      attributeName: "scale",
-      from: "85",
-      to: "0",
-      dur: "2.8s",
-      begin: `${SIG_DELAY.toFixed(2)}s`,
-      fill: "freeze",
-      calcMode: "spline",
-      keyTimes: "0;1",
-      keySplines: "0.05 0.85 0.1 1",
-    });
-    dispRebuild.appendChild(animScale);
-    rebuildFilter.appendChild(turbRebuild);
-    rebuildFilter.appendChild(dispRebuild);
-    defs.appendChild(rebuildFilter);
+    // (name-rebuild filter removed — replaced by individual letter pieces below)
 
     // Wavelength gradient for the name — horizontal, userSpaceOnUse.
     // y coordinates updated to match the new name position (y=415).
@@ -324,20 +289,94 @@
     svg.appendChild(trailThick);
     svg.appendChild(trailThin);
 
-    // "Kate Julia" — starts shattered in wavelength colors, heals to whole.
-    // The name-rebuild filter's SMIL animate handles the reconstruction;
-    // CSS handles the initial fade-in via --sig-delay.
-    const text = mk("text", {
-      class: "signature-rebuild",
-      x: VIEW_W / 2,
-      y: 415,
-      "text-anchor": "middle",
-      filter: "url(#name-rebuild)",
+    // "Kate Julia" — individual letter pieces scattered across the canvas
+    // at page load. Each piece animates back to its home position, gathering
+    // into the full name. Nested <g> pair: outer drives translate, inner drives
+    // rotate, so SMIL can animate both axes without fighting over the attribute.
+    const LETTERS    = ["K","a","t","e","J","u","l","i","a"];
+    // Approximate center-x for each letter in the assembled name (Caveat 160px).
+    const HOME_X     = [205, 290, 360, 430, 545, 615, 668, 705, 745];
+    const HOME_Y     = 415;
+    // Delta (dx, dy) from home → scatter position (where each piece starts).
+    const SCATTER    = [
+      [-430,-340], [ 720,-300], [ 540, 210], [-390,  90],
+      [  15,-510], [-680,-130], [ 510,-190], [-290, 250], [ 230,-480],
+    ];
+    const ROT_FROM   = [-55, 38, -72, 25, -16, 60, -42, 78, -24];
+    const GATHER_DUR = 1.5;   // seconds each letter takes to reach home
+    const STAGGER    = 0.14;  // stagger between letters
+
+    LETTERS.forEach((char, li) => {
+      const hx    = HOME_X[li];
+      const hy    = HOME_Y;
+      const sx    = hx + SCATTER[li][0];
+      const sy    = hy + SCATTER[li][1];
+      const rot   = ROT_FROM[li];
+      const begin = SIG_DELAY + li * STAGGER;
+      // Pick a color from the wavelength palette based on letter index.
+      const ci    = Math.round((li / (LETTERS.length - 1)) * (WAVES.length - 1));
+
+      if (prefersReducedMotion) {
+        // Static fallback: show letters assembled at home, no animation.
+        const g = mk("g", { transform: `translate(${hx},${hy})` });
+        const t = mk("text", {
+          class: "letter-piece",
+          x: "0", y: "0",
+          "text-anchor": "middle",
+          filter: "url(#spray-rough)",
+        });
+        t.setAttribute("fill", WAVES[ci]);
+        t.textContent = char;
+        g.appendChild(t);
+        svg.appendChild(g);
+        return;
+      }
+
+      // Outer g: starts at scatter position, SMIL-translates to home.
+      const outerG = mk("g", { transform: `translate(${sx},${sy})` });
+      const animT  = mk("animateTransform", {
+        attributeName: "transform",
+        type: "translate",
+        from: `${sx} ${sy}`,
+        to:   `${hx} ${hy}`,
+        dur:  `${GATHER_DUR}s`,
+        begin: `${begin.toFixed(2)}s`,
+        fill: "freeze",
+        calcMode: "spline",
+        keyTimes: "0;1",
+        keySplines: "0.16 0.08 0.09 0.97",
+      });
+      outerG.appendChild(animT);
+
+      // Inner g: starts rotated, SMIL-rotates to upright.
+      const innerG = mk("g", { transform: `rotate(${rot})` });
+      const animR  = mk("animateTransform", {
+        attributeName: "transform",
+        type: "rotate",
+        from: `${rot}`,
+        to:   "0",
+        dur:  `${GATHER_DUR}s`,
+        begin: `${begin.toFixed(2)}s`,
+        fill: "freeze",
+        calcMode: "spline",
+        keyTimes: "0;1",
+        keySplines: "0.16 0.08 0.09 0.97",
+      });
+      innerG.appendChild(animR);
+
+      const letterEl = mk("text", {
+        class: "letter-piece",
+        x: "0", y: "0",
+        "text-anchor": "middle",
+        filter: "url(#spray-rough)",
+      });
+      letterEl.setAttribute("fill", WAVES[ci]);
+      letterEl.textContent = char;
+
+      innerG.appendChild(letterEl);
+      outerG.appendChild(innerG);
+      svg.appendChild(outerG);
     });
-    text.setAttribute("fill", "url(#name-grad)");
-    text.textContent = "Kate Julia";
-    text.style.setProperty("--sig-delay", `${SIG_DELAY.toFixed(2)}s`);
-    svg.appendChild(text);
 
     stage.appendChild(svg);
 
