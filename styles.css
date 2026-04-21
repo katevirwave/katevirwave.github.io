@@ -3,31 +3,53 @@
   --text: #1f1f1f;          /* near-black */
   --muted: #5a5a5a;         /* warm gray */
 
-  /* LINES + SURFACES (softer = less UI-kit) */
+  /* Dark canvas for the Thinking section — the philosophical heart */
+  --ink: #1c2235;
+  --ink-soft: #2a3149;
+
+  /* LINES + SURFACES */
   --line: rgba(31,31,31,.11);
   --line-strong: rgba(31,31,31,.16);
 
   --card: rgba(255,255,255,.52);
   --card2: rgba(255,255,255,.34);
 
-  /* Shadow slightly tighter + more “paper” */
   --shadow: 0 16px 42px rgba(0,0,0,.06);
 
-  --accent: #8a3a52;        /* dusty wine — warmer, more personal */
+  --accent: #8a3a52;        /* dusty wine — primary accent */
   --accent-soft: rgba(138, 58, 82, .14);
-  --gold: rgba(171, 130, 72, .48); /* brushed gold */
+  --gold: rgba(171, 130, 72, .48);
   --hand: "Caveat", cursive;
 
   --serif: "Cormorant Garamond", serif;
   --sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 
   --radius: 18px;
-
-  /* Rhythm */
   --section-pad: 84px;
-
-  /* Focus */
   --focus: color-mix(in srgb, var(--accent) 48%, transparent);
+
+  /* ------------------------------------------------------------ */
+  /* Seven emotional wavelengths — a nod to VirWave's archetype   */
+  /* color system. Warm to cool, bright to grounded.              */
+  /* ------------------------------------------------------------ */
+  --wave-1: #B54248;   /* rose — heart */
+  --wave-2: #D97757;   /* terracotta — warmth */
+  --wave-3: #D9A44A;   /* amber — grounded */
+  --wave-4: #7FA564;   /* sage — reset */
+  --wave-5: #3E8E8E;   /* teal — clarity */
+  --wave-6: #3F5A8A;   /* petrol blue — focus */
+  --wave-7: #7A5B8F;   /* plum — intuition */
+
+  --wavelength: linear-gradient(
+    90deg,
+    var(--wave-1),
+    var(--wave-2),
+    var(--wave-3),
+    var(--wave-4),
+    var(--wave-5),
+    var(--wave-6),
+    var(--wave-7)
+  );
 }
 
 *{ box-sizing: border-box; }
@@ -279,8 +301,14 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
 }
 
 .hero-rule{
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--line), transparent);
+  height: 4px;
+  border-radius: 4px;
+  background: var(--wavelength);
+  opacity: .78;
+  box-shadow: 0 0 40px rgba(0,0,0,.05);
+  /* soft fade at the ends so it feels like a ribbon, not a bar */
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
 }
 
 /* Buttons: a little springy on hover for playfulness. */
@@ -411,12 +439,22 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
 }
 
 .pill{
-  padding: 10px 12px;
-  border: 1px solid var(--line);
+  padding: 10px 14px;
+  border: 1px solid currentColor;
   border-radius: 999px;
-  background: rgba(255,255,255,.24);
+  background: color-mix(in srgb, currentColor 10%, white);
   font-size: 13px;
+  color: var(--accent);
+  transition: transform .2s ease, background .2s ease;
 }
+.pill:hover{
+  transform: translateY(-1px);
+  background: color-mix(in srgb, currentColor 18%, white);
+}
+.micro-pillars .pill:nth-child(1){ color: var(--wave-1); }
+.micro-pillars .pill:nth-child(2){ color: var(--wave-4); }
+.micro-pillars .pill:nth-child(3){ color: var(--wave-5); }
+.micro-pillars .pill:nth-child(4){ color: var(--wave-7); }
 
 /* Cards: make them feel more like “paper” */
 .card-grid{
@@ -710,6 +748,17 @@ details summary{
   line-height: 1;
   margin-bottom: 6px;
 }
+.currently-card:nth-child(1) .currently-label{ color: var(--wave-1); }
+.currently-card:nth-child(2) .currently-label{ color: var(--wave-5); }
+.currently-card:nth-child(3) .currently-label{ color: var(--wave-3); }
+.currently-card:nth-child(4) .currently-label{ color: var(--wave-7); }
+.currently-card{
+  border-top: 3px solid transparent;
+}
+.currently-card:nth-child(1){ border-top-color: var(--wave-1); }
+.currently-card:nth-child(2){ border-top-color: var(--wave-5); }
+.currently-card:nth-child(3){ border-top-color: var(--wave-3); }
+.currently-card:nth-child(4){ border-top-color: var(--wave-7); }
 .currently-card p{
   margin: 0;
   color: color-mix(in srgb, var(--text) 88%, var(--muted));
@@ -792,6 +841,12 @@ details summary{
   color: var(--accent);
   font-size: 14px;
 }
+.ncv-list li:nth-child(1)::before{ color: var(--wave-1); }
+.ncv-list li:nth-child(2)::before{ color: var(--wave-3); }
+.ncv-list li:nth-child(3)::before{ color: var(--wave-4); }
+.ncv-list li:nth-child(4)::before{ color: var(--wave-6); }
+.ncv-list li:nth-child(5)::before{ color: var(--wave-7); }
+.ncv-list li:nth-child(6)::before{ color: var(--wave-2); }
 
 @media (max-width: 980px){
   :root{ --section-pad: 74px; }
@@ -822,58 +877,90 @@ details summary{
 }
 
 /* ---------------------------------------------------------------- */
-/* The Thinking — pull-quote for the TEDxUCL thesis.                 */
+/* The Thinking — the philosophical heart. Goes dark on purpose.     */
 /* ---------------------------------------------------------------- */
 .thinking{
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255, 253, 250, .55),
-      rgba(255, 253, 250, .20)
-    );
+  background: var(--ink);
+  color: #f6f1ea;
+  border-top: 0;
+  position: relative;
+}
+.thinking::before{
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--wavelength);
+  opacity: .95;
+}
+.thinking::after{
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--wavelength);
+  opacity: .95;
+}
+.thinking .container{
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.thinking .section-title{
+  color: #f6f1ea;
+}
+.thinking .muted{
+  color: color-mix(in srgb, #f6f1ea 65%, transparent);
 }
 .pull-quote{
   position: relative;
   margin: 0;
-  padding: 40px 48px 36px;
+  padding: 48px 52px 40px;
   font-family: var(--serif);
-  font-weight: 500;
-  font-size: 28px;
-  line-height: 1.38;
-  color: color-mix(in srgb, var(--text) 92%, var(--accent));
-  border-left: 3px solid var(--accent);
-  background: rgba(255,255,255,.42);
-  border-radius: 0 var(--radius) var(--radius) 0;
-  box-shadow: 0 18px 44px rgba(138,58,82,.06);
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 1.42;
+  color: #f6f1ea;
+  border-left: 4px solid transparent;
+  border-image: var(--wavelength) 1;
+  border-image-slice: 1;
+  background: var(--ink-soft);
+  border-radius: 0;
 }
 .pull-quote::before{
   content: "“";
   position: absolute;
-  top: -14px;
-  left: 18px;
+  top: -18px;
+  left: 22px;
   font-family: var(--serif);
-  font-size: 96px;
+  font-size: 120px;
   line-height: 1;
-  color: color-mix(in srgb, var(--accent) 55%, transparent);
+  color: var(--wave-1);
+  opacity: .85;
   pointer-events: none;
 }
 .pull-quote p{
-  margin: 0 0 14px 0;
+  margin: 0 0 16px 0;
 }
 .pull-quote p:last-of-type{ margin-bottom: 0; }
 .pull-quote p strong{
-  font-weight: 600;
-  color: var(--accent);
+  font-weight: 500;
+  color: var(--wave-3);
+  letter-spacing: .01em;
 }
 .pull-quote p em{
   font-style: italic;
-  color: color-mix(in srgb, var(--text) 70%, var(--accent));
+  color: var(--wave-1);
 }
 .pull-attrib{
   display: block;
-  margin-top: 22px;
+  margin-top: 28px;
   font-family: var(--hand);
   font-size: 22px;
-  color: color-mix(in srgb, var(--muted) 30%, var(--accent));
+  color: color-mix(in srgb, #f6f1ea 70%, var(--wave-3));
   font-weight: 500;
 }
