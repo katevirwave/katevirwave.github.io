@@ -207,17 +207,73 @@
     });
     defs.appendChild(grad);
 
+    // Marker roughness filter — makes the wave look hand-drawn and rocky.
+    // feTurbulence warps the stroke edges; feDisplacementMap applies it.
+    const markerFilter = mk("filter", {
+      id: "marker-rough",
+      x: "-5%", y: "-30%",
+      width: "110%", height: "160%",
+    });
+    const turbMarker = mk("feTurbulence", {
+      type: "fractalNoise",
+      baseFrequency: "0.018 0.032",
+      numOctaves: "3",
+      seed: "5",
+      result: "noise",
+    });
+    const dispMarker = mk("feDisplacementMap", {
+      in: "SourceGraphic",
+      in2: "noise",
+      scale: "9",
+      xChannelSelector: "R",
+      yChannelSelector: "G",
+    });
+    markerFilter.appendChild(turbMarker);
+    markerFilter.appendChild(dispMarker);
+    defs.appendChild(markerFilter);
+
+    // Spray-paint filter — used by the graffiti section text.
+    // Creates rough, slightly eaten-away alpha edges on any element.
+    const sprayFilter = mk("filter", {
+      id: "spray-rough",
+      x: "-8%", y: "-20%",
+      width: "116%", height: "140%",
+      colorInterpolationFilters: "sRGB",
+    });
+    const turbSpray = mk("feTurbulence", {
+      type: "turbulence",
+      baseFrequency: "0.052 0.048",
+      numOctaves: "4",
+      seed: "14",
+      result: "noiseOut",
+    });
+    const cmSpray = mk("feColorMatrix", {
+      type: "matrix",
+      values: "0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  -4 0 0 12 -2",
+      in: "noiseOut",
+      result: "alphaMask",
+    });
+    const compSpray = mk("feComposite", {
+      operator: "in",
+      in: "SourceGraphic",
+      in2: "alphaMask",
+    });
+    sprayFilter.appendChild(turbSpray);
+    sprayFilter.appendChild(cmSpray);
+    sprayFilter.appendChild(compSpray);
+    defs.appendChild(sprayFilter);
+
     // Motion path, referenced by <mpath> for each chip.
     const wind = mk("path", { id: "wind-path", d: WIND_D, fill: "none" });
     defs.appendChild(wind);
     svg.appendChild(defs);
 
-    // The ribbon — this is what the logos paint.
-    const trail = mk("path", {
-      class: "wave-trail",
-      d: WIND_D,
-    });
-    svg.appendChild(trail);
+    // Two marker strokes — thick underlay + thin scratchy highlight.
+    // Together they look like a rocky, heavy marker stroke.
+    const trailThick = mk("path", { class: "wave-trail-thick", d: WIND_D });
+    const trailThin  = mk("path", { class: "wave-trail-thin",  d: WIND_D });
+    svg.appendChild(trailThick);
+    svg.appendChild(trailThin);
 
     // Signature — drawn over the wave once it's painted.
     const text = mk("text", {
@@ -234,18 +290,24 @@
 
     stage.appendChild(svg);
 
-    // Measure path length now that it's in the DOM; kick off paint.
+    // Measure path length now that it's in the DOM; kick off paint on both trails.
     requestAnimationFrame(() => {
-      const len = trail.getTotalLength();
-      trail.style.strokeDasharray = String(len);
-      trail.style.strokeDashoffset = String(len);
-      trail.style.setProperty("--wave-dur",   `${WAVE_DUR.toFixed(2)}s`);
-      trail.style.setProperty("--wave-delay", `${WAVE_DELAY.toFixed(2)}s`);
+      const len = trailThick.getTotalLength();
+      [trailThick, trailThin].forEach((t, i) => {
+        t.style.strokeDasharray = String(len);
+        t.style.strokeDashoffset = String(len);
+        t.style.setProperty("--wave-dur",   `${(WAVE_DUR + i * 0.15).toFixed(2)}s`);
+        t.style.setProperty("--wave-delay", `${WAVE_DELAY.toFixed(2)}s`);
+        if (prefersReducedMotion) {
+          t.style.strokeDashoffset = "0";
+          t.style.opacity = i === 0 ? "0.55" : "0.7";
+        } else {
+          t.classList.add("paint");
+        }
+      });
       if (prefersReducedMotion) {
-        trail.style.strokeDashoffset = "0";
-        trail.style.opacity = "1";
-      } else {
-        trail.classList.add("paint");
+        trailThick.style.opacity = "0.55";
+        trailThin.style.opacity  = "0.7";
       }
     });
 
@@ -326,5 +388,46 @@
     document.addEventListener("DOMContentLoaded", build);
   } else {
     build();
+  }
+})();
+
+/* -------------------------------------------------------------- */
+/* Graffiti spray-in animation                                     */
+/* Triggers when the graffiti band scrolls into view. Each line   */
+/* "sprays in" — mist clears, text materialises from the fog.     */
+/* -------------------------------------------------------------- */
+(() => {
+  const init = () => {
+    const el = document.querySelector("[data-graffiti]");
+    if (!el) return;
+
+    const tags = el.querySelectorAll(".gtag");
+
+    if (
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    ) {
+      tags.forEach((t) => t.classList.add("sprayed"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            tags.forEach((t) => t.classList.add("sprayed"));
+            observer.disconnect();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    observer.observe(el);
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
   }
 })();
