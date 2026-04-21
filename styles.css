@@ -481,6 +481,14 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
   line-height: 1.2;
   color: var(--accent);
 }
+.link-pending{
+  font-family: var(--hand);
+  color: color-mix(in srgb, var(--muted) 50%, var(--accent));
+  background: none;
+  cursor: default;
+  font-size: 18px;
+  letter-spacing: .01em;
+}
 .card-actions{
   justify-self: end;
   align-self: end;
