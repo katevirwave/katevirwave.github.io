@@ -104,21 +104,19 @@
 })();
 
 /* -------------------------------------------------------------- */
-/* Signature animation                                            */
-/* Wind metaphor: logos blow across the stage along a cursive      */
-/* current, fading in from the left and out to the right. As they */
-/* pass through the center, the handwritten "Kate Julia" is drawn */
-/* in their wake. Once the last logo has passed, the signature    */
-/* inks solid. No logos remain in the final frame.                */
+/* Hero wave animation                                            */
+/* Logos blow across a wavy wind current. As they pass, they      */
+/* paint a wavelength ribbon in their wake — the VirWave thesis   */
+/* made visible. The final frame is the wave, alone, in the seven */
+/* wavelength colors. No cursive name, no leftover logos.         */
 /* -------------------------------------------------------------- */
 (() => {
   const SVG_NS = "http://www.w3.org/2000/svg";
   const VIEW_W = 1000;
   const VIEW_H = 420;
 
-  // Wind current — undulates in a cursive rhythm through the
-  // signature area, entering off-screen left, exiting off-screen
-  // right. Every logo rides the same path.
+  // Wind current — a clean sinusoidal wave across the hero, entering
+  // off-screen left, exiting off-screen right. Every logo rides it.
   const WIND_D =
     "M -120 220 " +
     "C   40 100, 180 340, 300 220 " +
@@ -139,6 +137,12 @@
     { src: "./assets/logos/claude.png",       alt: "Claude" },
   ];
 
+  // Seven emotional wavelengths — must match the CSS palette.
+  const WAVES = [
+    "#B54248", "#D97757", "#D9A44A", "#7FA564",
+    "#3E8E8E", "#3F5A8A", "#7A5B8F"
+  ];
+
   // Chip size
   const CHIP_W = 96;
   const CHIP_H = 36;
@@ -149,13 +153,12 @@
   const CHIP_STEP = 0.34;  // stagger between chip entries
   const START_AT  = 0.00;
 
-  // Signature draw timing — starts once the first chips are past
-  // midscreen, ends shortly before the last chip exits.
-  const SIG_DELAY     = 1.0;
-  const SIG_DRAW_DUR  = 3.6;
-  const LAST_START    = START_AT + (CHIPS.length - 1) * CHIP_STEP;
-  const LAST_END      = LAST_START + RIDE_DUR;
-  const SIG_INK_DELAY = LAST_END + 0.25;
+  // Wave paint syncs with logo passage: starts just before the first
+  // chip reaches mid-stage, finishes just after the last exits.
+  const WAVE_DELAY  = 0.8;
+  const LAST_START  = START_AT + (CHIPS.length - 1) * CHIP_STEP;
+  const LAST_END    = LAST_START + RIDE_DUR;
+  const WAVE_DUR    = (LAST_END - WAVE_DELAY) + 0.3;
 
   const prefersReducedMotion =
     window.matchMedia &&
@@ -179,29 +182,54 @@
       preserveAspectRatio: "xMidYMid meet",
       role: "img",
       "aria-label":
-        "Logos of past work flow across the stage in a cursive wind, drawing Kate Julia's signature in their wake.",
+        "Logos of past work drift across the hero, painting a seven-color emotional wavelength in their wake.",
     });
 
-    // Wind current path (used by <mpath>).
     const defs = mk("defs");
+
+    // Wavelength gradient — the colors the ribbon is painted in.
+    const grad = mk("linearGradient", {
+      id: "wavelength-grad",
+      x1: "0", y1: "0", x2: "1", y2: "0",
+      gradientUnits: "objectBoundingBox",
+    });
+    WAVES.forEach((hex, i) => {
+      const stop = mk("stop", {
+        offset: `${((i / (WAVES.length - 1)) * 100).toFixed(2)}%`,
+      });
+      stop.setAttribute("stop-color", hex);
+      grad.appendChild(stop);
+    });
+    defs.appendChild(grad);
+
+    // Motion path, referenced by <mpath> for each chip.
     const wind = mk("path", { id: "wind-path", d: WIND_D, fill: "none" });
     defs.appendChild(wind);
     svg.appendChild(defs);
 
-    // Signature — drawn in the wake of the wind.
-    const text = mk("text", {
-      class: "signature-text",
-      x: VIEW_W / 2,
-      y: 255,
-      "text-anchor": "middle",
+    // The ribbon — this is what the logos paint.
+    const trail = mk("path", {
+      class: "wave-trail",
+      d: WIND_D,
     });
-    text.textContent = "Kate Julia";
-    text.style.setProperty("--sig-delay",     `${SIG_DELAY.toFixed(2)}s`);
-    text.style.setProperty("--sig-draw-dur",  `${SIG_DRAW_DUR.toFixed(2)}s`);
-    text.style.setProperty("--sig-ink-delay", `${SIG_INK_DELAY.toFixed(2)}s`);
-    svg.appendChild(text);
+    svg.appendChild(trail);
 
     stage.appendChild(svg);
+
+    // Measure path length now that it's in the DOM; kick off paint.
+    requestAnimationFrame(() => {
+      const len = trail.getTotalLength();
+      trail.style.strokeDasharray = String(len);
+      trail.style.strokeDashoffset = String(len);
+      trail.style.setProperty("--wave-dur",   `${WAVE_DUR.toFixed(2)}s`);
+      trail.style.setProperty("--wave-delay", `${WAVE_DELAY.toFixed(2)}s`);
+      if (prefersReducedMotion) {
+        trail.style.strokeDashoffset = "0";
+        trail.style.opacity = "1";
+      } else {
+        trail.classList.add("paint");
+      }
+    });
 
     CHIPS.forEach((chip, i) => {
       const begin = START_AT + i * CHIP_STEP;
@@ -241,12 +269,11 @@
       chipG.appendChild(title);
 
       if (prefersReducedMotion) {
-        // Static fallback: nothing animated, logos not shown, signature
-        // is rendered solid by its reduced-motion CSS rule.
+        // Static fallback: no chips shown; the wave alone is the
+        // meaningful content and is rendered solid above.
         return;
       }
 
-      // Motion along the wind current
       const motion = mk("animateMotion", {
         dur: `${RIDE_DUR}s`,
         begin: `${begin.toFixed(2)}s`,
@@ -263,7 +290,6 @@
       motion.appendChild(mpath);
       chipG.appendChild(motion);
 
-      // Fade in as it enters, hold, fade out before it exits.
       const opacity = mk("animate", {
         attributeName: "opacity",
         values: "0;1;1;0",
