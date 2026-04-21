@@ -137,10 +137,11 @@
     { src: "./assets/logos/claude.png",       alt: "Claude" },
   ];
 
-  // Seven emotional wavelengths — must match the CSS palette.
+  // Seven emotional wavelengths — pulled from Kate's LinkedIn banner.
+  // Periwinkle slate fading to midnight navy.
   const WAVES = [
-    "#B54248", "#D97757", "#D9A44A", "#7FA564",
-    "#3E8E8E", "#3F5A8A", "#7A5B8F"
+    "#9198B8", "#7E88B0", "#6A76A8",
+    "#5664A0", "#425090", "#2E3C78", "#1E2A52"
   ];
 
   // Chip size — bigger so they read clearly on the wave

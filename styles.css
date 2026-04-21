@@ -3,9 +3,9 @@
   --text: #1f1f1f;          /* near-black */
   --muted: #5a5a5a;         /* warm gray */
 
-  /* Dark canvas for the Thinking section — the philosophical heart */
-  --ink: #1c2235;
-  --ink-soft: #2a3149;
+  /* Dark canvas for the Thinking + Graffiti sections — banner midnight */
+  --ink: #131C38;
+  --ink-soft: #1E2A52;
 
   /* LINES + SURFACES */
   --line: rgba(31,31,31,.11);
@@ -16,9 +16,9 @@
 
   --shadow: 0 16px 42px rgba(0,0,0,.06);
 
-  --accent: #8a3a52;        /* dusty wine — primary accent */
-  --accent-soft: rgba(138, 58, 82, .14);
-  --gold: rgba(171, 130, 72, .48);
+  --accent: #3B4E8C;        /* banner slate blue — primary accent */
+  --accent-soft: rgba(59, 78, 140, .14);
+  --gold: rgba(100, 120, 180, .40);
   --hand: "Caveat", cursive;
 
   --serif: "Cormorant Garamond", serif;
@@ -29,16 +29,16 @@
   --focus: color-mix(in srgb, var(--accent) 48%, transparent);
 
   /* ------------------------------------------------------------ */
-  /* Seven emotional wavelengths — a nod to VirWave's archetype   */
-  /* color system. Warm to cool, bright to grounded.              */
+  /* Seven emotional wavelengths — pulled directly from Kate's    */
+  /* LinkedIn banner gradient. Periwinkle slate → midnight navy.  */
   /* ------------------------------------------------------------ */
-  --wave-1: #B54248;   /* rose — heart */
-  --wave-2: #D97757;   /* terracotta — warmth */
-  --wave-3: #D9A44A;   /* amber — grounded */
-  --wave-4: #7FA564;   /* sage — reset */
-  --wave-5: #3E8E8E;   /* teal — clarity */
-  --wave-6: #3F5A8A;   /* petrol blue — focus */
-  --wave-7: #7A5B8F;   /* plum — intuition */
+  --wave-1: #9198B8;   /* periwinkle — open */
+  --wave-2: #7E88B0;   /* slate periwinkle */
+  --wave-3: #6A76A8;   /* slate blue */
+  --wave-4: #5664A0;   /* deeper slate */
+  --wave-5: #425090;   /* indigo */
+  --wave-6: #2E3C78;   /* deep navy */
+  --wave-7: #1E2A52;   /* midnight */
 
   --wavelength: linear-gradient(
     90deg,
