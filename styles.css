@@ -557,6 +557,22 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
   justify-self: end;
   align-self: end;
 }
+.card-photos{
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+.card-photo-img{
+  flex: 1;
+  min-width: 0;
+  height: 160px;
+  object-fit: cover;
+  border-radius: calc(var(--radius) - 2px);
+  opacity: .88;
+  transition: opacity .2s ease;
+}
+.card-photo-img:hover{ opacity: 1; }
 
 .link{
   text-decoration: none;
@@ -873,6 +889,29 @@ details summary{
 .ncv-list li:nth-child(4)::before{ color: var(--wave-6); }
 .ncv-list li:nth-child(5)::before{ color: var(--wave-7); }
 .ncv-list li:nth-child(6)::before{ color: var(--wave-2); }
+
+/* ---------------------------------------------------------------- */
+/* Logos / Affiliations strip.                                       */
+/* ---------------------------------------------------------------- */
+.logo-grid{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px 32px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 36px;
+}
+.logo-img{
+  height: 60px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  filter: grayscale(1) opacity(.55);
+  transition: filter .25s ease;
+}
+.logo-img:hover{
+  filter: grayscale(0) opacity(1);
+}
 
 @media (max-width: 980px){
   :root{ --section-pad: 74px; }
