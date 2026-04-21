@@ -149,24 +149,21 @@
   const PAD    = 5;
 
   // Timing (seconds)
-  const RIDE_DUR  = 4.6;   // how long each chip takes to cross
-  const CHIP_STEP = 0.34;  // stagger between chip entries
+  const RIDE_DUR  = 3.5;   // how long each chip takes to cross
+  const CHIP_STEP = 0.28;  // stagger between chip entries
   const START_AT  = 0.00;
 
-  // Wave paint syncs with logo passage: starts just before the first
-  // chip reaches mid-stage, finishes just after the last exits.
-  const WAVE_DELAY  = 0.8;
+  // Wave paint syncs with logo passage.
+  const WAVE_DELAY  = 0.6;
   const LAST_START  = START_AT + (CHIPS.length - 1) * CHIP_STEP;
   const LAST_END    = LAST_START + RIDE_DUR;
   const WAVE_DUR    = (LAST_END - WAVE_DELAY) + 0.3;
-  const WAVE_END    = WAVE_DELAY + WAVE_DUR;
 
-  // Signature — "Kate Julia" draws in cursive once the wave is nearly
-  // finished painting, then inks solid. Feels like the signature
-  // closing the artwork.
-  const SIG_DELAY    = WAVE_END - 0.2;
-  const SIG_DRAW_DUR = 2.4;
-  const SIG_INK_DELAY = SIG_DELAY + SIG_DRAW_DUR + 0.1;
+  // Signature starts early — the name draws WHILE the logos are still
+  // flying and the wave is forming around it. Solid before it all ends.
+  const SIG_DELAY     = 2.0;
+  const SIG_DRAW_DUR  = 2.2;
+  const SIG_INK_DELAY = SIG_DELAY + SIG_DRAW_DUR + 0.2;
 
   const prefersReducedMotion =
     window.matchMedia &&
