@@ -222,12 +222,12 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
    No CSS animation needed — letters are visible from t=0 as scattered pieces. */
 .letter-piece{
   font-family: "Caveat", cursive;
-  font-size: 115px;
+  font-size: 72px;
   font-weight: 700;
   /* fill set per-letter from JS (wavelength palette) */
 }
 @media (max-width: 680px){
-  .letter-piece{ font-size: 65px; }
+  .letter-piece{ font-size: 44px; }
 }
 
 /* Chip visual styling. Motion + fade are driven by SMIL inside the SVG. */

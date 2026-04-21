@@ -265,8 +265,8 @@
     const nameGrad = mk("linearGradient", {
       id: "name-grad",
       gradientUnits: "userSpaceOnUse",
-      x1: "130", y1: "165",
-      x2: "870", y2: "165",
+      x1: "372", y1: "165",
+      x2: "620", y2: "165",
     });
     WAVES.forEach((hex, i) => {
       const s = mk("stop", {
@@ -294,8 +294,8 @@
     // into the full name. Nested <g> pair: outer drives translate, inner drives
     // rotate, so SMIL can animate both axes without fighting over the attribute.
     const LETTERS    = ["K","a","t","e","J","u","l","i","a"];
-    // Approximate center-x for each letter in the assembled name (Caveat 115px).
-    const HOME_X     = [295, 355, 403, 450, 526, 582, 625, 651, 692];
+    // Approximate center-x for each letter in the assembled name (Caveat 72px).
+    const HOME_X     = [372, 409, 439, 469, 516, 551, 578, 594, 620];
     const HOME_Y     = 165;
     // Delta (dx, dy) from home → scatter position (where each piece starts).
     const SCATTER    = [
