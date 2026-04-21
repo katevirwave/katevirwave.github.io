@@ -704,6 +704,49 @@ details summary{
   font-weight: 500;
 }
 
+/* ---------- Lately (polaroid strip) ---------- */
+.lately-grid{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  padding: 6px 0 12px;
+}
+.polaroid{
+  margin: 0;
+  background: #fff;
+  padding: 14px 14px 20px;
+  border: 1px solid var(--line);
+  box-shadow: 0 14px 32px rgba(0,0,0,.08);
+  transition:
+    transform .3s cubic-bezier(.22,.1,.25,1),
+    box-shadow .3s ease;
+}
+.polaroid img{
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+}
+.polaroid figcaption{
+  font-family: var(--hand);
+  font-size: 22px;
+  color: color-mix(in srgb, var(--muted) 45%, var(--accent));
+  margin-top: 10px;
+  text-align: center;
+  letter-spacing: 0;
+}
+.polaroid-1{ transform: rotate(-2deg); }
+.polaroid-2{ transform: rotate(1.2deg); margin-top: 22px; }
+.polaroid-3{ transform: rotate(-1deg); margin-top: -8px; }
+
+.polaroid:hover{
+  transform: rotate(0) translateY(-4px);
+  box-shadow: 0 22px 44px rgba(138,58,82,.14);
+}
+
+/* If every polaroid fails to load, hide the whole section. */
+.lately:not(:has(.polaroid)){ display: none; }
+
 /* ---------- Not on the CV ---------- */
 .ncv-list{
   list-style: none;
@@ -750,6 +793,9 @@ details summary{
   .chips{ grid-template-columns: 1fr 1fr; }
   .currently-grid{ grid-template-columns: 1fr; }
   .ncv-list{ grid-template-columns: 1fr; }
+  .lately-grid{ grid-template-columns: 1fr; gap: 32px; }
+  .polaroid-1, .polaroid-2, .polaroid-3{ transform: rotate(-.5deg); margin-top: 0; }
+  .polaroid img{ height: 360px; }
   .ncv-list li:nth-child(2){ border-top: 1px dashed var(--line); }
   .section-head{ flex-direction:column; align-items:flex-start; }
   .contact-inner{ flex-direction:column; align-items:flex-start; }

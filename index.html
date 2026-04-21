@@ -234,6 +234,50 @@
         </div>
       </section>
 
+      <!-- LATELY — polaroid strip.
+           Each polaroid removes itself if its image file is missing.
+           The whole section hides via CSS (:has) when none remain. -->
+      <section class="section lately wide-band" aria-labelledby="lately-title">
+        <div class="container">
+          <div class="section-head">
+            <h2 id="lately-title" class="section-title">Lately</h2>
+            <p class="muted">London, mostly. Burgundy, accidentally.</p>
+          </div>
+
+          <div class="lately-grid">
+            <figure class="polaroid polaroid-1">
+              <img
+                src="./assets/kate_lately_1.jpg"
+                alt="On an escalator, mid-step, grinning"
+                loading="lazy"
+                onerror="this.closest('.polaroid').remove();"
+              />
+              <figcaption>escalator diaries</figcaption>
+            </figure>
+
+            <figure class="polaroid polaroid-2">
+              <img
+                src="./assets/kate_lately_2.jpg"
+                alt="On the Millennium Bridge with St Paul's behind"
+                loading="lazy"
+                onerror="this.closest('.polaroid').remove();"
+              />
+              <figcaption>home ↓</figcaption>
+            </figure>
+
+            <figure class="polaroid polaroid-3">
+              <img
+                src="./assets/kate_lately_3.jpg"
+                alt="Under a flowering archway, arms up"
+                loading="lazy"
+                onerror="this.closest('.polaroid').remove();"
+              />
+              <figcaption>lilac fits</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
       <!-- EXPLORATIONS -->
       <section id="experiments" class="section experiments wide-band" aria-labelledby="experiments-title">
         <div class="container">
