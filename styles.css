@@ -471,6 +471,16 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
   margin: 0;
   color: color-mix(in srgb, var(--text) 86%, var(--muted));
 }
+.stat-line{
+  display: block;
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed color-mix(in srgb, var(--accent) 40%, var(--line));
+  font-family: var(--hand);
+  font-size: 20px;
+  line-height: 1.2;
+  color: var(--accent);
+}
 .card-actions{
   justify-self: end;
   align-self: end;
@@ -799,4 +809,63 @@ details summary{
   .ncv-list li:nth-child(2){ border-top: 1px dashed var(--line); }
   .section-head{ flex-direction:column; align-items:flex-start; }
   .contact-inner{ flex-direction:column; align-items:flex-start; }
+  .pull-quote{ font-size: 22px; padding: 28px 22px; }
+  .pull-quote::before{ font-size: 64px; top: -10px; left: 8px; }
+}
+
+/* ---------------------------------------------------------------- */
+/* The Thinking — pull-quote for the TEDxUCL thesis.                 */
+/* ---------------------------------------------------------------- */
+.thinking{
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 253, 250, .55),
+      rgba(255, 253, 250, .20)
+    );
+}
+.pull-quote{
+  position: relative;
+  margin: 0;
+  padding: 40px 48px 36px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 1.38;
+  color: color-mix(in srgb, var(--text) 92%, var(--accent));
+  border-left: 3px solid var(--accent);
+  background: rgba(255,255,255,.42);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  box-shadow: 0 18px 44px rgba(138,58,82,.06);
+}
+.pull-quote::before{
+  content: "“";
+  position: absolute;
+  top: -14px;
+  left: 18px;
+  font-family: var(--serif);
+  font-size: 96px;
+  line-height: 1;
+  color: color-mix(in srgb, var(--accent) 55%, transparent);
+  pointer-events: none;
+}
+.pull-quote p{
+  margin: 0 0 14px 0;
+}
+.pull-quote p:last-of-type{ margin-bottom: 0; }
+.pull-quote p strong{
+  font-weight: 600;
+  color: var(--accent);
+}
+.pull-quote p em{
+  font-style: italic;
+  color: color-mix(in srgb, var(--text) 70%, var(--accent));
+}
+.pull-attrib{
+  display: block;
+  margin-top: 22px;
+  font-family: var(--hand);
+  font-size: 22px;
+  color: color-mix(in srgb, var(--muted) 30%, var(--accent));
+  font-weight: 500;
 }
