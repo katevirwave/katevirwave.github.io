@@ -184,7 +184,7 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
 .wave-trail-thick{
   fill: none;
   stroke: url(#wavelength-grad);
-  stroke-width: 22;
+  stroke-width: 28;
   stroke-linecap: round;
   stroke-linejoin: round;
   opacity: 0;
@@ -193,7 +193,7 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
 .wave-trail-thin{
   fill: none;
   stroke: url(#wavelength-grad);
-  stroke-width: 7;
+  stroke-width: 8;
   stroke-linecap: round;
   stroke-linejoin: round;
   opacity: 0;

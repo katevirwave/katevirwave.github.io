@@ -115,14 +115,14 @@
   const VIEW_W = 1000;
   const VIEW_H = 420;
 
-  // Wind current — a clean sinusoidal wave across the hero, entering
-  // off-screen left, exiting off-screen right. Every logo rides it.
+  // Wind current — chaotic, high-amplitude wave. Peaks and troughs
+  // are deliberately uneven so no two arcs feel the same.
   const WIND_D =
     "M -120 220 " +
-    "C   40 100, 180 340, 300 220 " +
-    "S  500  80, 580 220 " +
-    "S  780 340, 880 220 " +
-    "S 1040 100, 1140 220";
+    "C   20  40, 210 410, 320 195 " +
+    "C  410  20, 530 390, 620 185 " +
+    "C  720 400, 820  35, 940 215 " +
+    "C 1040 390, 1100 100, 1160 220";
 
   // Logos — reorder / swap freely.
   const CHIPS = [
@@ -143,21 +143,21 @@
     "#3E8E8E", "#3F5A8A", "#7A5B8F"
   ];
 
-  // Chip size
-  const CHIP_W = 96;
-  const CHIP_H = 36;
-  const PAD    = 5;
+  // Chip size — bigger so they read clearly on the wave
+  const CHIP_W = 130;
+  const CHIP_H = 50;
+  const PAD    = 7;
 
   // Timing (seconds)
-  const RIDE_DUR  = 3.5;   // how long each chip takes to cross
-  const CHIP_STEP = 0.28;  // stagger between chip entries
+  const RIDE_DUR  = 5.2;   // slower crossing — logos stay visible longer
+  const CHIP_STEP = 0.30;  // stagger between chip entries
   const START_AT  = 0.00;
 
-  // Wave paint syncs with logo passage.
-  const WAVE_DELAY  = 0.6;
+  // Wave starts the same moment as logos — they move together from frame 1.
+  const WAVE_DELAY  = 0.0;
   const LAST_START  = START_AT + (CHIPS.length - 1) * CHIP_STEP;
   const LAST_END    = LAST_START + RIDE_DUR;
-  const WAVE_DUR    = (LAST_END - WAVE_DELAY) + 0.3;
+  const WAVE_DUR    = LAST_END + 0.4;
 
   // Signature starts early — the name draws WHILE the logos are still
   // flying and the wave is forming around it. Solid before it all ends.
@@ -224,7 +224,7 @@
     const dispMarker = mk("feDisplacementMap", {
       in: "SourceGraphic",
       in2: "noise",
-      scale: "9",
+      scale: "18",
       xChannelSelector: "R",
       yChannelSelector: "G",
     });
