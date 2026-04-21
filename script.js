@@ -152,7 +152,7 @@
 
   // Timing (seconds)
   const RIDE_DUR  = 5.2;   // slower crossing — logos stay visible longer
-  const CHIP_STEP = 0.30;  // stagger between chip entries
+  const CHIP_STEP = 0.65;  // stagger between chip entries — wider gap between logos
   const START_AT  = 0.00;
 
   // Wave starts the same moment as logos — they move together from frame 1.
@@ -463,7 +463,7 @@
       const opacity = mk("animate", {
         attributeName: "opacity",
         values: "0;1;1;0",
-        keyTimes: "0;0.12;0.82;1",
+        keyTimes: "0;0.02;0.88;1",
         dur: `${RIDE_DUR}s`,
         begin: `${begin.toFixed(2)}s`,
         fill: "remove",
