@@ -105,52 +105,57 @@
 
 /* -------------------------------------------------------------- */
 /* Signature animation                                            */
-/* Two phases:                                                    */
-/*   1. Logos pop in one-by-one at fixed positions along a        */
-/*      cursive-shaped path — together they form the Kate Julia   */
-/*      shape.                                                    */
-/*   2. After the last logo lands, the handwritten "Kate Julia"   */
-/*      is drawn (stroke animates in), then inks in solid.        */
+/* Wind metaphor: logos blow across the stage along a cursive      */
+/* current, fading in from the left and out to the right. As they */
+/* pass through the center, the handwritten "Kate Julia" is drawn */
+/* in their wake. Once the last logo has passed, the signature    */
+/* inks solid. No logos remain in the final frame.                */
 /* -------------------------------------------------------------- */
 (() => {
   const SVG_NS = "http://www.w3.org/2000/svg";
   const VIEW_W = 1000;
   const VIEW_H = 420;
 
-  // Two bands:
-  //   • upper band (y ≈ 30–180) — logos arranged along a gentle wave
-  //   • lower band (y ≈ 240–360) — the handwritten signature
-  // Keeping them visually separate prevents the letters reading through
-  // the logos.
-  const TRAIL_D =
-    "M 40 120 " +
-    "Q 160 50 280 110 " +
-    "S 500 160 620 90 " +
-    "S 860 30 970 130";
+  // Wind current — undulates in a cursive rhythm through the
+  // signature area, entering off-screen left, exiting off-screen
+  // right. Every logo rides the same path.
+  const WIND_D =
+    "M -120 220 " +
+    "C   40 100, 180 340, 300 220 " +
+    "S  500  80, 580 220 " +
+    "S  780 340, 880 220 " +
+    "S 1040 100, 1140 220";
 
-  // Logos — add / reorder / swap freely. `end` is fraction along the
-  // trail (0–1) where that chip sits.
+  // Logos — reorder / swap freely.
   const CHIPS = [
-    { src: "./assets/logos/ucl.png",          end: 0.04, alt: "UCL" },
-    { src: "./assets/logos/hatchery.png",     end: 0.15, alt: "UCL Hatchery" },
-    { src: "./assets/logos/ucltedx.png",      end: 0.26, alt: "UCL TEDx" },
-    { src: "./assets/logos/deloitte.png",     end: 0.37, alt: "Deloitte" },
-    { src: "./assets/logos/kpmg.png",         end: 0.48, alt: "KPMG" },
-    { src: "./assets/logos/a4.png",           end: 0.59, alt: "A4 Safety Alliance" },
-    { src: "./assets/logos/fundamentally.png",end: 0.72, alt: "Fundamentally Children" },
-    { src: "./assets/logos/kididing.jpeg",    end: 0.84, alt: "Kidding Around Yoga" },
-    { src: "./assets/logos/claude.png",       end: 0.96, alt: "Claude" },
+    { src: "./assets/logos/ucl.png",          alt: "UCL" },
+    { src: "./assets/logos/hatchery.png",     alt: "UCL Hatchery" },
+    { src: "./assets/logos/ucltedx.png",      alt: "UCL TEDx" },
+    { src: "./assets/logos/deloitte.png",     alt: "Deloitte" },
+    { src: "./assets/logos/kpmg.png",         alt: "KPMG" },
+    { src: "./assets/logos/a4.png",           alt: "A4 Safety Alliance" },
+    { src: "./assets/logos/fundamentally.png",alt: "Fundamentally Children" },
+    { src: "./assets/logos/kididing.jpeg",    alt: "Kidding Around Yoga" },
+    { src: "./assets/logos/claude.png",       alt: "Claude" },
   ];
 
-  // Chip box size. preserveAspectRatio="xMidYMid meet" fits any logo.
+  // Chip size
   const CHIP_W = 96;
   const CHIP_H = 36;
-  const PAD = 5;
+  const PAD    = 5;
 
   // Timing (seconds)
-  const CHIP_DUR   = 0.55;  // per-chip pop-in
-  const CHIP_STEP  = 0.22;  // stagger between chips
-  const START_AT   = 0.10;  // initial pause
+  const RIDE_DUR  = 4.6;   // how long each chip takes to cross
+  const CHIP_STEP = 0.34;  // stagger between chip entries
+  const START_AT  = 0.00;
+
+  // Signature draw timing — starts once the first chips are past
+  // midscreen, ends shortly before the last chip exits.
+  const SIG_DELAY     = 1.0;
+  const SIG_DRAW_DUR  = 3.6;
+  const LAST_START    = START_AT + (CHIPS.length - 1) * CHIP_STEP;
+  const LAST_END      = LAST_START + RIDE_DUR;
+  const SIG_INK_DELAY = LAST_END + 0.25;
 
   const prefersReducedMotion =
     window.matchMedia &&
@@ -174,56 +179,34 @@
       preserveAspectRatio: "xMidYMid meet",
       role: "img",
       "aria-label":
-        "Nine logos of past work, arranged in the shape of Kate Julia's cursive signature.",
+        "Logos of past work flow across the stage in a cursive wind, drawing Kate Julia's signature in their wake.",
     });
 
-    // <defs> holding the trail path — used for sampling positions.
+    // Wind current path (used by <mpath>).
     const defs = mk("defs");
-    const trail = mk("path", { id: "sig-trail", d: TRAIL_D, fill: "none" });
-    defs.appendChild(trail);
+    const wind = mk("path", { id: "wind-path", d: WIND_D, fill: "none" });
+    defs.appendChild(wind);
     svg.appendChild(defs);
 
-    // Signature text — drawn *after* the logos are in place.
-    // When this last chip lands, the stroke begins drawing.
-    const lastChipEndTime =
-      START_AT + (CHIPS.length - 1) * CHIP_STEP + CHIP_DUR;
-
+    // Signature — drawn in the wake of the wind.
     const text = mk("text", {
       class: "signature-text",
       x: VIEW_W / 2,
-      y: 340,
+      y: 255,
       "text-anchor": "middle",
     });
     text.textContent = "Kate Julia";
-    // Pass the handoff time to CSS so the draw starts after the last chip.
-    text.style.setProperty(
-      "--sig-delay",
-      `${lastChipEndTime.toFixed(2)}s`
-    );
-    text.style.setProperty(
-      "--sig-ink-delay",
-      `${(lastChipEndTime + 2.8 + 0.1).toFixed(2)}s`
-    );
+    text.style.setProperty("--sig-delay",     `${SIG_DELAY.toFixed(2)}s`);
+    text.style.setProperty("--sig-draw-dur",  `${SIG_DRAW_DUR.toFixed(2)}s`);
+    text.style.setProperty("--sig-ink-delay", `${SIG_INK_DELAY.toFixed(2)}s`);
     svg.appendChild(text);
 
-    // Must be in DOM before getTotalLength works reliably.
     stage.appendChild(svg);
-    const pathLen = trail.getTotalLength();
 
     CHIPS.forEach((chip, i) => {
-      const delay = prefersReducedMotion
-        ? 0
-        : START_AT + i * CHIP_STEP;
+      const begin = START_AT + i * CHIP_STEP;
 
-      const pt = trail.getPointAtLength(pathLen * chip.end);
-
-      // Outer g holds static position; inner g is what animates.
-      const pos = mk("g", {
-        transform: `translate(${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})`,
-      });
-
-      const chipG = mk("g", { class: "sig-chip" });
-      chipG.style.setProperty("--chip-delay", `${delay.toFixed(2)}s`);
+      const chipG = mk("g", { class: "sig-chip", opacity: 0 });
 
       chipG.appendChild(
         mk("rect", {
@@ -241,7 +224,7 @@
         class: "chip-img",
         x: -CHIP_W / 2 + PAD,
         y: -CHIP_H / 2 + PAD,
-        width: CHIP_W - PAD * 2,
+        width:  CHIP_W - PAD * 2,
         height: CHIP_H - PAD * 2,
         preserveAspectRatio: "xMidYMid meet",
       });
@@ -257,8 +240,41 @@
       title.textContent = chip.alt;
       chipG.appendChild(title);
 
-      pos.appendChild(chipG);
-      svg.appendChild(pos);
+      if (prefersReducedMotion) {
+        // Static fallback: nothing animated, logos not shown, signature
+        // is rendered solid by its reduced-motion CSS rule.
+        return;
+      }
+
+      // Motion along the wind current
+      const motion = mk("animateMotion", {
+        dur: `${RIDE_DUR}s`,
+        begin: `${begin.toFixed(2)}s`,
+        fill: "remove",
+        calcMode: "linear",
+      });
+      const mpath = mk("mpath");
+      mpath.setAttributeNS(
+        "http://www.w3.org/1999/xlink",
+        "xlink:href",
+        "#wind-path"
+      );
+      mpath.setAttribute("href", "#wind-path");
+      motion.appendChild(mpath);
+      chipG.appendChild(motion);
+
+      // Fade in as it enters, hold, fade out before it exits.
+      const opacity = mk("animate", {
+        attributeName: "opacity",
+        values: "0;1;1;0",
+        keyTimes: "0;0.12;0.82;1",
+        dur: `${RIDE_DUR}s`,
+        begin: `${begin.toFixed(2)}s`,
+        fill: "remove",
+      });
+      chipG.appendChild(opacity);
+
+      svg.appendChild(chipG);
     });
   };
 

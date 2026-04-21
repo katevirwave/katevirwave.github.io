@@ -151,14 +151,15 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
   width: 100%;
   height: auto;
   display: block;
-  overflow: visible;
+  /* Clip logos as they enter / exit the viewport edges. */
+  overflow: hidden;
 }
 
-/* Phase 2 — handwritten "Kate Julia" draws after logos settle.
-   Delay is set per-element via --sig-delay / --sig-ink-delay. */
+/* Signature draws in the wake of the wind, then inks in solid.
+   Timing variables are set inline by JS. */
 .signature-text{
   font-family: "Caveat", cursive;
-  font-size: 170px;
+  font-size: 180px;
   font-weight: 600;
   letter-spacing: -0.01em;
   fill: transparent;
@@ -166,34 +167,21 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
   stroke-width: 1.5;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-dasharray: 3000;
-  stroke-dashoffset: 3000;
+  stroke-dasharray: 3200;
+  stroke-dashoffset: 3200;
   animation:
-    sig-draw 2.8s cubic-bezier(.22,.1,.25,1) var(--sig-delay, 2.5s) forwards,
-    sig-ink  0.8s ease-out var(--sig-ink-delay, 5.3s) forwards;
+    sig-draw var(--sig-draw-dur, 3.6s) cubic-bezier(.22,.1,.25,1) var(--sig-delay, 1s) forwards,
+    sig-ink  0.9s ease-out var(--sig-ink-delay, 6.5s) forwards;
 }
 @keyframes sig-draw { to { stroke-dashoffset: 0; } }
 @keyframes sig-ink  { to { fill: var(--text); stroke-width: 0; } }
 
-/* Phase 1 — logos pop in one-by-one at their fixed positions. */
-.sig-chip{
-  opacity: 0;
-  transform: scale(.7);
-  transform-origin: center;
-  transform-box: fill-box;
-  animation: chip-pop .55s cubic-bezier(.22,1.1,.35,1) var(--chip-delay, 0s) forwards;
-}
-@keyframes chip-pop {
-  0%   { opacity: 0; transform: scale(.7); }
-  60%  { opacity: 1; transform: scale(1.06); }
-  100% { opacity: 1; transform: scale(1); }
-}
-
+/* Chip visual styling. Motion + fade are driven by SMIL inside the SVG. */
 .sig-chip .chip-bg{
   fill: rgba(255,255,255,.94);
   stroke: color-mix(in srgb, var(--line-strong) 70%, var(--gold));
   stroke-width: 1;
-  filter: drop-shadow(0 6px 14px rgba(0,0,0,.09));
+  filter: drop-shadow(0 8px 16px rgba(0,0,0,.10));
 }
 
 @media (max-width: 680px){
@@ -207,7 +195,9 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
     stroke-width: 0;
     animation: none;
   }
-  .sig-chip{ opacity: 1; transform: none; animation: none; }
+  /* Hide chips entirely in reduced-motion — the signature alone is
+     the meaningful content. */
+  .sig-chip{ display: none; }
 }
 
 .hero-title{
