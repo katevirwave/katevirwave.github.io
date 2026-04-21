@@ -105,43 +105,54 @@
 
 /* -------------------------------------------------------------- */
 /* Signature animation                                            */
-/* Builds an SVG of "Kate Julia" in handwriting; logo chips ride  */
-/* a path across it and "draw" the signature. When the chips      */
-/* finish, the signature inks in as a solid line.                 */
+/* Two phases:                                                    */
+/*   1. Logos pop in one-by-one at fixed positions along a        */
+/*      cursive-shaped path — together they form the Kate Julia   */
+/*      shape.                                                    */
+/*   2. After the last logo lands, the handwritten "Kate Julia"   */
+/*      is drawn (stroke animates in), then inks in solid.        */
 /* -------------------------------------------------------------- */
 (() => {
   const SVG_NS = "http://www.w3.org/2000/svg";
   const VIEW_W = 1000;
-  const VIEW_H = 260;
+  const VIEW_H = 360;
 
-  // Path the logos travel along — a gentle cursive arc across the
-  // signature baseline. This isn't the signature itself, it's the
-  // "pen motion" logos follow.
+  // The path logos are arrayed along. Undulates like cursive writing —
+  // peaks for ascenders (K, t, J, l), dips for x-height letters.
   const TRAIL_D =
-    "M 40 150 C 180 40 320 240 500 130 S 760 60 860 150 S 960 200 970 150";
+    "M 30 180 " +
+    "Q 100 70 170 160 " +   // K peak
+    "Q 230 220 290 150 " +  // a
+    "Q 340 80 400 160 " +   // t peak
+    "Q 460 200 520 150 " +  // e → space
+    "Q 570 260 620 130 " +  // J swing (down then up)
+    "Q 670 170 730 140 " +  // u
+    "Q 780 60 840 160 " +   // l peak
+    "Q 900 200 970 160";    // i / a
 
   // Logos — add / reorder / swap freely. `end` is fraction along the
-  // trail (0–1) where that chip comes to rest.
+  // trail (0–1) where that chip sits.
   const CHIPS = [
-    { src: "./assets/logos/ucl.png",          end: 0.06, alt: "UCL" },
-    { src: "./assets/logos/hatchery.png",     end: 0.17, alt: "UCL Hatchery" },
-    { src: "./assets/logos/ucltedx.png",      end: 0.28, alt: "UCL TEDx" },
-    { src: "./assets/logos/deloitte.png",     end: 0.40, alt: "Deloitte" },
-    { src: "./assets/logos/kpmg.png",         end: 0.50, alt: "KPMG" },
-    { src: "./assets/logos/a4.png",           end: 0.62, alt: "A4 Safety Alliance" },
-    { src: "./assets/logos/fundamentally.png",end: 0.74, alt: "Fundamentally Children" },
-    { src: "./assets/logos/kididing.jpeg",    end: 0.85, alt: "Kidding Around Yoga" },
-    { src: "./assets/logos/claude.png",       end: 0.95, alt: "Claude" },
+    { src: "./assets/logos/ucl.png",          end: 0.04, alt: "UCL" },
+    { src: "./assets/logos/hatchery.png",     end: 0.15, alt: "UCL Hatchery" },
+    { src: "./assets/logos/ucltedx.png",      end: 0.26, alt: "UCL TEDx" },
+    { src: "./assets/logos/deloitte.png",     end: 0.37, alt: "Deloitte" },
+    { src: "./assets/logos/kpmg.png",         end: 0.48, alt: "KPMG" },
+    { src: "./assets/logos/a4.png",           end: 0.59, alt: "A4 Safety Alliance" },
+    { src: "./assets/logos/fundamentally.png",end: 0.72, alt: "Fundamentally Children" },
+    { src: "./assets/logos/kididing.jpeg",    end: 0.84, alt: "Kidding Around Yoga" },
+    { src: "./assets/logos/claude.png",       end: 0.96, alt: "Claude" },
   ];
 
   // Chip box size. preserveAspectRatio="xMidYMid meet" fits any logo.
-  const CHIP_W = 120;
+  const CHIP_W = 116;
   const CHIP_H = 44;
   const PAD = 6;
 
-  const RIDE_DUR = 2.6;   // seconds each chip travels
-  const STEP     = 0.30;  // stagger between chip starts
-  const START_AT = 0.15;  // initial delay before first chip
+  // Timing (seconds)
+  const CHIP_DUR   = 0.55;  // per-chip pop-in
+  const CHIP_STEP  = 0.22;  // stagger between chips
+  const START_AT   = 0.10;  // initial pause
 
   const prefersReducedMotion =
     window.matchMedia &&
@@ -164,41 +175,63 @@
       viewBox: `0 0 ${VIEW_W} ${VIEW_H}`,
       preserveAspectRatio: "xMidYMid meet",
       role: "img",
-      "aria-label": "Kate Julia — signature traced by logos of past work",
+      "aria-label":
+        "Nine logos of past work, arranged in the shape of Kate Julia's cursive signature.",
     });
 
-    // <defs> holding the trail path, referenced by each chip's <mpath>
+    // <defs> holding the trail path — used for sampling positions.
     const defs = mk("defs");
     const trail = mk("path", { id: "sig-trail", d: TRAIL_D, fill: "none" });
     defs.appendChild(trail);
     svg.appendChild(defs);
 
-    // The signature itself — drawn by the chips (stroke animates in).
+    // Signature text — drawn *after* the logos are in place.
+    // When this last chip lands, the stroke begins drawing.
+    const lastChipEndTime =
+      START_AT + (CHIPS.length - 1) * CHIP_STEP + CHIP_DUR;
+
     const text = mk("text", {
       class: "signature-text",
       x: VIEW_W / 2,
-      y: 190,
+      y: 230,
       "text-anchor": "middle",
     });
     text.textContent = "Kate Julia";
+    // Pass the handoff time to CSS so the draw starts after the last chip.
+    text.style.setProperty(
+      "--sig-delay",
+      `${lastChipEndTime.toFixed(2)}s`
+    );
+    text.style.setProperty(
+      "--sig-ink-delay",
+      `${(lastChipEndTime + 2.8 + 0.1).toFixed(2)}s`
+    );
     svg.appendChild(text);
 
-    // Chips
+    // Must be in DOM before getTotalLength works reliably.
+    stage.appendChild(svg);
+    const pathLen = trail.getTotalLength();
+
     CHIPS.forEach((chip, i) => {
-      const begin = START_AT + i * STEP;
+      const delay = prefersReducedMotion
+        ? 0
+        : START_AT + i * CHIP_STEP;
 
-      const g = mk("g", {
-        class: "sig-chip",
-        // center the chip on the motion point
-        transform: `translate(${-CHIP_W / 2}, ${-CHIP_H / 2})`,
+      const pt = trail.getPointAtLength(pathLen * chip.end);
+
+      // Outer g holds static position; inner g is what animates.
+      const pos = mk("g", {
+        transform: `translate(${pt.x.toFixed(2)}, ${pt.y.toFixed(2)})`,
       });
-      g.style.setProperty("--chip-delay", `${begin.toFixed(2)}s`);
 
-      g.appendChild(
+      const chipG = mk("g", { class: "sig-chip" });
+      chipG.style.setProperty("--chip-delay", `${delay.toFixed(2)}s`);
+
+      chipG.appendChild(
         mk("rect", {
           class: "chip-bg",
-          x: 0,
-          y: 0,
+          x: -CHIP_W / 2,
+          y: -CHIP_H / 2,
           width: CHIP_W,
           height: CHIP_H,
           rx: CHIP_H / 2,
@@ -208,63 +241,27 @@
 
       const img = mk("image", {
         class: "chip-img",
-        x: PAD,
-        y: PAD,
+        x: -CHIP_W / 2 + PAD,
+        y: -CHIP_H / 2 + PAD,
         width: CHIP_W - PAD * 2,
         height: CHIP_H - PAD * 2,
         preserveAspectRatio: "xMidYMid meet",
       });
-      // both href and xlink:href for max compatibility
       img.setAttribute("href", chip.src);
       img.setAttributeNS(
         "http://www.w3.org/1999/xlink",
         "xlink:href",
         chip.src
       );
-      g.appendChild(img);
+      chipG.appendChild(img);
 
-      // Title for a11y tooltip
       const title = mk("title");
       title.textContent = chip.alt;
-      g.appendChild(title);
+      chipG.appendChild(title);
 
-      if (prefersReducedMotion) {
-        // Static placement at rest position — no motion.
-        // Evaluate rough position by sampling the path via a
-        // temporary SVGPathElement.
-        const len = trail.getTotalLength();
-        const pt = trail.getPointAtLength(len * chip.end);
-        g.setAttribute(
-          "transform",
-          `translate(${pt.x - CHIP_W / 2}, ${pt.y - CHIP_H / 2})`
-        );
-        g.style.opacity = 1;
-      } else {
-        const motion = mk("animateMotion", {
-          dur: `${RIDE_DUR}s`,
-          begin: `${begin.toFixed(2)}s`,
-          fill: "freeze",
-          // Travel from 0 → end fraction along the path.
-          keyPoints: `0;${chip.end}`,
-          keyTimes: "0;1",
-          calcMode: "spline",
-          keySplines: "0.22 0.1 0.25 1",
-        });
-        const mpath = mk("mpath", {});
-        mpath.setAttributeNS(
-          "http://www.w3.org/1999/xlink",
-          "xlink:href",
-          "#sig-trail"
-        );
-        mpath.setAttribute("href", "#sig-trail");
-        motion.appendChild(mpath);
-        g.appendChild(motion);
-      }
-
-      svg.appendChild(g);
+      pos.appendChild(chipG);
+      svg.appendChild(pos);
     });
-
-    stage.appendChild(svg);
   };
 
   if (document.readyState === "loading") {
