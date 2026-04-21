@@ -79,18 +79,31 @@
       <!-- ORIGIN + PHOTO -->
       <section class="section origin" aria-labelledby="origin-title">
         <div class="container origin-grid">
-          <figure class="portrait-card">
-            <!-- Replace with a real photo:
-                 - recommended: ./assets/kate.jpg
-                 - add width/height to reduce layout shift -->
-            <img
-              src="./assets/kate_profile.png"
-              alt="Portrait of Kate Julia"
-              class="portrait"
-              loading="lazy"
-            />
-            <figcaption class="portrait-caption">London · Global</figcaption>
-          </figure>
+          <div class="portrait-pair">
+            <figure class="portrait-card">
+              <img
+                src="./assets/kate_profile.png"
+                alt="Portrait of Kate Julia"
+                class="portrait"
+                loading="lazy"
+              />
+              <figcaption class="portrait-caption">London · Global</figcaption>
+            </figure>
+
+            <!-- Candid companion. Drop ./assets/kate_candid.jpg and it
+                 appears automatically. If the file isn't there yet,
+                 the figure removes itself cleanly. -->
+            <figure class="portrait-card portrait-card-candid">
+              <img
+                src="./assets/kate_candid.jpg"
+                alt="Candid portrait of Kate Julia"
+                class="portrait portrait-candid"
+                loading="lazy"
+                onerror="this.closest('.portrait-card-candid').remove();"
+              />
+              <figcaption class="portrait-caption">off the record ↑</figcaption>
+            </figure>
+          </div>
 
           <div class="origin-copy">
             <h2 id="origin-title" class="section-title">Pressure → Design</h2>

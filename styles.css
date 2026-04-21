@@ -352,6 +352,15 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
   align-items:center;
 }
 
+.portrait-pair{
+  display: grid;
+  gap: 14px;
+}
+/* When both portraits are present, the candid tucks beside the formal. */
+.portrait-pair:has(.portrait-card-candid){
+  grid-template-columns: 1fr .58fr;
+  align-items: start;
+}
 .portrait-card{
   margin: 0;
   border-radius: var(--radius);
@@ -359,6 +368,24 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
   background: var(--card);
   box-shadow: var(--shadow);
   border: 1px solid var(--line);
+}
+.portrait-card-candid{
+  transform: rotate(2deg);
+  transform-origin: top left;
+  margin-top: 18px;
+  transition: transform .25s cubic-bezier(.22,.1,.25,1);
+}
+.portrait-card-candid:hover{
+  transform: rotate(0deg) translateY(-2px);
+}
+.portrait-candid{
+  height: 320px;
+}
+.portrait-card-candid .portrait-caption{
+  font-family: var(--hand);
+  font-size: 20px;
+  color: color-mix(in srgb, var(--muted) 40%, var(--accent));
+  letter-spacing: 0;
 }
 
 .portrait{
@@ -710,6 +737,9 @@ details summary{
   .wide-band .container{ padding: 26px 22px; }
   .origin-grid{ grid-template-columns: 1fr; }
   .portrait{ height: 460px; }
+  .portrait-pair:has(.portrait-card-candid){ grid-template-columns: 1fr; }
+  .portrait-candid{ height: 280px; }
+  .portrait-card-candid{ transform: rotate(1deg); margin-top: 0; }
   .card{
     grid-template-columns: 1fr;
     row-gap: 12px;
