@@ -166,10 +166,13 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
 
 /* ---------- Signature animation ---------- */
 .signature-stage{
-  width: 100%;
-  max-width: 980px;
-  margin: 10px auto 14px;
+  /* Break out of the container and stretch to full viewport width. */
+  width: 100vw;
+  max-width: none;
+  margin: 10px 0 14px;
   position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .signature-svg{
   width: 100%;
