@@ -848,6 +848,7 @@ details summary{
 .polaroid-1{ transform: rotate(-2deg); }
 .polaroid-2{ transform: rotate(1.2deg); margin-top: 22px; }
 .polaroid-3{ transform: rotate(-1deg); margin-top: -8px; }
+.polaroid-4 img{ object-position: right top; }
 
 .polaroid:hover{
   transform: rotate(0) translateY(-4px);
