@@ -113,16 +113,16 @@
 (() => {
   const SVG_NS = "http://www.w3.org/2000/svg";
   const VIEW_W = 1000;
-  const VIEW_H = 420;
+  const VIEW_H = 480;
 
-  // Wind current — chaotic, high-amplitude wave. Peaks and troughs
-  // are deliberately uneven so no two arcs feel the same.
+  // Wind current — chaotic wave in the UPPER portion of the canvas.
+  // Stays above y=240 so the name can sit cleanly below it.
   const WIND_D =
-    "M -120 220 " +
-    "C   20  40, 210 410, 320 195 " +
-    "C  410  20, 530 390, 620 185 " +
-    "C  720 400, 820  35, 940 215 " +
-    "C 1040 390, 1100 100, 1160 220";
+    "M -120 120 " +
+    "C   20  15, 220 230, 330  95 " +
+    "C  420  10, 545 225, 630  85 " +
+    "C  730 230, 830  12, 950 110 " +
+    "C 1050 225, 1110  30, 1160 120";
 
   // Logos — reorder / swap freely.
   const CHIPS = [
@@ -295,13 +295,13 @@
     rebuildFilter.appendChild(dispRebuild);
     defs.appendChild(rebuildFilter);
 
-    // Wavelength gradient for the name — horizontal, userSpaceOnUse so it
-    // spans the actual pixel coordinates where "Kate Julia" lives.
+    // Wavelength gradient for the name — horizontal, userSpaceOnUse.
+    // y coordinates updated to match the new name position (y=415).
     const nameGrad = mk("linearGradient", {
       id: "name-grad",
       gradientUnits: "userSpaceOnUse",
-      x1: "130", y1: "262",
-      x2: "870", y2: "262",
+      x1: "130", y1: "415",
+      x2: "870", y2: "415",
     });
     WAVES.forEach((hex, i) => {
       const s = mk("stop", {
@@ -330,7 +330,7 @@
     const text = mk("text", {
       class: "signature-rebuild",
       x: VIEW_W / 2,
-      y: 262,
+      y: 415,
       "text-anchor": "middle",
       filter: "url(#name-rebuild)",
     });
