@@ -159,6 +159,14 @@
   const LAST_START  = START_AT + (CHIPS.length - 1) * CHIP_STEP;
   const LAST_END    = LAST_START + RIDE_DUR;
   const WAVE_DUR    = (LAST_END - WAVE_DELAY) + 0.3;
+  const WAVE_END    = WAVE_DELAY + WAVE_DUR;
+
+  // Signature — "Kate Julia" draws in cursive once the wave is nearly
+  // finished painting, then inks solid. Feels like the signature
+  // closing the artwork.
+  const SIG_DELAY    = WAVE_END - 0.2;
+  const SIG_DRAW_DUR = 2.4;
+  const SIG_INK_DELAY = SIG_DELAY + SIG_DRAW_DUR + 0.1;
 
   const prefersReducedMotion =
     window.matchMedia &&
@@ -213,6 +221,19 @@
       d: WIND_D,
     });
     svg.appendChild(trail);
+
+    // Signature — drawn over the wave once it's painted.
+    const text = mk("text", {
+      class: "signature-text",
+      x: VIEW_W / 2,
+      y: 262,
+      "text-anchor": "middle",
+    });
+    text.textContent = "Kate Julia";
+    text.style.setProperty("--sig-delay",     `${SIG_DELAY.toFixed(2)}s`);
+    text.style.setProperty("--sig-draw-dur",  `${SIG_DRAW_DUR.toFixed(2)}s`);
+    text.style.setProperty("--sig-ink-delay", `${SIG_INK_DELAY.toFixed(2)}s`);
+    svg.appendChild(text);
 
     stage.appendChild(svg);
 

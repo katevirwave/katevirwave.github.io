@@ -198,6 +198,40 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
 @keyframes wave-paint{ to { stroke-dashoffset: 0; } }
 @keyframes wave-fade { to { opacity: 1; } }
 
+/* Signature — "Kate Julia" draws in cursive across the finished wave,
+   then inks solid. Timing vars set inline by JS. */
+.signature-text{
+  font-family: "Caveat", cursive;
+  font-size: 180px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  fill: transparent;
+  stroke: var(--text);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 3400;
+  stroke-dashoffset: 3400;
+  paint-order: stroke fill;
+  animation:
+    sig-draw var(--sig-draw-dur, 2.4s) cubic-bezier(.22,.1,.25,1) var(--sig-delay, 7s) forwards,
+    sig-ink  .7s ease-out var(--sig-ink-delay, 9.5s) forwards;
+}
+@keyframes sig-draw { to { stroke-dashoffset: 0; } }
+@keyframes sig-ink  { to { fill: var(--text); stroke-width: 0; } }
+
+@media (max-width: 680px){
+  .signature-text{ font-size: 130px; }
+}
+@media (prefers-reduced-motion: reduce){
+  .signature-text{
+    stroke-dashoffset: 0;
+    fill: var(--text);
+    stroke-width: 0;
+    animation: none;
+  }
+}
+
 /* Chip visual styling. Motion + fade are driven by SMIL inside the SVG. */
 .sig-chip .chip-bg{
   fill: rgba(255,255,255,.96);
