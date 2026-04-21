@@ -113,16 +113,17 @@
 (() => {
   const SVG_NS = "http://www.w3.org/2000/svg";
   const VIEW_W = 1000;
-  const VIEW_H = 480;
+  const VIEW_H = 200;   // shorter viewBox keeps the SVG ~20vw tall on screen
 
   // Wind current — chaotic wave in the UPPER portion of the canvas.
-  // Stays above y=240 so the name can sit cleanly below it.
+  // Y values compressed to fit the smaller viewBox; stays above y=110
+  // so the name at y=165 has clear air underneath it.
   const WIND_D =
-    "M -120 120 " +
-    "C   20  15, 220 230, 330  95 " +
-    "C  420  10, 545 225, 630  85 " +
-    "C  730 230, 830  12, 950 110 " +
-    "C 1050 225, 1110  30, 1160 120";
+    "M -120 52 " +
+    "C   20   7, 220 100, 330  41 " +
+    "C  420   4, 545  98, 630  37 " +
+    "C  730 100, 830   5, 950  48 " +
+    "C 1050  98, 1110  13, 1160  52";
 
   // Logos — reorder / swap freely.
   const CHIPS = [
@@ -261,12 +262,11 @@
     // (name-rebuild filter removed — replaced by individual letter pieces below)
 
     // Wavelength gradient for the name — horizontal, userSpaceOnUse.
-    // y coordinates updated to match the new name position (y=415).
     const nameGrad = mk("linearGradient", {
       id: "name-grad",
       gradientUnits: "userSpaceOnUse",
-      x1: "130", y1: "415",
-      x2: "870", y2: "415",
+      x1: "130", y1: "165",
+      x2: "870", y2: "165",
     });
     WAVES.forEach((hex, i) => {
       const s = mk("stop", {
@@ -294,9 +294,9 @@
     // into the full name. Nested <g> pair: outer drives translate, inner drives
     // rotate, so SMIL can animate both axes without fighting over the attribute.
     const LETTERS    = ["K","a","t","e","J","u","l","i","a"];
-    // Approximate center-x for each letter in the assembled name (Caveat 160px).
-    const HOME_X     = [205, 290, 360, 430, 545, 615, 668, 705, 745];
-    const HOME_Y     = 415;
+    // Approximate center-x for each letter in the assembled name (Caveat 115px).
+    const HOME_X     = [295, 355, 403, 450, 526, 582, 625, 651, 692];
+    const HOME_Y     = 165;
     // Delta (dx, dy) from home → scatter position (where each piece starts).
     const SCATTER    = [
       [-430,-340], [ 720,-300], [ 540, 210], [-390,  90],

@@ -222,12 +222,12 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
    No CSS animation needed — letters are visible from t=0 as scattered pieces. */
 .letter-piece{
   font-family: "Caveat", cursive;
-  font-size: 160px;
+  font-size: 115px;
   font-weight: 700;
   /* fill set per-letter from JS (wavelength palette) */
 }
 @media (max-width: 680px){
-  .letter-piece{ font-size: 90px; }
+  .letter-piece{ font-size: 65px; }
 }
 
 /* Chip visual styling. Motion + fade are driven by SMIL inside the SVG. */
@@ -256,7 +256,8 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
 .hero-title{
   font-family: var(--serif);
   font-weight: 500;
-  font-size: clamp(46px, 5vw, 72px);
+  font-size: clamp(36px, 4vw, 64px);
+  overflow-wrap: break-word;
   line-height: 1.03;
   margin: 0 0 10px 0;
   letter-spacing: -0.01em;
