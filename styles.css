@@ -374,6 +374,14 @@ a, button, input, select { -webkit-tap-highlight-color: transparent; }
   border: 1px solid var(--line);
 }
 
+/* Compact variant — for buttons living inside cards. */
+.btn-small{
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
 .section-head{
   display:flex;
   align-items:flex-end;
@@ -857,6 +865,11 @@ details summary{
 
 /* If every polaroid fails to load, hide the whole section. */
 .lately:not(:has(.polaroid)){ display: none; }
+
+/* ---------- K-dramas ---------- */
+.kdrama-copy{ max-width: 62ch; }
+.kdrama-copy .hero-actions{ margin-top: 22px; }
+.kdrama-copy .handnote{ margin-top: 14px; }
 
 /* ---------- Not on the CV ---------- */
 .ncv-list{

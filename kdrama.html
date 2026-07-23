@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kate's K-Drama Log</title>
+<meta name="description" content="Everything I've loved, everyone I keep spotting, and every real place I could one day go stand in.">
+<link rel="icon" href="./assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1a1424;
+    --paper:#f7f3ee;
+    --plum:#4a2b52;
+    --rose:#d96a8f;
+    --rose-soft:#f2d9e2;
+    --gold:#c8963e;
+    --jade:#4a8c7a;
+    --sky:#6cccf7;
+    --line:#e0d6ca;
+    --shadow:rgba(74,43,82,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Space Grotesk',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:60px;
+  }
+  .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+
+  .backbar{padding:14px 20px;font-size:13px}
+  .backbar a{color:var(--plum);text-decoration:none;font-weight:600;letter-spacing:.04em}
+  .backbar a:hover{text-decoration:underline}
+
+  header{
+    padding:44px 20px 28px;
+    text-align:center;
+    background:linear-gradient(160deg,var(--plum),#2d1a33);
+    color:var(--paper);
+    position:relative;
+    overflow:hidden;
+  }
+  header::after{
+    content:"❤";
+    position:absolute;right:-10px;bottom:-30px;
+    font-size:180px;color:rgba(217,106,143,.14);
+    transform:rotate(-12deg);
+  }
+  .eyebrow{
+    font-size:12px;letter-spacing:.32em;text-transform:uppercase;
+    color:var(--rose);font-weight:600;margin-bottom:10px;
+  }
+  h1{
+    font-family:'Gowun Batang',serif;
+    font-weight:700;font-size:clamp(34px,7vw,58px);
+    line-height:1.05;letter-spacing:-.01em;
+  }
+  h1 .kr{display:block;font-size:.42em;color:var(--rose-soft);letter-spacing:.1em;margin-top:8px;font-weight:400}
+  .sub{margin-top:14px;font-size:15px;color:#e8ddd0;max-width:520px;margin-left:auto;margin-right:auto}
+
+  .stats{
+    display:flex;justify-content:center;gap:8px;flex-wrap:wrap;
+    margin-top:24px;position:relative;z-index:2;
+  }
+  .stat{
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+    border-radius:12px;padding:10px 18px;min-width:88px;
+  }
+  .stat b{display:block;font-size:26px;font-family:'Gowun Batang',serif;color:#fff}
+  .stat span{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--rose-soft)}
+
+  nav.tabs{
+    display:flex;gap:6px;justify-content:center;flex-wrap:wrap;
+    padding:22px 20px 4px;position:sticky;top:0;background:var(--paper);z-index:20;
+    border-bottom:1px solid var(--line);
+  }
+  .tab{
+    font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;
+    background:none;border:none;color:var(--plum);opacity:.5;
+    padding:8px 14px;border-radius:20px 20px 0 0;transition:.15s;
+  }
+  .tab:hover{opacity:.8}
+  .tab.active{opacity:1;background:var(--rose-soft);color:var(--plum)}
+
+  .panel{display:none;padding-top:30px;animation:fade .3s ease}
+  .panel.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+  .filterbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;align-items:center}
+  .chip{
+    font-family:inherit;font-size:12.5px;font-weight:500;cursor:pointer;
+    padding:6px 13px;border-radius:20px;border:1px solid var(--line);
+    background:#fff;color:var(--plum);transition:.15s;
+  }
+  .chip:hover{border-color:var(--rose)}
+  .chip.on{background:var(--plum);color:#fff;border-color:var(--plum)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+  .card{
+    background:#fff;border:1px solid var(--line);border-radius:16px;
+    padding:18px 18px 16px;box-shadow:0 2px 10px var(--shadow);
+    transition:.18s;position:relative;
+  }
+  .card:hover{transform:translateY(-3px);box-shadow:0 8px 22px var(--shadow)}
+  .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .card h3{font-family:'Gowun Batang',serif;font-size:20px;line-height:1.15;font-weight:700}
+  .card .yr{font-size:12.5px;color:var(--jade);font-weight:600;white-space:nowrap;margin-top:4px}
+  .badge{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:4px 9px;border-radius:20px;white-space:nowrap}
+  .badge.watched{background:var(--jade);color:#fff}
+  .badge.want{background:var(--gold);color:#fff}
+  .card .meta{font-size:13px;color:#6b5f6f;margin-top:10px}
+  .card .cast{font-size:13px;margin-top:8px;color:var(--ink)}
+  .card .cast b{color:var(--plum)}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+  .t{font-size:11px;padding:3px 9px;border-radius:12px;background:var(--rose-soft);color:var(--plum);font-weight:500}
+  .t.loc{background:#e2eeea;color:var(--jade)}
+  .t.loc.abroad{background:#dcefff;color:#2b7cb3;font-weight:600}
+
+  /* actor web */
+  .weblist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+  .actor{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 2px 8px var(--shadow)}
+  .actor.multi{border-color:var(--rose);border-width:1.5px}
+  .actor h4{font-family:'Gowun Batang',serif;font-size:18px;color:var(--plum);display:flex;align-items:center;gap:8px}
+  .actor .count{font-size:11px;background:var(--rose);color:#fff;border-radius:10px;padding:2px 8px;font-family:'Space Grotesk';font-weight:700}
+  .actor ul{list-style:none;margin-top:10px}
+  .actor li{font-size:13.5px;padding:5px 0;border-top:1px dashed var(--line);color:#4a3f4d}
+  .actor li:first-child{border-top:none}
+  .actor li span{color:var(--jade);font-size:12px}
+  .note{font-size:13px;color:#6b5f6f;margin-bottom:18px;font-style:italic}
+
+  /* locations */
+  .locsec{margin-bottom:26px}
+  .locsec h3{font-family:'Gowun Batang',serif;font-size:22px;color:var(--plum);margin-bottom:4px;display:flex;align-items:center;gap:10px}
+  .locsec .flag{font-size:22px}
+  .locsec p.sub2{font-size:13px;color:#6b5f6f;margin-bottom:12px}
+  .locrow{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px 16px;margin-bottom:8px;font-size:14px}
+  .locrow b{color:var(--plum)}
+  .locrow .drama{color:var(--rose);font-weight:600}
+  .abroad-banner{background:linear-gradient(100deg,#dcefff,#eaf6ff);border:1px solid #bfe0f5;border-radius:14px;padding:16px 18px;margin-bottom:24px;font-size:14px;color:#2b5f7a}
+  .abroad-banner b{color:#1d4a63}
+
+  footer{text-align:center;padding:40px 20px 10px;font-size:12.5px;color:#9a8ea0}
+  footer a{color:var(--plum);font-weight:600}
+</style>
+</head>
+<body>
+
+<div class="backbar"><a href="./index.html">← katejulia.com</a></div>
+
+<header>
+  <div class="eyebrow">A watch diary in progress</div>
+  <h1>Kate's K-Drama Log<span class="kr">케이드라마 일지</span></h1>
+  <p class="sub">Everything I've loved, everyone I keep spotting, and every real place I could one day go stand in.</p>
+  <div class="stats">
+    <div class="stat"><b id="s-watched">–</b><span>Watched</span></div>
+    <div class="stat"><b id="s-want">–</b><span>Want to watch</span></div>
+    <div class="stat"><b id="s-actors">–</b><span>Actors tracked</span></div>
+    <div class="stat"><b id="s-abroad">–</b><span>Filmed abroad</span></div>
+  </div>
+</header>
+
+<nav class="tabs">
+  <button class="tab active" data-tab="shows">Shows</button>
+  <button class="tab" data-tab="actors">Actor Web</button>
+  <button class="tab" data-tab="locations">Locations</button>
+</nav>
+
+<div class="wrap">
+
+  <!-- SHOWS -->
+  <section class="panel active" id="shows">
+    <div class="filterbar" id="filters"></div>
+    <div class="grid" id="cards"></div>
+  </section>
+
+  <!-- ACTORS -->
+  <section class="panel" id="actors">
+    <p class="note">Highlighted cards are actors you've seen in more than one show — the start of your web. It grows every time a name repeats.</p>
+    <div class="weblist" id="actorweb"></div>
+  </section>
+
+  <!-- LOCATIONS -->
+  <section class="panel" id="locations">
+    <div class="abroad-banner">
+      <b>Your travel angle lives here.</b> Most K-drama coverage never leaves Korea. The shows below that filmed abroad are the ones you could pilgrimage to on trips you're already taking — starting with Germany for <i>Queen of Tears</i>.
+    </div>
+    <div id="locwrap"></div>
+  </section>
+
+</div>
+
+<footer>Built from your Netflix likes · edit freely · 방가방가 · <a href="./index.html">back to katejulia.com</a></footer>
+
+<script>
+const shows = [
+  {t:"Queen of Tears",kr:"눈물의 여왕",yr:2024,ep:16,status:"watched",
+   genre:["Romance","Melodrama","Chaebol"],
+   cast:["Kim Soo-hyun","Kim Ji-won","Park Sung-hoon","Kwak Dong-yeon"],
+   themes:["marriage in crisis","chaebol family","second-chance love","terminal illness"],
+   locs:[{p:"Germany — Berlin Cathedral, Botanical garden honeymoon",abroad:true},{p:"Korea — The Hyundai Seoul, Aqua Planet Ilsan, Mungyeong rail-bike"}]},
+
+  {t:"It's Okay to Not Be Okay",kr:"사이코지만 괜찮아",yr:2020,ep:16,status:"want",
+   genre:["Romance","Healing","Psychological"],
+   cast:["Kim Soo-hyun","Seo Yea-ji","Oh Jung-se"],
+   themes:["mental health","found family","fairy tales","trauma"],
+   locs:[{p:"Korea — 'Cursed Castle' house near Jasan, Seosan"}]},
+
+  {t:"Start-Up",kr:"스타트업",yr:2020,ep:16,status:"watched",
+   genre:["Romance","Business","Coming-of-age"],
+   cast:["Bae Suzy","Nam Joo-hyuk","Kim Seon-ho","Kang Han-na"],
+   themes:["startups & tech","first love","found family","second-lead syndrome"],
+   locs:[{p:"Korea — Pohang (Guryongpo), Seoul Sandbox scenes"}]},
+
+  {t:"Alchemy of Souls",kr:"환혼",yr:2022,ep:20,status:"watched",
+   genre:["Fantasy","Romance","Action","Historical"],
+   cast:["Lee Jae-wook","Jung So-min","Go Youn-jung","Hwang Min-hyun"],
+   themes:["soul-swapping","magic & mages","master-student","fantasy world"],
+   locs:[{p:"Korea — Mungyeong, historical sets (fictional Daeho nation)"}]},
+
+  {t:"Business Proposal",kr:"사내맞선",yr:2022,ep:12,status:"watched",
+   genre:["Romance","Comedy","Office"],
+   cast:["Ahn Hyo-seop","Kim Se-jeong","Kim Min-kyu","Seol In-ah"],
+   themes:["fake dating","contract romance","office romance","chaebol CEO"],
+   locs:[{p:"Korea — Seoul (office/city rom-com settings)"}]},
+
+  {t:"Hometown Cha-Cha-Cha",kr:"갯마을 차차차",yr:2021,ep:16,status:"watched",
+   genre:["Romance","Slice-of-life","Healing"],
+   cast:["Shin Min-a","Kim Seon-ho","Lee Sang-yi"],
+   themes:["small-town life","seaside","opposites attract","community"],
+   locs:[{p:"Korea — Pohang (Cheongho, the real 'Gongjin' fishing village)"}]},
+
+  {t:"King the Land",kr:"킹더랜드",yr:2023,ep:16,status:"watched",
+   genre:["Romance","Comedy","Business"],
+   cast:["Lee Jun-ho","Im Yoon-ah","Go Won-hee","Ahn Se-ha"],
+   themes:["chaebol heir","hotel setting","enemies to lovers","class difference"],
+   locs:[{p:"Thailand — Bangkok getaway episodes",abroad:true},{p:"Korea — luxury hotel interiors, Seoul"}]},
+
+  {t:"When Life Gives You Tangerines",kr:"폭싹 속았수다",yr:2025,ep:16,status:"watched",
+   genre:["Melodrama","Period","Family","Romance"],
+   cast:["IU","Park Bo-gum","Moon So-ri","Park Hae-joon"],
+   themes:["life-spanning epic","Jeju Island","poverty to hope","motherhood"],
+   locs:[{p:"Korea — Jeju Island (1950s–present setting)"}]},
+
+  {t:"When the Phone Rings",kr:"지금 거신 전화는",yr:2024,ep:12,status:"watched",
+   genre:["Thriller","Romance","Mystery"],
+   cast:["Yoo Yeon-seok","Chae Soo-bin","Heo Nam-jun"],
+   themes:["contract marriage","political thriller","hostage mystery","sign language"],
+   locs:[{p:"Korea — Seoul (political/broadcast-house thriller)"}]},
+
+  {t:"Can This Love Be Translated?",kr:"이 사랑 통역 되나요",yr:2025,ep:16,status:"watched",
+   genre:["Romance","Comedy"],
+   cast:["Kim Seon-ho","Go Youn-jung"],
+   themes:["interpreter/translation","language barrier","celebrity romance","travel"],
+   locs:[{p:"Italy — Siena / Tuscany (poster & scenes)",abroad:true},{p:"Korea — Seoul"}]},
+
+  {t:"The Potato Lab",kr:"감자연구소",yr:2025,ep:12,status:"watched",
+   genre:["Romance","Comedy","Workplace"],
+   cast:["Lee Sun-bin","Kang Tae-oh"],
+   themes:["office romance","research institute","enemies to lovers","comedy"],
+   locs:[{p:"Korea — Gangwon potato research institute setting"}]},
+
+  {t:"The Trunk",kr:"트렁크",yr:2024,ep:8,status:"watched",
+   genre:["Melodrama","Mystery","Romance"],
+   cast:["Gong Yoo","Seo Hyun-jin"],
+   themes:["contract marriage","dark secrets","cold mood-piece","mystery"],
+   locs:[{p:"Korea — lakeside modern house, moody winter settings"}]},
+
+  {t:"Sold Out on You",kr:null,yr:2024,ep:null,status:"watched",
+   genre:["Romance","Comedy","Web drama"],
+   cast:[],
+   themes:["short-form","shopping/commerce","light rom-com"],
+   locs:[{p:"Korea"}]},
+
+  {t:"Boyfriend on Demand",kr:null,yr:2024,ep:null,status:"watched",
+   genre:["Romance","Fantasy","Web drama"],
+   cast:[],
+   themes:["app/summoned boyfriend","fantasy rom-com","short-form"],
+   locs:[{p:"Korea"}]},
+
+  // WANT TO WATCH
+  {t:"Destined with You",kr:"이번 생도 잘 부탁해",yr:2023,ep:16,status:"want",
+   genre:["Romance","Fantasy","Comedy"],
+   cast:["Rowoon","Jo Bo-ah"],
+   themes:["curse & fate","magic book","destiny","supernatural"],
+   locs:[{p:"Korea"}]},
+
+  {t:"See You in My 19th Life",kr:"이번 생도 잘 부탁해",yr:2023,ep:12,status:"want",
+   genre:["Romance","Fantasy"],
+   cast:["Shin Hye-sun","Ahn Bo-hyun"],
+   themes:["reincarnation","past lives","destined love","memory"],
+   locs:[{p:"Korea"}]},
+
+  {t:"Dynamite Kiss",kr:"불꽃같은 키스",yr:2025,ep:12,status:"want",
+   genre:["Romance","Comedy","Office"],
+   cast:["Jang Ki-yong","Ahn Eun-jin"],
+   themes:["fake identity","office romance","contract lie","comedy"],
+   locs:[{p:"Korea"}]},
+
+  {t:"It's Okay, That's Love",kr:"괜찮아, 사랑이야",yr:2014,ep:16,status:"want",
+   genre:["Romance","Melodrama","Psychological"],
+   cast:["Jo In-sung","Gong Hyo-jin","Sung Dong-il","Lee Kwang-soo","D.O."],
+   themes:["mental health","schizophrenia","writer & psychiatrist","trauma","found family"],
+   locs:[{p:"Okinawa, Japan — opening/getaway scenes",abroad:true},{p:"Korea — Seoul shared house"}]},
+
+  {t:"Crash Course in Romance",kr:"일타 스캔들",yr:2023,ep:16,status:"want",
+   genre:["Romance","Comedy","Family"],
+   cast:["Jeon Do-yeon","Jung Kyung-ho"],
+   themes:["star tutor","academic pressure","single parenthood","slow-burn"],
+   locs:[{p:"Korea — Seoul (the 'academy street' hagwon world)"}]},
+];
+
+// ---------- render shows ----------
+const cardsEl = document.getElementById('cards');
+const filtersEl = document.getElementById('filters');
+let activeFilter = 'all';
+
+const filters = [
+  {k:'all',label:'All'},
+  {k:'watched',label:'✓ Watched'},
+  {k:'want',label:'☆ Want to watch'},
+  {k:'abroad',label:'✈ Filmed abroad'},
+];
+filters.forEach((f,i)=>{
+  const b=document.createElement('button');
+  b.className='chip'+(i===0?' on':'');
+  b.textContent=f.label;
+  b.onclick=()=>{activeFilter=f.k;document.querySelectorAll('#filters .chip').forEach(c=>c.classList.remove('on'));b.classList.add('on');renderCards();};
+  filtersEl.appendChild(b);
+});
+
+function renderCards(){
+  cardsEl.innerHTML='';
+  shows.filter(s=>{
+    if(activeFilter==='all')return true;
+    if(activeFilter==='abroad')return s.locs.some(l=>l.abroad);
+    return s.status===activeFilter;
+  }).forEach(s=>{
+    const card=document.createElement('div');
+    card.className='card';
+    const badge = s.status==='watched'?'<span class="badge watched">Watched</span>':'<span class="badge want">Want</span>';
+    const castLine = s.cast.length? `<div class="cast"><b>Cast:</b> ${s.cast.join(' · ')}</div>`:'';
+    const themeTags = s.themes.map(t=>`<span class="t">${t}</span>`).join('');
+    const locTags = s.locs.map(l=>`<span class="t loc${l.abroad?' abroad':''}">${l.abroad?'✈ ':'📍 '}${l.p.split('—')[0].trim()}</span>`).join('');
+    card.innerHTML=`
+      <div class="top">
+        <div>
+          <h3>${s.t}</h3>
+          <div class="yr">${s.yr}${s.ep?` · ${s.ep} eps`:''}${s.kr?` · ${s.kr}`:''}</div>
+        </div>
+        ${badge}
+      </div>
+      <div class="meta">${s.genre.join(' · ')}</div>
+      ${castLine}
+      <div class="tags">${themeTags}</div>
+      <div class="tags">${locTags}</div>`;
+    cardsEl.appendChild(card);
+  });
+}
+renderCards();
+
+// ---------- actor web ----------
+const actorMap={};
+shows.forEach(s=>s.cast.forEach(a=>{
+  if(!actorMap[a])actorMap[a]=[];
+  actorMap[a].push({t:s.t,yr:s.yr,status:s.status});
+}));
+const actorEntries=Object.entries(actorMap).sort((a,b)=>b[1].length-a[1].length || a[0].localeCompare(b[0]));
+const webEl=document.getElementById('actorweb');
+actorEntries.forEach(([name,roles])=>{
+  const el=document.createElement('div');
+  el.className='actor'+(roles.length>1?' multi':'');
+  el.innerHTML=`<h4>${name} ${roles.length>1?`<span class="count">×${roles.length}</span>`:''}</h4>
+    <ul>${roles.sort((a,b)=>a.yr-b.yr).map(r=>`<li>${r.t} <span>${r.yr} · ${r.status==='watched'?'seen':'to watch'}</span></li>`).join('')}</ul>`;
+  webEl.appendChild(el);
+});
+
+// ---------- locations ----------
+const abroad=[], korea=[];
+shows.forEach(s=>s.locs.forEach(l=>{
+  (l.abroad?abroad:korea).push({drama:s.t,place:l.p});
+}));
+const locwrap=document.getElementById('locwrap');
+function locSection(title,flag,sub,arr){
+  const sec=document.createElement('div');
+  sec.className='locsec';
+  sec.innerHTML=`<h3><span class="flag">${flag}</span>${title}</h3><p class="sub2">${sub}</p>`+
+    arr.map(l=>`<div class="locrow"><span class="drama">${l.drama}</span> — <b>${l.place.replace(/^[^—]*—\s*/,'')}</b></div>`).join('');
+  locwrap.appendChild(sec);
+}
+locSection('Filmed abroad — your pilgrimage shortlist','✈','Reachable on trips you already take.',abroad);
+locSection('Filmed in Korea','🇰🇷','The Seoul / Jeju / Pohang core — for the eventual Korea trip.',korea);
+
+// ---------- stats ----------
+document.getElementById('s-watched').textContent=shows.filter(s=>s.status==='watched').length;
+document.getElementById('s-want').textContent=shows.filter(s=>s.status==='want').length;
+document.getElementById('s-actors').textContent=actorEntries.length;
+document.getElementById('s-abroad').textContent=shows.filter(s=>s.locs.some(l=>l.abroad)).length;
+
+// ---------- tabs ----------
+document.querySelectorAll('.tab').forEach(t=>{
+  t.onclick=()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+  };
+});
+</script>
+</body>
+</html>
