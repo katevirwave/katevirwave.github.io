@@ -565,14 +565,14 @@ const shows = [
    cast:["Lee Jun-ho","Im Yoon-ah","Go Won-hee","Ahn Se-ha"],
    themes:["chaebol heir","hotel setting","enemies to lovers","class difference"],
    note:"My first chaebol drama and my entry point into the whole thing. I didn't know about chaebol families, marrying in, any of it. Sent me straight to Wikipedia, then down a tangent into the IMF crisis. Also just beautiful: the UK-educated heir, the perfectly made suits, the settings. Lots to write about here.",
-   locs:[{p:"Thailand — Bangkok getaway episodes",abroad:true},{p:"Korea — luxury hotel interiors, Seoul"}]},
+   locs:[{p:"Thailand — Bangkok, getaway episodes",abroad:true},{p:"Korea — Seoul, luxury hotel interiors"}]},
 
   {t:"The Potato Lab",kr:"감자연구소",yr:2025,ep:12,status:"watched",depth:"deep",rewatch:0,fav:true,
    genre:["Romance","Comedy","Workplace"],
    cast:["Lee Sun-bin","Kang Tae-oh"],
    themes:["office romance","research institute","enemies to lovers","comedy"],
    note:"Really liked this one.",
-   locs:[{p:"Korea — Gangwon potato research institute setting"}]},
+   locs:[{p:"Korea — Gangwon, potato research institute"}]},
 
   {t:"Boyfriend on Demand",kr:null,yr:2024,ep:null,status:"watched",depth:"deep",rewatch:0,fav:true,
    genre:["Romance","Fantasy","Web drama"],
@@ -645,14 +645,14 @@ const shows = [
    cast:["Kim Soo-hyun","Seo Yea-ji","Oh Jung-se"],
    themes:["mental health","found family","fairy tales","trauma"],
    note:"Pair this with It's Okay, That's Love: same territory a decade apart. That comparison is a post.",
-   locs:[{p:"Korea — 'Cursed Castle' house near Jasan, Seosan"}]},
+   locs:[{p:"Korea — Seosan, the 'Cursed Castle' house"}]},
 
   {t:"It's Okay, That's Love",kr:"괜찮아, 사랑이야",yr:2014,ep:16,status:"want",depth:null,rewatch:0,
    genre:["Romance","Melodrama","Psychological"],
    cast:["Jo In-sung","Gong Hyo-jin","Sung Dong-il","Lee Kwang-soo","D.O."],
    themes:["mental health","schizophrenia","writer & psychiatrist","trauma","found family"],
    note:"The 2014 ancestor of It's Okay to Not Be Okay.",
-   locs:[{p:"Okinawa, Japan — opening / getaway scenes",abroad:true},{p:"Korea — Seoul shared house"}]},
+   locs:[{p:"Japan — Okinawa, getaway scenes",abroad:true},{p:"Korea — Seoul shared house"}]},
 
   {t:"When Life Gives You Tangerines",kr:"폭싹 속았수다",yr:2025,ep:16,status:"want",depth:null,rewatch:0,
    genre:["Melodrama","Period","Family","Romance"],
@@ -882,7 +882,13 @@ function renderCards(){
     else badge='<span class="badge watched">Watched</span>';
     const castLine = s.cast.length? `<div class="cast"><b>Cast:</b> ${s.cast.join(' · ')}</div>`:'';
     const themeTags = s.themes.map(t=>`<span class="t">${t}</span>`).join('');
-    const locTags = s.locs.map(l=>`<span class="t loc${l.abroad?' abroad':''}">${l.abroad?'✈ ':'📍 '}${l.p.split('—')[0].trim()}</span>`).join('');
+    const locTags = s.locs.map(l=>{
+      const parts=l.p.split('—');
+      const country=parts[0].trim();
+      const city=parts.length>1?parts[1].split(/[(,&]/)[0].trim():'';
+      const label=city?country+' · '+city:country;
+      return `<span class="t loc${l.abroad?' abroad':''}">${l.abroad?'✈ ':'📍 '}${label}</span>`;
+    }).join('');
     const marks=[];
     if(s.fav) marks.push('<span class="mark fav">♥ favourite</span>');
     if(s.rewatch>0) marks.push(`<span class="mark rw">↻ rewatched ×${s.rewatch}</span>`);
