@@ -75,6 +75,7 @@
   }
   h1 .kr{display:block;font-size:.42em;color:var(--rose-soft);letter-spacing:.1em;margin-top:8px;font-weight:400}
   .sub{margin-top:14px;font-size:15px;color:#e8ddd0;max-width:520px;margin-left:auto;margin-right:auto}
+  .spoiler-note{margin-top:16px;display:inline-block;font-size:12px;font-weight:600;letter-spacing:.02em;color:#ffdae6;background:rgba(217,106,143,.2);border:1px solid rgba(217,106,143,.45);border-radius:20px;padding:6px 15px}
 
   .stats{
     display:flex;justify-content:center;gap:8px;flex-wrap:wrap;
@@ -127,9 +128,10 @@
   }
   .card:hover{transform:translateY(-3px);box-shadow:0 8px 22px var(--shadow)}
   .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+  .card .top>div{min-width:0}
   .card h3{font-family:'Gowun Batang',serif;font-size:20px;line-height:1.15;font-weight:700}
-  .card .yr{font-size:12.5px;color:var(--jade);font-weight:600;white-space:nowrap;margin-top:4px}
-  .badge{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:4px 9px;border-radius:20px;white-space:nowrap}
+  .card .yr{font-size:12.5px;color:var(--jade);font-weight:600;margin-top:4px}
+  .badge{font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:4px 9px;border-radius:20px;white-space:nowrap;flex:none}
   .badge.watched{background:var(--jade);color:#fff}
   .badge.want{background:var(--gold);color:#fff}
   .badge.partial{background:#8a7bb8;color:#fff}
@@ -229,15 +231,19 @@
   .lk-grouphead h3{font-family:'Gowun Batang',serif;font-size:clamp(21px,3.2vw,29px);color:var(--plum);letter-spacing:-.01em;line-height:1.2}
   .lk-grouphead p{font-size:13.5px;color:#8a7f90;font-style:italic;margin-top:7px}
   .lk-grouphead::after{content:"";display:block;width:56px;height:2px;margin:16px auto 0;background:linear-gradient(90deg,transparent,var(--rose),transparent)}
-  .lk-track{display:flex;flex-direction:column;gap:26px}
-  .lk-entry{display:grid;grid-template-columns:210px 1fr;gap:0;align-items:stretch;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 6px 26px var(--shadow);overflow:hidden;transition:transform .2s,box-shadow .2s}
+  .lk-track{display:flex;flex-direction:column;gap:30px;position:relative}
+  .lk-track::before{content:"";position:absolute;top:6px;bottom:6px;left:50%;transform:translateX(-50%);width:2px;background:repeating-linear-gradient(var(--rose) 0 5px, transparent 5px 13px);opacity:.4;z-index:0}
+  .lk-entry{position:relative;z-index:1;display:grid;grid-template-columns:210px 1fr;gap:0;align-items:stretch;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 6px 26px var(--shadow);overflow:hidden;transition:transform .2s,box-shadow .2s}
   .lk-entry:hover{transform:translateY(-3px);box-shadow:0 14px 34px var(--shadow)}
   .lk-entry:nth-child(even){grid-template-columns:1fr 210px}
   .lk-entry:nth-child(even) .lk-char{order:2}
   .lk-entry:nth-child(even) .lk-body{order:1}
   .lk-char{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 16px;background:radial-gradient(circle at 38% 28%,#5c3663,#2c1932);overflow:hidden}
   .lk-char::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 90%,rgba(217,106,143,.25),transparent 60%)}
-  .lk-hangul{position:relative;font-family:'Gowun Batang',serif;font-size:clamp(52px,8vw,76px);line-height:1.05;color:#f7f3ee;text-align:center;text-shadow:0 3px 20px rgba(217,106,143,.45)}
+  .lk-petals{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+  .lk-petal{position:absolute;top:-14px;width:10px;height:10px;background:radial-gradient(circle at 32% 28%,#f8d3e0,#e79ab4);border-radius:100% 0 100% 100%;opacity:0;animation:lkFall linear infinite}
+  @keyframes lkFall{0%{transform:translateY(-14px) translateX(0) rotate(0);opacity:0}12%{opacity:.55}100%{transform:translateY(340px) translateX(26px) rotate(340deg);opacity:0}}
+  .lk-hangul{position:relative;z-index:2;font-family:'Gowun Batang',serif;font-size:clamp(52px,8vw,76px);line-height:1.05;color:#f7f3ee;text-align:center;text-shadow:0 3px 20px rgba(217,106,143,.45)}
   .lk-rom{position:relative;margin-top:12px;font-size:13px;font-style:italic;color:var(--rose-soft);letter-spacing:.05em;text-align:center}
   .lk-num{position:absolute;top:12px;left:15px;font-family:'Space Grotesk';font-size:12px;font-weight:700;color:rgba(255,255,255,.32);letter-spacing:.12em}
   .lk-body{min-width:0;padding:26px 26px 24px}
@@ -249,6 +255,20 @@
   .lk-real b{color:var(--plum);letter-spacing:.01em}
   .lk-real i{color:var(--rose);font-style:normal;font-weight:600}
   .lk-say{margin:16px 0 0;padding-left:16px;border-left:3px solid var(--rose);font-family:'Gowun Batang',serif;font-size:15px;line-height:1.66;color:#4a3f4d;font-style:italic}
+  /* real ⟷ K-drama flip */
+  .lk-flip{margin-top:15px;perspective:1400px}
+  .lk-flip-inner{position:relative;transition:transform .6s cubic-bezier(.4,.15,.2,1);transform-style:preserve-3d;height:0}
+  .lk-flip.flipped .lk-flip-inner{transform:rotateY(180deg)}
+  .lk-face{position:absolute;top:0;left:0;width:100%;backface-visibility:hidden;-webkit-backface-visibility:hidden;padding:15px 16px;border-radius:13px;font-size:12.5px;line-height:1.6;color:#4a3f4d;box-sizing:border-box}
+  .lk-real-face{background:linear-gradient(135deg,#eef5f1,#e5efe9);border:1px solid #cfe1d8}
+  .lk-drama-face{transform:rotateY(180deg);background:linear-gradient(135deg,#f7ecf2,#f3e6ee);border:1px solid #ecd5e2}
+  .lk-face i{color:var(--plum);font-style:normal;font-weight:600}
+  .lk-face-tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:11px;margin-bottom:9px}
+  .lk-face-tag.real{background:var(--jade);color:#fff}
+  .lk-face-tag.drama{background:var(--rose);color:#fff}
+  .lk-flip-btn{margin-top:11px;font-family:inherit;font-size:11.5px;font-weight:600;cursor:pointer;background:#fff;border:1px solid var(--line);color:var(--plum);border-radius:9px;padding:7px 12px;transition:.15s}
+  .lk-flip-btn:hover{border-color:var(--rose);background:#fffafc}
+  @media (prefers-reduced-motion:reduce){.lk-flip-inner{transition:none}.lk-petal{animation:none;opacity:0}}
   .learn-foot{text-align:center;font-size:12.5px;color:#9a8ea0;font-style:italic;margin-top:8px;max-width:640px;margin-left:auto;margin-right:auto}
   @media(max-width:640px){
     .lk-entry,.lk-entry:nth-child(even){grid-template-columns:1fr}
@@ -279,6 +299,7 @@
   <div class="eyebrow">A watch diary in progress</div>
   <h1>Kate's K-Drama Log<span class="kr">케이드라마 일지</span></h1>
   <p class="sub">Not so long ago, I felt empty — everything I loved had stopped feeling touchable. Then a whole world switched on. The puzzles. The heartache. The romance that keeps making me look over at my husband and realise he's my real-life K-drama lead. And the simple joy of being right here, fully in it, the moment I press play.</p>
+  <p class="spoiler-note">⚠ Spoilers ahead — I write like I've already watched it. Fair warning.</p>
   <div class="stats">
     <div class="stat"><b id="s-watched">–</b><span>Watched</span></div>
     <div class="stat"><b id="s-want">–</b><span>Want to watch</span></div>
@@ -396,6 +417,13 @@ const shows = [
    themes:["fake dating","contract romance","office romance","chaebol CEO"],
    note:"Solid. Liked it. Full review to come.",
    locs:[{p:"Korea — Seoul (office/city rom-com settings)"}]},
+
+  {t:"Love Next Door",kr:"엄마친구아들",yr:2024,ep:16,status:"watched",depth:"deep",rewatch:0,
+   genre:["Romance","Comedy","Healing","Slice-of-life"],
+   cast:["Jung So-min","Jung Hae-in"],
+   themes:["childhood friends to lovers","burnout","illness & recovery","coming home","family"],
+   note:"Jung So-min again — after Alchemy of Souls, here as Bae Seok-ryu, who comes home from California quietly burned out and recovering from cancer, and lands back in the childhood-friend-next-door of it all. The one that made me clock her as an actress I follow, not just a face in one show.",
+   locs:[{p:"Korea — Seoul (the old neighbourhood)"}]},
 
   {t:"Start-Up",kr:"스타트업",yr:2020,ep:16,status:"watched",depth:"deep",rewatch:0,
    genre:["Romance","Business","Coming-of-age"],
@@ -517,6 +545,7 @@ const POSTERS = {
   "Dynamite Kiss": "/qY3ltlWUB7u3ENocrMOkbGCGYnt.jpg",
   "Crash Course in Romance": "/88rQREli2xtoDV6HToJysp71ZL7.jpg",
   "Crash Landing on You": "/fgBNLPr6mC8pxuR79ENAJY4nBmj.jpg",
+  "Love Next Door": "/hikbLeofw2epfaEJptSkQ6b22IV.jpg",
 };
 const PROFILES = {
   "Lee Jae-wook": "/rGGgDCNlbTwENUXXlBD3g9bJDQj.jpg",
@@ -571,6 +600,7 @@ const PROFILES = {
   "Son Ye-jin": "/i6fASFvO3mUceZJvipn4RiLHA44.jpg",
   "Seo Ji-hye": "/55PUL5Yo6hoD2WJO5ysOiYULopg.jpg",
   "Kim Jung-hyun": "/6SN5PBj1ycfY4o9HlLK4joS5f1F.jpg",
+  "Jung Hae-in": "/7ZMUHR2q0XTWMxuqijWSVfWQv14.jpg",
 };
 // scatter drifting sparkles across the hero title-card
 (function(){
@@ -962,6 +992,7 @@ const BACKDROPS = {
   "Dynamite Kiss": "/cTFQKu8CLftXHUCIBGksfL8uhf3.jpg",
   "Crash Course in Romance": "/o3tS28maAJTDt9Zmnn4JvNv2Hix.jpg",
   "Crash Landing on You": "/3yEHM2HT2vrUtO93YzTJNgEfiZG.jpg",
+  "Love Next Door": "/blNanzce8lKnrfjDqWLdPNPy7mo.jpg",
 };
 const backdropUrl = t => BACKDROPS[t] ? IMG_BASE+"w780"+BACKDROPS[t] : null;
 // A drama can have several real filming spots — each gets its own pin.
@@ -983,6 +1014,7 @@ const PLACES = [
 
   {drama:"The Potato Lab", lat:37.7519, lng:128.8761, place:"Gangneung, Gangwon, South Korea", abroad:false},
   {drama:"Business Proposal", lat:37.5665, lng:126.978, place:"Seoul, South Korea", abroad:false},
+  {drama:"Love Next Door", lat:37.5509, lng:126.9410, place:"Seoul — the old neighbourhood, South Korea", abroad:false},
 
   // Start-Up — Pohang + Seoul
   {drama:"Start-Up", lat:35.9903, lng:129.5535, place:"Guryongpo, Pohang, South Korea", abroad:false},
@@ -1070,7 +1102,8 @@ const learning = [
     {hangul:"존댓말 · 반말", rom:"jondaetmal · banmal", gloss:"Formal speech vs. casual speech — chosen by closeness and status, not mood.",
      from:"Hometown Cha-Cha-Cha · King the Land · Business Proposal",
      trail:"Why a couple pausing before they speak felt like a plot beat → Korean speech levels → the moment you drop from formal to casual is an actual event, sometimes asked for out loud → and getting it wrong is a real social misstep.",
-     extra:"<b>Where I actually noticed it:</b> in Hometown Cha-Cha-Cha, Chief Hong speaks to nearly the whole village in warm, casual 반말 — that easy closeness is the whole point of the town. But when Hye-jin's city parents meet him, the same casualness lands as disrespect: an outsider skipping the formality their status expects. Same words, opposite meaning, depending entirely on who's listening.",
+     real:"Korean bakes closeness and status right into the grammar — you can't speak without choosing a level. Dropping from formal 존댓말 to casual 반말 is a deliberate threshold, sometimes negotiated out loud. Use the wrong one with the wrong person and it reads as disrespect.",
+     drama:"In Hometown Cha-Cha-Cha, Chief Hong speaks to the whole village in warm 반말 — that ease is the entire point of the town. But when Hye-jin's city parents meet him, the same casualness lands as an outsider skipping the formality their status expects. Same words, opposite meaning.",
      say:"In English, intimacy leaks in through tone. In Korean it's in the grammar — you can't speak to someone without encoding exactly how close you are. So the shift from 존댓말 to 반말 is a threshold you cross on purpose. The language makes you name the relationship before you can say a sentence. Imagine building a product that honest."},
 
     {hangul:"오빠 · 누나 · 선배", rom:"oppa · noona · sunbae", gloss:"You're addressed by your relationship, not your name.",
@@ -1090,24 +1123,29 @@ const learning = [
     {hangul:"재벌", rom:"chaebol", gloss:"Family-controlled conglomerates — a handful of bloodlines that steer much of Korea's economy, passed down like a throne.",
      from:"King the Land · Queen of Tears · Business Proposal",
      trail:"My first chaebol drama → what a chaebol family actually is → marrying in, succession wars, the whole dynastic machine → straight into the 1997 IMF crisis.",
-     extra:"<b>The real dynasties:</b> Samsung (the Lee family), Hyundai (Chung), LG (Koo), SK (Chey), Lotte (Shin) — founder-descended families still holding the controls of empires that touch phones, cars, ships, insurance, everything.<br><br><b>Their on-screen twins:</b> Queen of Tears' <i>Hong family</i> and their Queens Group retail empire; King the Land's <i>Gu family</i> and King Group (hotels, air, distribution); Business Proposal's food-conglomerate heir. The dramas file the serial numbers off the real thing — the marriages-of-alliance, the succession knives, the grandfather-chairman — and let you root for the heir anyway.",
+     real:"Samsung (the <i>Lee</i> family), Hyundai (Chung), LG (Koo), SK (Chey), Lotte (Shin) — founder-descended dynasties still gripping the controls of empires that touch phones, cars, ships, insurance, everything. A handful of bloodlines steering the whole economy.",
+     drama:"Queen of Tears' <i>Hong family</i> and their Queens Group retail empire; King the Land's <i>Gu family</i> and King Group (hotels, air, distribution); Business Proposal's food-conglomerate heir. Same marriages-of-alliance, same succession knives, same grandfather-chairman — and somehow you root for the heir anyway.",
      say:"This was the entry point for the entire obsession. I didn't know what a chaebol was, so I looked it up, and the thread never ended. The perfect suits and the marble lobbies are set dressing over a real, strange, concentrated way of holding power. You can't understand the romance until you understand the empire behind it."},
 
     {hangul:"IMF 위기", rom:"IMF wigi", gloss:"1997: South Korea nearly went bankrupt and took a record International Monetary Fund bailout — the trauma that reshaped the country.",
      from:"chaebol dramas, in the background",
      trail:"What actually happened: over-borrowed chaebol + a run on the won → Korea couldn't pay its foreign debts → a ~$58 billion IMF rescue with brutal conditions → mass layoffs and companies collapsing → ordinary people queued to donate their gold to help repay the loan. Koreans still call any hard stretch \"the IMF.\"",
+     real:"In 1997, over-borrowed chaebol and a run on the won left Korea unable to pay its foreign debts. A record ~$58bn IMF bailout came with brutal conditions; companies collapsed, millions lost jobs, and citizens lined up to donate their gold to help repay it.",
+     drama:"It's rarely the plot — it's the weather. Who has old money versus new, who quietly lost everything, what 'security' means to a character. The dramas don't explain the crisis; they're still shaped by it.",
      say:"Once you know the crisis is there, you see its shadow everywhere in these shows — who has money, who lost it, what security means to a Korean character. An entire generation's anxiety has a date on it. The dramas are quietly still processing it."},
 
     {hangul:"해녀", rom:"haenyeo", gloss:"Jeju's women free-divers — matriarchs of the sea, UNESCO-recognised.",
      from:"When Life Gives You Tangerines",
      trail:"Jeju setting → the diving women → a female-led island economy → a tradition now ageing out → Jeju's whole separate history from the mainland.",
-     extra:"<b>The real Jeju:</b> haenyeo have free-dived for centuries — holding their breath to 10 metres for abalone and seaweed — in a rare matriarchal economy where women were the earners. Most are now in their 60s–80s; UNESCO listed them in 2016 as a living culture that may not outlast them. The island carries a heavier history than its postcards, too — the 1948 Jeju 4·3 tragedy, still being reckoned with today.<br><br><b>On screen:</b> When Life Gives You Tangerines sets its heroine's whole hard, tender life against that world — the diving, the poverty, the mid-century Jeju most dramas never bother to show.",
+     real:"Jeju's haenyeo have free-dived for centuries — breath-held to 10 metres for abalone and seaweed — in a rare matriarchal economy where the women were the earners. Most are now in their 60s–80s; UNESCO listed them in 2016 as a culture that may not outlast them. The island carries a heavier past than its postcards, too: the 1948 Jeju 4·3 tragedy.",
+     drama:"When Life Gives You Tangerines sets its heroine's whole hard, tender life against that world — the diving, the poverty, the mid-century Jeju most dramas never bother to show.",
      say:"Women who dive without tanks, into cold water, for decades — and held up their families doing it. It reframed the whole show for me. The softness on screen sits on top of genuinely hard women. I want to stand on that shore and understand what it cost them."},
 
     {hangul:"학원 · 수능", rom:"hagwon · suneung", gloss:"Private cram schools (hagwon) and the Suneung — the single national exam that can decide a Korean kid's whole future.",
      from:"Crash Course in Romance",
      trail:"A math tutor with fans, bodyguards and a merch line → wait, tutoring is a celebrity industry? → hagwon culture → the Suneung, the one-day exam the entire country reorganises itself around → Daechi-dong, the Seoul district built on it.",
-     extra:"<b>The real thing:</b> Korea spends more on private education per child than almost anywhere on earth. Top 'star' instructors in Daechi-dong can out-earn CEOs; on Suneung day the stock market opens an hour late and planes are held during the English-listening section so nothing breaks the silence.<br><br><b>On screen:</b> Crash Course in Romance turns that pressure-cooker into a rom-com — a celebrity tutor and the mum next door. SKY Castle took the exact same world and made it a thriller. Both are basically documentaries with the edges filed off.",
+     real:"Korea spends more on private education per child than almost anywhere on earth. Top 'star' tutors in Daechi-dong out-earn CEOs; on Suneung day the stock market opens an hour late and planes are held during the English-listening section so nothing breaks the silence.",
+     drama:"Crash Course in Romance turns that pressure-cooker into a rom-com — a celebrity tutor and the mum next door. SKY Castle took the exact same world and made it a thriller. Both are basically documentaries with the edges filed off.",
      say:"This is the one that stopped me — a tutor with a fandom? Then I read what these families actually spend, and what it does to the kids, and the premise got a lot less cute. I want to understand this one properly before I press play."},
 
     {hangul:"환혼 · 조선", rom:"hwanhon · Joseon", gloss:"Soul-shifting fantasy set in a Joseon-flavoured world.",
@@ -1139,7 +1177,21 @@ learning.forEach(g=>{
         <div class="lk-gloss">${it.gloss}</div>
         <span class="lk-from">from ${it.from}</span>
         <div class="lk-trail"><span class="lk-trail-h">↓ down the rabbit hole</span>${it.trail}</div>
-        ${it.extra?`<div class="lk-real">${it.extra}</div>`:''}
+        ${(it.real&&it.drama)?`
+        <div class="lk-flip">
+          <div class="lk-flip-inner">
+            <div class="lk-face lk-real-face">
+              <span class="lk-face-tag real">🌏 real Korea</span>
+              <div class="lk-face-txt">${it.real}</div>
+              <button class="lk-flip-btn" type="button">Flip to the K-drama version ↻</button>
+            </div>
+            <div class="lk-face lk-drama-face">
+              <span class="lk-face-tag drama">🎬 on screen</span>
+              <div class="lk-face-txt">${it.drama}</div>
+              <button class="lk-flip-btn" type="button">↺ Flip back to real</button>
+            </div>
+          </div>
+        </div>`:''}
         <blockquote class="lk-say">${it.say}</blockquote>
       </div>`;
     track.appendChild(el);
@@ -1147,6 +1199,34 @@ learning.forEach(g=>{
   sec.appendChild(track);
   learnwrap.appendChild(sec);
 });
+
+// petals drifting behind each hangul panel
+document.querySelectorAll('.lk-char').forEach((panel,pi)=>{
+  const layer=document.createElement('span'); layer.className='lk-petals';
+  for(let i=0;i<5;i++){
+    const p=document.createElement('span'); p.className='lk-petal';
+    p.style.left=(((i*29+pi*13+7)%92)+2)+'%';
+    p.style.animationDelay=(((i*1.7+pi*0.6)%6)).toFixed(2)+'s';
+    p.style.animationDuration=(7+((i+pi)%5))+'s';
+    p.style.transform='scale('+(0.7+((i+pi)%3)*0.25)+')';
+    layer.appendChild(p);
+  }
+  panel.insertBefore(layer, panel.firstChild);
+});
+
+// flip cards: toggle + keep the container sized to the visible face
+function lkSetFlipHeight(flip){
+  const inner=flip.querySelector('.lk-flip-inner');
+  const face=flip.querySelector(flip.classList.contains('flipped')?'.lk-drama-face':'.lk-real-face');
+  if(face) inner.style.height=face.offsetHeight+'px';
+}
+document.querySelectorAll('.lk-flip').forEach(flip=>{
+  flip.querySelectorAll('.lk-flip-btn').forEach(btn=>{
+    btn.addEventListener('click',()=>{ flip.classList.toggle('flipped'); lkSetFlipHeight(flip); });
+  });
+});
+window.__initLearn=function(){ document.querySelectorAll('.lk-flip').forEach(lkSetFlipHeight); };
+window.addEventListener('resize',()=>{ if(document.getElementById('learning').classList.contains('active')) window.__initLearn(); });
 
 // ---------- tabs ----------
 document.querySelectorAll('.tab').forEach(t=>{
@@ -1157,6 +1237,7 @@ document.querySelectorAll('.tab').forEach(t=>{
     document.getElementById(t.dataset.tab).classList.add('active');
     if(t.dataset.tab==='actors' && window.__initGraph){ requestAnimationFrame(()=>window.__initGraph()); }
     if(t.dataset.tab==='locations' && window.__initLocMap){ window.__initLocMap(); }
+    if(t.dataset.tab==='learning' && window.__initLearn){ requestAnimationFrame(()=>window.__initLearn()); }
   };
 });
 </script>
