@@ -182,8 +182,30 @@
   .abroad-banner{background:linear-gradient(100deg,#dcefff,#eaf6ff);border:1px solid #bfe0f5;border-radius:14px;padding:16px 18px;margin-bottom:24px;font-size:14px;color:#2b5f7a}
   .abroad-banner b{color:#1d4a63}
 
+  /* learning korea */
+  .learn-intro{max-width:640px;margin:0 auto 30px;text-align:center}
+  .learn-intro p{font-family:'Gowun Batang',serif;font-size:16px;line-height:1.7;color:#4a3f4d;margin-bottom:12px}
+  .learn-intro p:first-child{font-size:19px;color:var(--plum)}
+  .learn-group{margin-bottom:34px}
+  .learn-group > h3{font-family:'Gowun Batang',serif;font-size:22px;color:var(--plum);margin-bottom:3px}
+  .learn-group > p.gsub{font-size:13px;color:#6b5f6f;margin-bottom:16px;font-style:italic}
+  .learn-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+  .learn-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 20px 18px;box-shadow:0 2px 10px var(--shadow);transition:.18s}
+  .learn-card:hover{transform:translateY(-3px);box-shadow:0 8px 22px var(--shadow)}
+  .learn-card .word{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+  .learn-card .hangul{font-family:'Gowun Batang',serif;font-size:30px;font-weight:700;color:var(--plum);line-height:1}
+  .learn-card .rom{font-size:13px;color:var(--jade);font-weight:600;font-style:italic}
+  .learn-card .gloss{font-size:14px;margin-top:8px;color:var(--ink);font-weight:500}
+  .learn-card .from{display:inline-block;margin-top:12px;font-size:11px;font-weight:600;letter-spacing:.02em;padding:4px 10px;border-radius:12px;background:var(--rose-soft);color:var(--plum)}
+  .learn-card .trail{margin-top:12px;font-size:12.5px;color:#6b5f6f;line-height:1.5}
+  .learn-card .trail b{color:var(--jade);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:10.5px;display:block;margin-bottom:2px}
+  .learn-card .say{margin-top:13px;padding:12px 14px;background:#fbf8f4;border-left:3px solid var(--rose);border-radius:0 8px 8px 0;font-size:13.5px;line-height:1.6;color:#4a3f4d;font-family:'Gowun Batang',serif}
+  .learn-foot{text-align:center;font-size:12.5px;color:#9a8ea0;font-style:italic;margin-top:8px}
+
   footer{text-align:center;padding:40px 20px 10px;font-size:12.5px;color:#9a8ea0}
   footer a{color:var(--plum);font-weight:600}
+  footer .attrib{margin-top:10px;font-size:11px;color:#b3a9b8;max-width:520px;margin-left:auto;margin-right:auto}
+  footer .attrib a{color:#8a7f90;font-weight:500}
 </style>
 </head>
 <body>
@@ -206,6 +228,7 @@
   <button class="tab active" data-tab="shows">Shows</button>
   <button class="tab" data-tab="actors">Actor Web</button>
   <button class="tab" data-tab="locations">Locations</button>
+  <button class="tab" data-tab="learning">Learning Korea</button>
 </nav>
 
 <div class="wrap">
@@ -230,9 +253,23 @@
     <div id="locwrap"></div>
   </section>
 
+  <!-- LEARNING KOREA -->
+  <section class="panel" id="learning">
+    <div class="learn-intro">
+      <p>I didn't set out to study Korea. I set out to finish an episode.</p>
+      <p>But my brain doesn't watch — it maps. A word I couldn't translate. A family structure that made no sense to me. A title even Koreans said they couldn't read. Every one of those became a tab I had to open.</p>
+      <p>So this is the trail. Each drama handed me something I didn't have a word for — and each word sent me somewhere I didn't expect to go. The subtitles were never the lesson. They were the door.</p>
+    </div>
+    <div id="learnwrap"></div>
+    <p class="learn-foot">Romanisations are rough, on purpose — this is a learner's notebook, not a textbook. Corrections welcome; that's the whole point.</p>
+  </section>
+
 </div>
 
-<footer>Built from your Netflix likes · edit freely · 방가방가 · <a href="./index.html">back to katejulia.com</a></footer>
+<footer>
+  Built from your Netflix likes · edit freely · 방가방가 · <a href="./index.html">back to katejulia.com</a>
+  <div class="attrib">Posters &amp; cast photos via <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDB</a>. This product uses the TMDB API but is not endorsed or certified by TMDB.</div>
+</footer>
 
 <script>
 const shows = [
@@ -573,6 +610,93 @@ document.getElementById('s-watched').textContent=shows.filter(s=>s.status==='wat
 document.getElementById('s-want').textContent=shows.filter(s=>s.status==='want').length;
 document.getElementById('s-actors').textContent=actorEntries.length;
 document.getElementById('s-abroad').textContent=shows.filter(s=>s.locs.some(l=>l.abroad)).length;
+
+// ---------- learning korea ----------
+const learning = [
+  {group:"Words I keep",
+   sub:"The ones with no clean English swap — so I kept the Korean.",
+   items:[
+    {hangul:"정", rom:"jeong", gloss:"The slow, unspoken bond that builds between people who stay.",
+     from:"Hometown Cha-Cha-Cha",
+     trail:"Why a whole seaside village behaves like one nervous system → Korean relational culture → the idea that closeness is something you accumulate, not declare.",
+     say:"There's no word for it in English because English keeps love and obligation in separate boxes. Korean doesn't. Jeong is the thing I've been trying to design for this whole time — connection as infrastructure, built quietly, over time. I just didn't have the word until a fishing village handed it to me."},
+
+    {hangul:"눈치", rom:"nunchi", gloss:"The skill of reading a room — what's felt but not said.",
+     from:"Business Proposal · every office scene",
+     trail:"Why so much of the comedy is in what nobody says out loud → nunchi as a taught social sense → the fact that Korea names, and values, a skill the West treats as invisible.",
+     say:"They have a word for reading the room. A whole cultural competency, named and respected. I spent years being told I lacked it, then years learning to fake it. Turns out it isn't a personality trait you're born with or without — it's a system you can learn. Korea just admits that out loud."},
+
+    {hangul:"한", rom:"han", gloss:"Inherited sorrow, carried and endured rather than fixed.",
+     from:"When Life Gives You Tangerines",
+     trail:"Why Korean melodrama sits in grief without rushing to resolve it → han as a collective, generational feeling → a culture that lets sadness be structural, not a problem to optimise away.",
+     say:"We medicate sorrow. They metabolise it. Han isn't a bad day — it's what a whole people carries and keeps living inside. Watching a drama refuse to hurry someone out of their grief did something to me. Not everything painful is a bug to fix."},
+
+    {hangul:"폭싹 속았수다", rom:"pokssak sogatsuda", gloss:"Jeju dialect: \"you've worked so hard.\" The real title of Tangerines.",
+     from:"When Life Gives You Tangerines",
+     trail:"Why the Korean title looked unreadable → it's Jeju satori, not standard Korean → most Koreans can't parse it either → Jeju as a place with its own tongue, not just its own tangerines.",
+     say:"The title is a dialect so specific that the mainland needs subtitles for it. A show about a hard, tender life, named in a language only the island fully speaks. Standard Korean would've said 수고하셨습니다. The point is that it didn't."},
+   ]},
+
+  {group:"How the language holds the relationship",
+   sub:"Korean puts who-you-are-to-each-other inside the grammar. That undid me a little.",
+   items:[
+    {hangul:"존댓말 · 반말", rom:"jondaetmal · banmal", gloss:"Formal speech vs. casual speech — chosen by closeness, not mood.",
+     from:"King the Land · Business Proposal",
+     trail:"Why a couple pausing before they speak felt like a plot beat → Korean speech levels → the moment you drop from formal to casual is an actual event, sometimes asked for out loud.",
+     say:"In English, intimacy leaks in through tone. In Korean it's in the grammar — you can't speak to someone without encoding exactly how close you are. So the shift from 존댓말 to 반말 is a threshold you cross on purpose. The language makes you name the relationship before you can say a sentence. Imagine building a product that honest."},
+
+    {hangul:"오빠 · 누나 · 선배", rom:"oppa · noona · sunbae", gloss:"You're addressed by your relationship, not your name.",
+     from:"Start-Up · most of them",
+     trail:"Why almost no one uses first names → address-by-role → hierarchy and warmth baked into how you're allowed to call someone.",
+     say:"You don't call people by their name here — you call them by where they stand to you. Older brother. Senior. The one who came before. It sounds rigid until you feel it: everyone always knows exactly where they are in relation to everyone else. No guessing. For a brain like mine, that's not a constraint. That's relief."},
+   ]},
+
+  {group:"History it sent me into",
+   sub:"A drama would drop a word, and three hours later I'd be deep in a Wikipedia hole I didn't plan on.",
+   items:[
+    {hangul:"재벌", rom:"chaebol", gloss:"Family-controlled conglomerates that run much of the economy.",
+     from:"King the Land · Queen of Tears",
+     trail:"My first chaebol drama → what a chaebol family actually is → marrying in, succession, the whole dynastic machine → straight into the 1997 IMF crisis.",
+     say:"This was the entry point for the entire obsession. I didn't know what a chaebol was, so I looked it up, and the thread never ended. The perfect suits and the marble lobbies are set dressing over a real, strange, concentrated way of holding power. You can't understand the romance until you understand the empire behind it."},
+
+    {hangul:"IMF 위기", rom:"IMF wigi", gloss:"The 1997 Asian financial crisis — a national scar Koreans still date time by.",
+     from:"chaebol dramas, in the background",
+     trail:"Chaebol → how they nearly collapsed in '97 → the IMF bailout → gold-collecting drives, mass layoffs → why \"the IMF\" is shorthand for a whole era of Korean hardship.",
+     say:"Once you know the crisis is there, you see its shadow everywhere in these shows — in who has money, who lost it, what security means to a Korean character. An entire generation's anxiety has a date on it. The dramas are quietly still processing it."},
+
+    {hangul:"해녀", rom:"haenyeo", gloss:"Jeju's women free-divers — matriarchs of the sea, UNESCO-recognised.",
+     from:"When Life Gives You Tangerines",
+     trail:"Jeju setting → the diving women → a female-led island economy → a tradition now ageing out → Jeju's whole separate history from the mainland.",
+     say:"Women who dive without tanks, into cold water, for decades — and held up their families doing it. It reframed the whole show for me. The softness on screen sits on top of genuinely hard women. I want to stand on that shore and understand what it cost them."},
+
+    {hangul:"환혼 · 조선", rom:"hwanhon · Joseon", gloss:"Soul-shifting fantasy set in a Joseon-flavoured world.",
+     from:"Alchemy of Souls",
+     trail:"The fictional \"Daeho\" nation → its clear Joseon-dynasty coding → hanbok, mage-scholars, court hierarchy → real Joseon history underneath the fantasy paint.",
+     say:"They built a fake kingdom out of real history, and I wanted the real history. The magic is invented; the world it's dressed in isn't. Five centuries of Joseon are holding up a fantasy about swapping souls — and honestly, learning the real scaffolding made the show better, not smaller."},
+   ]},
+];
+
+const learnwrap = document.getElementById('learnwrap');
+learning.forEach(g=>{
+  const sec=document.createElement('div');
+  sec.className='learn-group';
+  sec.innerHTML=`<h3>${g.group}</h3><p class="gsub">${g.sub}</p>`;
+  const grid=document.createElement('div');
+  grid.className='learn-cards';
+  g.items.forEach(it=>{
+    const c=document.createElement('div');
+    c.className='learn-card';
+    c.innerHTML=`
+      <div class="word"><span class="hangul">${it.hangul}</span><span class="rom">${it.rom}</span></div>
+      <div class="gloss">${it.gloss}</div>
+      <span class="from">from ${it.from}</span>
+      <div class="trail"><b>Sent me down</b>${it.trail}</div>
+      <div class="say">${it.say}</div>`;
+    grid.appendChild(c);
+  });
+  sec.appendChild(grid);
+  learnwrap.appendChild(sec);
+});
 
 // ---------- tabs ----------
 document.querySelectorAll('.tab').forEach(t=>{
