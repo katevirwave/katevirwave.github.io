@@ -182,6 +182,42 @@
 
   /* actor web — force graph */
   .note{font-size:13px;color:#6b5f6f;margin-bottom:18px;font-style:italic}
+  /* actor web — view toggle + list */
+  .aw-toolbar{display:flex;justify-content:center;margin-bottom:18px}
+  .aw-toggle{display:inline-flex;background:#fff;border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px;box-shadow:0 2px 8px var(--shadow)}
+  .aw-tgl{font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;border:none;background:none;color:var(--plum);opacity:.55;padding:7px 17px;border-radius:9px;transition:.15s}
+  .aw-tgl:hover{opacity:.85}
+  .aw-tgl.on{opacity:1;background:var(--rose-soft)}
+  .aw-filters{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px}
+  .aw-search{flex:1;min-width:170px;font-family:inherit;font-size:14px;padding:11px 15px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+  .aw-search:focus-visible{outline:2px solid var(--rose);outline-offset:1px;border-color:var(--rose)}
+  .aw-fchips{display:flex;gap:6px;flex-wrap:wrap}
+  .aw-sort{padding-top:10px;padding-bottom:10px;font-size:14px}
+  .aw-row{display:grid;grid-template-columns:200px 1fr;gap:16px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:12px;box-shadow:0 2px 10px var(--shadow)}
+  .aw-row.hub{border-color:var(--gold);border-width:1.5px}
+  .aw-actor{display:flex;align-items:center;gap:12px;min-width:0}
+  .aw-av{flex:0 0 auto;width:46px;height:46px;border-radius:50%;overflow:hidden;position:relative;display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(160deg,var(--plum),#2d1a33)}
+  .aw-av img{width:100%;height:100%;object-fit:cover;object-position:center top;position:relative;z-index:2}
+  .aw-ini{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;z-index:1}
+  .aw-name{font-family:'Gowun Batang',serif;font-size:17px;font-weight:700;color:var(--plum);line-height:1.15}
+  .aw-conn{font-size:11.5px;color:#8a7f90;margin-top:2px}
+  .aw-row.hub .aw-conn{color:var(--gold);font-weight:600}
+  .aw-films{display:flex;gap:10px;overflow-x:auto;padding-bottom:4px}
+  .aw-film{flex:0 0 auto;width:74px;text-align:center}
+  .aw-film.faded{opacity:.6}
+  .aw-poster{width:74px;height:104px;border-radius:8px;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--rose-soft),#e7d5df);box-shadow:0 2px 8px var(--shadow)}
+  .aw-poster img{width:100%;height:100%;object-fit:cover;display:block}
+  .aw-poster.noimg img{display:none}
+  .aw-poster-fb{display:none;position:absolute;inset:0;padding:5px;align-items:center;justify-content:center;text-align:center;font-family:'Gowun Batang',serif;font-size:9px;line-height:1.2;color:var(--plum)}
+  .aw-poster.noimg .aw-poster-fb{display:flex}
+  .aw-tag{display:inline-block;margin-top:5px;font-size:8.5px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;padding:2px 6px;border-radius:8px}
+  .aw-tag.seen{background:var(--jade);color:#fff}
+  .aw-tag.want{background:var(--gold);color:#fff}
+  .aw-tag.started{background:#8a7bb8;color:#fff}
+  .aw-tag.new{background:#efe9f0;color:#8a7f90}
+  .aw-ftitle{font-size:9.5px;color:#6b5f6f;margin-top:4px;line-height:1.2;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .aw-empty{text-align:center;color:#9a8ea0;padding:30px;font-style:italic}
+  @media(max-width:640px){ .aw-row{grid-template-columns:1fr;gap:12px} }
   .graph-wrap{position:relative;width:100%;height:min(72vh,620px);background:radial-gradient(circle at 50% 40%,#fffdfb,#f3ece3);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 4px 18px var(--shadow);touch-action:none}
   .graph-wrap canvas{display:block;width:100%;height:100%;cursor:grab}
   .graph-wrap canvas.grabbing{cursor:grabbing}
@@ -303,7 +339,7 @@
 <header>
   <div class="eyebrow">A watch diary in progress</div>
   <h1>Kate's K-Drama Log<span class="kr">케이드라마 일지</span></h1>
-  <p class="sub">Not so long ago, I felt empty — everything I loved had stopped feeling touchable. Then a whole world switched on. The puzzles. The heartache. The romance that keeps making me look over at my husband and realise he's my real-life K-drama lead. And the simple joy of being right here, fully in it, the moment I press play.</p>
+  <p class="sub">Not so long ago, I felt empty — everything I loved had stopped feeling touchable. Then a whole world switched on. The puzzles. The heartache. The romance that keeps making me look over at my husband and realise he's my real-life K-drama lead. And being all the way here, the second I press play.</p>
   <p class="spoiler-note">⚠ Spoilers ahead — I write like I've already watched it. Fair warning.</p>
   <div class="stats">
     <div class="stat"><b id="s-watched">–</b><span>Watched</span></div>
@@ -330,25 +366,48 @@
 
   <!-- ACTORS -->
   <section class="panel" id="actors">
-    <p class="note">Every actor, every show, wired together. Gold nodes are the ones you've seen in more than one drama — the knots where your web pulls tight. Drag a node, throw it, watch the rest follow. Scroll to zoom, drag the empty space to pan.</p>
-    <div class="graph-wrap" id="actorweb">
-      <canvas id="graphCanvas"></canvas>
-      <div class="graph-legend">
-        <div class="row"><span class="dot show"></span> Show</div>
-        <div class="row"><span class="dot actor"></span> Actor</div>
-        <div class="row"><span class="dot hub"></span> Seen in 2+ shows</div>
+    <div class="aw-toolbar">
+      <div class="aw-toggle">
+        <button class="aw-tgl on" data-view="web" type="button">◍ Web</button>
+        <button class="aw-tgl" data-view="list" type="button">☰ List</button>
       </div>
-      <button class="graph-reset" id="graphReset">Reset</button>
-      <div class="graph-hint">drag · scroll to zoom · click to pin</div>
+    </div>
+
+    <div id="awWeb">
+      <p class="note">Every actor, every show, wired together. Gold nodes are the actors I've seen in more than one drama — the knots where the web pulls tight. Drag a node, throw it, watch the rest follow. Scroll to zoom, drag the empty space to pan.</p>
+      <div class="graph-wrap" id="actorweb">
+        <canvas id="graphCanvas"></canvas>
+        <div class="graph-legend">
+          <div class="row"><span class="dot show"></span> Show</div>
+          <div class="row"><span class="dot actor"></span> Actor</div>
+          <div class="row"><span class="dot hub"></span> Seen in 2+ shows</div>
+        </div>
+        <button class="graph-reset" id="graphReset">Reset</button>
+        <div class="graph-hint">drag · scroll to zoom · click to pin</div>
+      </div>
+    </div>
+
+    <div id="awList" hidden>
+      <p class="note">Every actor you've collected, and the roles behind them. The posters in your log are marked; the faded ones are shows you haven't watched — rabbit holes still open. Search a name, filter, or sort by who ties your web together most.</p>
+      <div class="aw-filters">
+        <input id="awSearch" class="aw-search" type="search" placeholder="Search an actor…" aria-label="Search an actor">
+        <div class="aw-fchips" id="awFchips">
+          <button class="chip on" data-f="all" type="button">All roles</button>
+          <button class="chip" data-f="seen" type="button">In my log</button>
+          <button class="chip" data-f="new" type="button">New to me</button>
+        </div>
+        <select id="awSort" class="lk-select aw-sort" aria-label="Sort actors"><option value="conn">Most connected</option><option value="az">A–Z</option></select>
+      </div>
+      <div id="awListBody"></div>
     </div>
   </section>
 
   <!-- LOCATIONS -->
   <section class="panel" id="locations">
-    <p class="note">Every pin is a real place a drama was actually filmed. Drag the map, zoom in, click a pin for the scene that was shot there — then hit <b>Look around here</b> to stand in the real spot. Rose pins are Korea; blue pins are the ones abroad.</p>
+    <p class="note">Every pin is a real place a drama was filmed. Drag the map, zoom in, click a pin for the scene that was shot there — then hit <b>Look around here</b> to stand in the real spot. Rose pins are Korea; blue pins are the ones abroad.</p>
     <div id="locMap"></div>
     <div class="abroad-banner">
-      <b>Your travel angle lives here.</b> Most K-drama coverage never leaves Korea. The blue pins — Germany, Italy, Thailand, Japan — are the ones you could pilgrimage to on trips you're already taking — starting with Germany for <i>Queen of Tears</i>.
+      <b>This is the part I'd actually travel for.</b> Most K-drama coverage never leaves Korea. The blue pins — Germany, Italy, Thailand, Japan — are the ones I could pilgrimage to on trips I'm already taking — starting with Germany for <i>Queen of Tears</i>.
     </div>
     <div id="locwrap"></div>
   </section>
@@ -358,7 +417,7 @@
     <div class="learn-intro">
       <p>Confession: I'm not studying Korean. Not yet.</p>
       <p>But I can't get through an episode without stopping to look something up — a feeling English has no word for, a family structure that made no sense to me, a crisis every character seems to remember. So this isn't vocabulary I'm memorising. It's everything the dramas made me want to <i>understand</i> about Korea: its culture, its history, and the way the language actually works.</p>
-      <p>The rabbit holes, explained — pick a shelf to wander.</p>
+      <p>The rabbit holes, sorted onto shelves. Pick one.</p>
     </div>
     <div class="lk-nav" id="lkNav"></div>
     <div id="learnwrap"></div>
@@ -368,7 +427,7 @@
 </div>
 
 <footer>
-  Built from your Netflix likes · edit freely · 방가방가 · <a href="./index.html">back to katejulia.com</a>
+  Started from my Netflix likes · 방가방가 · <a href="./index.html">back to katejulia.com</a>
   <div class="attrib">Posters &amp; cast photos via <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDB</a>. This product uses the TMDB API but is not endorsed or certified by TMDB.</div>
 </footer>
 
@@ -473,7 +532,7 @@ const shows = [
    genre:["Romance","Comedy","Melodrama"],
    cast:["Hyun Bin","Son Ye-jin","Seo Ji-hye","Kim Jung-hyun"],
    themes:["North–South divide","forbidden love","chaebol heiress","military"],
-   note:"The famous one — a South Korean heiress paraglides over the DMZ and crash-lands in North Korea. It couldn't be filmed there: the North was built as a set in Taebaek and shot across Switzerland and Mongolia. Set partly in the North, but never actually filmed there. On the list.",
+   note:"The famous one — a South Korean heiress paraglides over the DMZ and crash-lands in North Korea. It couldn't be filmed there: the North was built as a set in Taebaek and shot across Switzerland and Mongolia. On the list.",
    locs:[{p:"Switzerland — Iseltwald, Lake Brienz & Sigriswil",abroad:true},{p:"Mongolia — the steppe, standing in for the North",abroad:true},{p:"Korea — Taebaek (the North Korean village set) & Seoul"}]},
 
   {t:"It's Okay to Not Be Okay",kr:"사이코지만 괜찮아",yr:2020,ep:16,status:"want",depth:null,rewatch:0,
@@ -637,7 +696,7 @@ const RATE = {
   binged:   {icon:'🍿', label:'watched every minute'},
   ff:       {icon:'⏩', label:'fast-forwarded parts'},
   cinematic:{icon:'🎬', label:'cinematic'},
-  char:     {icon:'🌱', label:'great character development'},
+  char:     {icon:'🌱', label:'characters who actually change'},
   side:     {icon:'✨', label:'scene-stealing side characters'},
   culture:  {icon:'🇰🇷', label:'sparked my Korea curiosity'},
 };
@@ -751,6 +810,62 @@ shows.forEach(s=>s.cast.forEach(a=>{
 }));
 const actorEntries=Object.entries(actorMap).sort((a,b)=>b[1].length-a[1].length || a[0].localeCompare(b[0]));
 
+// Each actor's top ~5 TV roles from TMDB (episode_count>=3), for the Actor Web list view.
+const FILMS = {
+  "Lee Jae-wook": [["Alchemy of Souls","2022","/gvOZN1NlAoL8iz9ghpES1zWA3w3.jpg"],["Doctor on the Edge","2026","/zwEYhe03vN1rbjF8Bsf9Dng0W8e.jpg"],["Extraordinary You","2019","/vse6Aq2BGz1CI2pa1JbOmyjXM37.jpg"],["Search: WWW","2019","/pJWBoZjY5kUivY47KWxiaJ08bvs.jpg"],["Move to Heaven","2021","/gUvA20jcHABFPjYMIiZl5o9tWi3.jpg"]],
+  "Jung So-min": [["Alchemy of Souls","2022","/gvOZN1NlAoL8iz9ghpES1zWA3w3.jpg"],["Love Next Door","2024","/hikbLeofw2epfaEJptSkQ6b22IV.jpg"],["Would You Marry Me?","2025","/pfN6Ln8a6Xw23LQw0vL1YL8Kwqh.jpg"],["My Father is Strange","2017","/sPazX2eFbL5NPAYBDzAlXaT7Vo7.jpg"],["Because This Is My First Life","2017","/5RZRH8Pm9S5xLB2ZXtv3egHkTaF.jpg"]],
+  "Go Youn-jung": [["Sweet Home","2020","/7rNWciOcHOH97XIeS1KFuMmjyky.jpg"],["Alchemy of Souls","2022","/gvOZN1NlAoL8iz9ghpES1zWA3w3.jpg"],["Moving","2023","/vf9SNXNAFqzKBGksFwrXhkg9cb7.jpg"],["We Are All Trying Here","2026","/c2jswCrMoqDEBEXwSAlrCWtXdfZ.jpg"],["Can This Love Be Translated?","2026","/zgUh4cgalSzBjbsT5P0qmU7Rjzk.jpg"]],
+  "Hwang Min-hyun": [["Alchemy of Souls","2022","/gvOZN1NlAoL8iz9ghpES1zWA3w3.jpg"],["Study Group","2025","/nZDeIfKCzp0qhu4N3HxrcKWN59J.jpg"],["My Lovely Liar","2023","/msYlN0cIpuTKlWYnEStdoBuHmvX.jpg"],["Wanna City","2017","/f1aK7ySWE1gShwCckpBMdWkjhle.jpg"],["Live On","2020","/dop9lujlpXaIGZImoTgUteHXt7a.jpg"]],
+  "Kim Seon-ho": [["When Life Gives You Tangerines","2025","/1VC3sEFxYXYDqQUCAnvWfUsYg1s.jpg"],["Welcome to Waikiki","2018","/pggzZamoLNTiRgoYz8WVCISMCqv.jpg"],["Can This Love Be Translated?","2026","/zgUh4cgalSzBjbsT5P0qmU7Rjzk.jpg"],["Hometown Cha-Cha-Cha","2021","/en6lrlJ1DhyvkeZEqrk3R6EJz1p.jpg"],["Start-Up","2020","/hxJQ3A2wtreuWDnVBbzzXI3YlOE.jpg"]],
+  "Shin Min-a": [["Hometown Cha-Cha-Cha","2021","/en6lrlJ1DhyvkeZEqrk3R6EJz1p.jpg"],["Our Blues","2022","/sT5Mlt5UmKiGfBisccwmD4LnPRD.jpg"],["Oh My Venus","2015","/hH9kD6E3iruCvZHNmZVhubroVRV.jpg"],["No Gain No Love","2024","/ru3ZYJpzbmv2VpGsj1rmO5Hcpky.jpg"],["Karma","2025","/nZ7SFBgEhgSCaQFFActjcBQeIV1.jpg"]],
+  "Lee Sang-yi": [["Bloodhounds","2023","/uSQzD7TXsL96J5ggDrJFdUs8uXU.jpg"],["My Demon","2023","/xBnscv5BrJREKVSvh0le61y4KDk.jpg"],["The Legend of Kitchen Soldier","2026","/nmYgPJiZebWUtL6D72D0Qp9ce0H.jpg"],["Once Again","2020","/oV3yxKG56IMQvdXzYn2GodT79rb.jpg"],["Good Boy","2025","/59MAdHaHepsz3uDCU1LyoNQcLlT.jpg"]],
+  "Lee Jun-ho": [["King the Land","2023","/tW8BMRCYSe6nySvZ749pzc31x2m.jpg"],["Cashero","2025","/dm6RoaKgkGUxckamMDzsbqtLhFv.jpg"],["Wok of Love","2018","/dF0rzADm1dZXeJzKwaI0WSSKp8S.jpg"],["Typhoon Family","2025","/wPbW5Ll3xNP1PT99Odh6kawkJSM.jpg"],["The Red Sleeve","2021","/1AZK2bnsmu5PIbkfxFkKbrjf5Oo.jpg"]],
+  "Im Yoon-ah": [["You are My Destiny","2008","/pU92oXGcffbJuZkWniyqMtQPIss.jpg"],["Big Mouth","2022","/gJDvYUJcPEDJzB3SnQokifPUtRF.jpg"],["King the Land","2023","/tW8BMRCYSe6nySvZ749pzc31x2m.jpg"],["Bon Appétit, Your Majesty","2025","/exUXEOierAwZ597010TLQka9TFy.jpg"],["The K2","2016","/oPaN9oWUMsibFfoaXMpv5kG5GsK.jpg"]],
+  "Go Won-hee": [["King the Land","2023","/tW8BMRCYSe6nySvZ749pzc31x2m.jpg"],["Welcome to Waikiki","2018","/pggzZamoLNTiRgoYz8WVCISMCqv.jpg"],["My Dear Cat","2014","/a8wHHvIVFyK55M2O3O67vC82g3u.jpg"],["The Stars Are Shining","2015","/8QOc5Fv0URcLS1JMKq3iciCjoKX.jpg"],["Revolutionary Sisters","2021","/oOAF4ZeOpoLIBg0tNvmYRHvnLsC.jpg"]],
+  "Ahn Se-ha": [["King the Land","2023","/tW8BMRCYSe6nySvZ749pzc31x2m.jpg"],["Voice","2017","/gMgzUEvNljCkNjUDlGaYyLn2zyz.jpg"],["She Was Pretty","2015","/sIsUgKIFYAASpvvV5Aaip2xa7Zd.jpg"],["Love in the Moonlight","2016","/137UF33ilpoznUzDVKcJ3mcdRbN.jpg"],["Dali & Cocky Prince","2021","/r6X8JNFfgiq91MDtXBm3fzzmyGB.jpg"]],
+  "Lee Sun-bin": [["Work Later, Drink Now","2021","/m6c69FvtN5kMCryjp1DyOssthij.jpg"],["Squad 38","2016","/lS4b6xYREBdfF2hQWsbZtkovWUP.jpg"],["To the Moon","2025","/osxUZY8lESNEzethCZkj6gP3C2Q.jpg"],["The Potato Lab","2025","/c20CqgsCKKEFBKNOknL6GFSgL35.jpg"],["Criminal Minds","2017","/hY9QGvObdABYNLYYnA3o9d7uRqV.jpg"]],
+  "Kang Tae-oh": [["Extraordinary Attorney Woo","2022","/zuNOQVI4rEaqwknrfQUVKtlKE2C.jpg"],["The Dearest Lady","2015","/ubu8jnSKTumfeXVJx01BtmnKGVJ.jpg"],["The Tale of Nokdu","2019","/r8BhphHIruCL2jM4sd1Zs6sMJov.jpg"],["Doom at Your Service","2021","/tgsWD4dJI5YFY8Kyk6vVjZoIKfO.jpg"],["Queen's Flower","2015","/r2QSaBml7MccMP0MDX0LEixz3Eb.jpg"]],
+  "Ahn Hyo-seop": [["Dr. Romantic","2016","/9fbRJgZ2zDTnSUId1bOwsllHNr7.jpg"],["Business Proposal","2022","/iLh7L8ZuvgdxFaM9sImyv2iKYLe.jpg"],["Sold Out on You","2026","/bcnneY1DWQzmwfvsuhGGnwv9KYD.jpg"],["My Father is Strange","2017","/sPazX2eFbL5NPAYBDzAlXaT7Vo7.jpg"],["Still 17","2018","/rufDz8f0SD86RyFwDNSQUROK51s.jpg"]],
+  "Kim Se-jeong": [["The Uncanny Counter","2020","/bsbuXbQqryQ8aJlwXFkFXbrYko1.jpg"],["Business Proposal","2022","/iLh7L8ZuvgdxFaM9sImyv2iKYLe.jpg"],["Busted!","2018","/aBb8sRaHgxfTYrFzGG9kIEE1a1t.jpg"],["Moon River","2025","/8oY99sA51CEpkmDpybpakfhEzsl.jpg"],["School 2017","2017","/3EGaQzyd4GwOy2CD4ORxRPItyH.jpg"]],
+  "Kim Min-kyu": [["Bitch X Rich","2023","/gigYIx6DCgs9cFmvFEXTBo2Zwkm.jpg"],["Love, Take Two","2025","/a96ihrij1gaDX9J7JLsG5lFbXjM.jpg"],["The Fabulous","2022","/1LnPNXQ8upwUT1dYX2ZopQXjmt8.jpg"],["Seasons of Blossom","2022","/nmT7FvzCC2ib8jCJUateiSG1CXs.jpg"],["Maestra: Strings of Truth","2023","/2PZq6AEyfGeldlo5SvQjFRL0gT7.jpg"]],
+  "Seol In-ah": [["Twinkling Watermelon","2023","/bwTzW1wTgUxUOQruhT8DvinUYgR.jpg"],["Business Proposal","2022","/iLh7L8ZuvgdxFaM9sImyv2iKYLe.jpg"],["Strong Woman Do Bong-Soon","2017","/sPdS6oUdXfBNGKROE5RY5s5laqx.jpg"],["Sunny Again Tomorrow","2018","/qBKvzoJDg1BaQUyB3b68AVy0bSJ.jpg"],["Beautiful Love, Wonderful Life","2019","/aXlXQDiXxWcvACcWXCBI5rVARbO.jpg"]],
+  "Bae Suzy": [["Genie, Make a Wish","2025","/opop2u7Jav6lMNL8fSBTzOeFBDz.jpg"],["While You Were Sleeping","2017","/wFp7pVJbB5aD5y0A0AEBP4vmzCg.jpg"],["Vagabond","2019","/8Sud9wqG7WZMXesZhPZ4lergRvp.jpg"],["Anna","2022","/2Dq9A4l5KaoBz1LerrDcBVgHdJm.jpg"],["Dream High","2011","/vqlPVNTnYNoXTqyIaW2oN1qV2lZ.jpg"]],
+  "Nam Joo-hyuk": [["The East Palace","2026","/yfYohBszGqoAW8oM0qydOtJ4kPh.jpg"],["Scarlet Heart: Ryeo","2016","/sTW7wLyD95JRCyUEdTfxCWQWsvd.jpg"],["Weightlifting Fairy Kim Bok-joo","2016","/iLF6Jz6nL8uD8jKo6EvQ3XutDcR.jpg"],["Twenty Five Twenty One","2022","/yCQFnmYhYf7XALMka2EoBRAFmPO.jpg"],["Vigilante","2023","/lauvBkCZhcZHj5uUwUxwr5GTPps.jpg"]],
+  "Kang Han-na": [["Bon Appétit, Your Majesty","2025","/exUXEOierAwZ597010TLQka9TFy.jpg"],["Scarlet Heart: Ryeo","2016","/sTW7wLyD95JRCyUEdTfxCWQWsvd.jpg"],["Cashero","2025","/dm6RoaKgkGUxckamMDzsbqtLhFv.jpg"],["Mom","2015","/zDpwZjeXvKPoueuPmizWt1KL6Yq.jpg"],["My Roommate Is a Gumiho","2021","/ep3TFArcl7jYipJymsKp2zuGv1m.jpg"]],
+  "Kim Soo-hyun": [["Queen of Tears","2024","/7ZXLZ3KYL3IVvsSHBZaHjcNQzNU.jpg"],["Kimchi Cheese Smile","2007","/7B752mEbXCuBHCd6gjhOYZ2YHjG.jpg"],["Giant","2010","/5ZNwvE1zAphNaxJebEMxf0LpqFR.jpg"],["It's Okay to Not Be Okay","2020","/8XSJfLeImX8NszDUFnK1lbseCi8.jpg"],["The Moon Embracing the Sun","2012","/zr6XJUtT61gWhWwjPIraY13SkAE.jpg"]],
+  "Kim Ji-won": [["Queen of Tears","2024","/7ZXLZ3KYL3IVvsSHBZaHjcNQzNU.jpg"],["High Kick: Revenge of the Short Legged","2011","/29IyBGkje3h8Tqj590MOoccT9re.jpg"],["Descendants of the Sun","2016","/xxGomfml0x9iyPBS4StBjbRRu65.jpg"],["The Heirs","2013","/n4RX9QVXjHbMB31TDWqqRLjshgu.jpg"],["Arthdal Chronicles","2019","/k5bKj5U2Z7AgkK3Mekji8xDHOuD.jpg"]],
+  "Park Sung-hoon": [["Squid Game","2021","/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg"],["The Glory","2022","/uUM4LVlPgIrww07OoEKrGWlS1Ej.jpg"],["Queen of Tears","2024","/7ZXLZ3KYL3IVvsSHBZaHjcNQzNU.jpg"],["My Only One","2018","/QYGAyKsmldEUxyJWOGZcknE0zo.jpg"],["Six Flying Dragons","2015","/2hTPwQbjRM1POBckZwp6SxJCHf1.jpg"]],
+  "Kwak Dong-yeon": [["The East Palace","2026","/yfYohBszGqoAW8oM0qydOtJ4kPh.jpg"],["Vincenzo","2021","/qbkSS1cTjT4DzIwD44bdhTuYgdT.jpg"],["Queen of Tears","2024","/7ZXLZ3KYL3IVvsSHBZaHjcNQzNU.jpg"],["Big Mouth","2022","/gJDvYUJcPEDJzB3SnQokifPUtRF.jpg"],["It's Okay to Not Be Okay","2020","/8XSJfLeImX8NszDUFnK1lbseCi8.jpg"]],
+  "Yoo Yeon-seok": [["Dr. Romantic","2016","/9fbRJgZ2zDTnSUId1bOwsllHNr7.jpg"],["Hospital Playlist","2020","/8MSjQkH2FrG0t4l84L5HmiSFrS7.jpg"],["Mr. Sunshine","2018","/p7ljjykSsiyWstGVAwIkbdfPzRV.jpg"],["Busted!","2018","/aBb8sRaHgxfTYrFzGG9kIEE1a1t.jpg"],["Phantom Lawyer","2026","/afLKnB1yzh28YbpbB5Z5xragMf.jpg"]],
+  "Chae Soo-bin": [["I Am Not a Robot","2017","/2l1KTliFU7SjNT1OpTojbvjEnZe.jpg"],["Love in the Moonlight","2016","/137UF33ilpoznUzDVKcJ3mcdRbN.jpg"],["When the Phone Rings","2024","/glWP5Y7CVeqrOjJpLckQjuLFjQJ.jpg"],["Where Stars Land","2018","/4TEIkad4Nj1ZY5elC1sett6JAeK.jpg"],["The Rebel","2017","/posvP9SXFXzTzAH0pj3rbRk9Hj1.jpg"]],
+  "Heo Nam-jun": [["Sweet Home","2020","/7rNWciOcHOH97XIeS1KFuMmjyky.jpg"],["My Royal Nemesis","2026","/rYLQbyIvbEd0lF84iXrx7CbPcBB.jpg"],["When the Phone Rings","2024","/glWP5Y7CVeqrOjJpLckQjuLFjQJ.jpg"],["Snowdrop","2021","/3AhTqNJVr1v7Jfplg8Y1YOzzdWE.jpg"],["The Impossible Heir","2024","/ksIQrUoJERXBnVcxAxkMQDpzx3l.jpg"]],
+  "Gong Yoo": [["Squid Game","2021","/1QdXdRYfktUSONkl1oD5gc6Be0s.jpg"],["Guardian: The Lonely and Great God","2016","/sPkxHNw5BFvuCFGWw825TS7n6X3.jpg"],["The Silent Sea","2021","/fFT0IgqtCOks4munDTxQwkvNJkd.jpg"],["Coffee Prince","2007","/6tKNlAXwKfRzLeuBOomr1N9gRsU.jpg"],["The Trunk","2024","/d4RSgEVbISGhgPpxfZQg5chpAZ9.jpg"]],
+  "Seo Hyun-jin": [["Dr. Romantic","2016","/9fbRJgZ2zDTnSUId1bOwsllHNr7.jpg"],["Here Comes Mr. Oh","2012","/kq7Coc5bonGtp9E1BSfMcoQ3ZXK.jpg"],["Su Baek-hyang, the King's Daughter","2013","/6jrDwaMik2DlI1dFkC6ejJLjGPJ.jpg"],["Hwang Jin Yi","2006","/wqlGadEsH2A88ezd9vSlIjU5sUf.jpg"],["Another Miss Oh","2016","/rvXTuQf2T6dt1C30z4Tuqy5R7d0.jpg"]],
+  "Seo Yea-ji": [["Potato Star 2013QR3","2013","/8HLs1vyor0iHcKKHosrtxWfG8LL.jpg"],["It's Okay to Not Be Okay","2020","/8XSJfLeImX8NszDUFnK1lbseCi8.jpg"],["Eve","2022","/6xvIRR50lDzFRWLFCAwSzEkoEu3.jpg"],["Hwarang: The Poet Warrior Youth","2016","/sXEiMRfG2IiSpa7gVWY401L6n21.jpg"],["Save Me","2017","/oflwibJLRZZtYDUdjEu0XWD7lIi.jpg"]],
+  "Oh Jung-se": [["Sweet Home","2020","/7rNWciOcHOH97XIeS1KFuMmjyky.jpg"],["When Life Gives You Tangerines","2025","/1VC3sEFxYXYDqQUCAnvWfUsYg1s.jpg"],["We Are All Trying Here","2026","/c2jswCrMoqDEBEXwSAlrCWtXdfZ.jpg"],["Good Boy","2025","/59MAdHaHepsz3uDCU1LyoNQcLlT.jpg"],["It's Okay to Not Be Okay","2020","/8XSJfLeImX8NszDUFnK1lbseCi8.jpg"]],
+  "Jo In-sung": [["Moving","2023","/vf9SNXNAFqzKBGksFwrXhkg9cb7.jpg"],["Dear My Friends","2016","/bTQk4YZMESbHs3NlhBPBpcQp1Tn.jpg"],["That Winter, the Wind Blows","2013","/ibBjm3Bh4hw0uo4sTyK6cwzCRjg.jpg"],["It's Okay, That's Love","2014","/pcjGXR5g0YAvvGYmsrQsWf98CyO.jpg"],["Something Happened in Bali","2004","/rT4OJshy8PoZKYdXZV3exOSPYtb.jpg"]],
+  "Gong Hyo-jin": [["When the Camellia Blooms","2019","/bCrYA7xyHJtPnTWZU60pVBRSFZc.jpg"],["Jealousy Incarnate","2016","/pLui9BxmOnhn8puzX0lKVKFvKIf.jpg"],["When the Stars Gossip","2025","/pdOiUbJ0vEJfh5OGFG8y1e4InQ7.jpg"],["The Producers","2015","/wtOMeQS4Yoeu1LdGf89XEk5XJ6l.jpg"],["A Bona Fide Killer","2026","/w0VgpauAbEWQXJtD6pWWJPuZOKE.jpg"]],
+  "Sung Dong-il": [["Hospital Playlist","2020","/8MSjQkH2FrG0t4l84L5HmiSFrS7.jpg"],["Reply 1988","2015","/i3xQJlQRff4k5IMEY55l4iKaKl3.jpg"],["We Are All Trying Here","2026","/c2jswCrMoqDEBEXwSAlrCWtXdfZ.jpg"],["Scarlet Heart: Ryeo","2016","/sTW7wLyD95JRCyUEdTfxCWQWsvd.jpg"],["The Legend of the Blue Sea","2016","/cHrhnci45nyoqctI33lgB0iX9Zy.jpg"]],
+  "Lee Kwang-soo": [["The Manipulated","2025","/nOj4nsomFyAVJgpp68L0xq3cREc.jpg"],["Jewel in the Crown","2010","/ko46oHoWmGWYaWMPZM931Cjv1YK.jpg"],["Busted!","2018","/aBb8sRaHgxfTYrFzGG9kIEE1a1t.jpg"],["Gold Land","2026","/qhbwTTeSnIGctR4CEmHc9RQBwtT.jpg"],["City Hunter","2011","/dbvXhmKr18oHdY7kwkeRXAbfDvD.jpg"]],
+  "D.O.": [["The Manipulated","2025","/nOj4nsomFyAVJgpp68L0xq3cREc.jpg"],["100 Days My Prince","2018","/5GoF6fZGqEycUqgcCNmBCN3OdWM.jpg"],["It's Okay, That's Love","2014","/pcjGXR5g0YAvvGYmsrQsWf98CyO.jpg"],["Bad Prosecutor","2022","/zFH9Ze9RbviL3NcAfhi9DH3nH3W.jpg"],["EXO Next Door","2015","/tLdmI6Hp4sr325NwPVHmxiA7VpC.jpg"]],
+  "IU": [["When Life Gives You Tangerines","2025","/1VC3sEFxYXYDqQUCAnvWfUsYg1s.jpg"],["Perfect Crown","2026","/nNYwETsj4XxZ4tnouiYCPBQNO2L.jpg"],["Scarlet Heart: Ryeo","2016","/sTW7wLyD95JRCyUEdTfxCWQWsvd.jpg"],["Hotel Del Luna","2019","/8bizZsXoAsOTbhyFKfBogC8mgG2.jpg"],["Dream High","2011","/vqlPVNTnYNoXTqyIaW2oN1qV2lZ.jpg"]],
+  "Park Bo-gum": [["When Life Gives You Tangerines","2025","/1VC3sEFxYXYDqQUCAnvWfUsYg1s.jpg"],["Reply 1988","2015","/i3xQJlQRff4k5IMEY55l4iKaKl3.jpg"],["Good Boy","2025","/59MAdHaHepsz3uDCU1LyoNQcLlT.jpg"],["Love in the Moonlight","2016","/137UF33ilpoznUzDVKcJ3mcdRbN.jpg"],["Record of Youth","2020","/54yTLS5d4OPOuunzOvHlmP82eIT.jpg"]],
+  "Moon So-ri": [["The Apartment Job","2026","/qFxbrHvNq5tn9SCBq3aKPgaGfyO.jpg"],["When Life Gives You Tangerines","2025","/1VC3sEFxYXYDqQUCAnvWfUsYg1s.jpg"],["The Legend of the Blue Sea","2016","/cHrhnci45nyoqctI33lgB0iX9Zy.jpg"],["Hellbound","2021","/5NYdSAnDVIXePrSG2dznHdiibMk.jpg"],["The Legend","2007","/iIhkNL1RHsa2umumXdTno9Ks8EO.jpg"]],
+  "Park Hae-joon": [["When Life Gives You Tangerines","2025","/1VC3sEFxYXYDqQUCAnvWfUsYg1s.jpg"],["We Are All Trying Here","2026","/c2jswCrMoqDEBEXwSAlrCWtXdfZ.jpg"],["Arthdal Chronicles","2019","/k5bKj5U2Z7AgkK3Mekji8xDHOuD.jpg"],["My Mister","2018","/gE9tZDycsA31wvtzUcDWVk6Nf7t.jpg"],["Tempest","2025","/cCSOw482P0el3ioDnZEDhggrQoj.jpg"]],
+  "Rowoon": [["The King's Affection","2021","/2Qim2grFzfNJ4h3QSTzxi8CsKdG.jpg"],["Extraordinary You","2019","/vse6Aq2BGz1CI2pa1JbOmyjXM37.jpg"],["Tomorrow","2022","/3SFVIdXXQ2DrAOARBdf1knqG7Pw.jpg"],["Destined with You","2023","/e21UFBbQStpqSkU4iyWwVJsb8DZ.jpg"],["The Murky Stream","2025","/gj1Qde71tlF5ylNCfOHuanWw48J.jpg"]],
+  "Jo Bo-ah": [["Tale of the Nine Tailed","2020","/v7VEIX1yOcFWY17eUprNhAS9xEp.jpg"],["Destined with You","2023","/e21UFBbQStpqSkU4iyWwVJsb8DZ.jpg"],["Cashero","2025","/dm6RoaKgkGUxckamMDzsbqtLhFv.jpg"],["The King's Doctor","2012","/w7N9OBb7k1xL9WocZYeQssQtviG.jpg"],["Monster","2016","/nnTcGgFYkGvJdoI2TTNbhupEu4R.jpg"]],
+  "Shin Hye-sun": [["Filing for Love","2026","/5dgTRxtP5g07RSH5LEOl367Fuwi.jpg"],["Stranger","2017","/blbbtx7DyvZ3JTGyc9MCArDL79b.jpg"],["Welcome to Samdal-ri","2023","/98IvA2i0PsTY8CThoHByCKOEAjz.jpg"],["The Legend of the Blue Sea","2016","/cHrhnci45nyoqctI33lgB0iX9Zy.jpg"],["Mr. Queen","2020","/ozuyMnOO5pekDklyPpUL1Htkuzy.jpg"]],
+  "Ahn Bo-hyun": [["The Dearest Lady","2015","/ubu8jnSKTumfeXVJx01BtmnKGVJ.jpg"],["Flex x Cop","2024","/wuqKpbKx37T4II93NiQWHnbCu3L.jpg"],["Yumi's Cells","2021","/wb0ysW1H4bjceY551Dh4VW2jOzF.jpg"],["Descendants of the Sun","2016","/xxGomfml0x9iyPBS4StBjbRRu65.jpg"],["Spring Fever","2026","/50e9qtv8rKmcayAQSgB9P9XELpQ.jpg"]],
+  "Jang Ki-yong": [["Dynamite Kiss","2025","/qY3ltlWUB7u3ENocrMOkbGCGYnt.jpg"],["Search: WWW","2019","/pJWBoZjY5kUivY47KWxiaJ08bvs.jpg"],["My Mister","2018","/gE9tZDycsA31wvtzUcDWVk6Nf7t.jpg"],["Come and Hug Me","2018","/ph5aNGwzi2ktTcCKBUtr4SIAcTy.jpg"],["The Atypical Family","2024","/AnoQxxH3RoMRrUj5fm9SFRYlfxP.jpg"]],
+  "Ahn Eun-jin": [["Hospital Playlist","2020","/8MSjQkH2FrG0t4l84L5HmiSFrS7.jpg"],["Genie, Make a Wish","2025","/opop2u7Jav6lMNL8fSBTzOeFBDz.jpg"],["Kingdom","2019","/AsICtiVtz4icMQQRwDvOzfaTzjK.jpg"],["Dynamite Kiss","2025","/qY3ltlWUB7u3ENocrMOkbGCGYnt.jpg"],["My Dearest","2023","/d00uWx8T84ZRsguQTqITl3HnFJO.jpg"]],
+  "Jeon Do-yeon": [["Crash Course in Romance","2023","/88rQREli2xtoDV6HToJysp71ZL7.jpg"],["The Price of Confession","2025","/gPb8k63HrpvTxHc9yKWZEBR4Kml.jpg"],["Lovers in Prague","2005","/3gjcXccvlTvxiRikoJ0TA0GHuOL.jpg"],["Star in My Heart","1997","/9GjYTYRq0nKaqwnz5tAOkKSu9gC.jpg"],["The Good Wife","2016","/1rowNWM1P4cplxUrKPC9ElenkW.jpg"]],
+  "Jung Kyung-ho": [["Hospital Playlist","2020","/8MSjQkH2FrG0t4l84L5HmiSFrS7.jpg"],["Crash Landing on You","2019","/fgBNLPr6mC8pxuR79ENAJY4nBmj.jpg"],["어여쁜 당신","2005","/5W5glwqgFh5SFeqazRyk5yqebEN.jpg"],["Pro Bono","2025","/dGFoZ6gIuifSF35zCyyS2cBdkWo.jpg"],["Crash Course in Romance","2023","/88rQREli2xtoDV6HToJysp71ZL7.jpg"]],
+  "Hyun Bin": [["Crash Landing on You","2019","/fgBNLPr6mC8pxuR79ENAJY4nBmj.jpg"],["Made in Korea","2025","/cyBg9FJ2AmTWEGktA43gMo4t0Vj.jpg"],["Secret Garden","2010","/2G5m6cMGN5DR5GsGGdg9OcgNNlG.jpg"],["My Lovely Sam Soon","2005","/hqam3HaYUdZH1uXB9BqwJ7UBeij.jpg"],["Memories of the Alhambra","2018","/18UuytTxcPSrhptyW7hHDenN70C.jpg"]],
+  "Son Ye-jin": [["Crash Landing on You","2019","/fgBNLPr6mC8pxuR79ENAJY4nBmj.jpg"],["Something in the Rain","2018","/sTNXMCASbNn7cSzcQ7DVazixnAc.jpg"],["Thirty-Nine","2022","/8Pz7dZRjuxoRzwYBMLdVBTtcEBi.jpg"],["Personal Taste","2010","/qNzJSdeNcPZCT3FSMe439hZXaY9.jpg"],["Summer Scent","2003","/jeUxDUh9zpwWVDwSyBq5lu5wLbW.jpg"]],
+  "Seo Ji-hye": [["Crash Landing on You","2019","/fgBNLPr6mC8pxuR79ENAJY4nBmj.jpg"],["Love Next Door","2024","/hikbLeofw2epfaEJptSkQ6b22IV.jpg"],["Chunja's Happy Events","2008","/oiJMDivR3cx3pCzzJGmYjaz231C.jpg"],["Nice to Not Meet You","2025","/h14bGZcVxYQzLoxC8KYqUVWvYfU.jpg"],["Yeah, That's How It Is","2016","/6TyS0ZwWbk7rArli9bigXFU7kCh.jpg"]],
+  "Kim Jung-hyun": [["Crash Landing on You","2019","/fgBNLPr6mC8pxuR79ENAJY4nBmj.jpg"],["Siren's Kiss","2026","/8r8YU97YfSf6QtMKfePmTqhFTeQ.jpg"],["Welcome to Waikiki","2018","/pggzZamoLNTiRgoYz8WVCISMCqv.jpg"],["Mr. Queen","2020","/ozuyMnOO5pekDklyPpUL1Htkuzy.jpg"],["Time","2018","/wioiG18yMZ8IIhl1PVi7LkkTWZq.jpg"]],
+  "Jung Hae-in": [["Love Next Door","2024","/hikbLeofw2epfaEJptSkQ6b22IV.jpg"],["While You Were Sleeping","2017","/wFp7pVJbB5aD5y0A0AEBP4vmzCg.jpg"],["D.P.","2021","/akvPsqe1u1NpIQ8Ln2Vt06uhOv9.jpg"],["Yeah, That's How It Is","2016","/6TyS0ZwWbk7rArli9bigXFU7kCh.jpg"],["Something in the Rain","2018","/sTNXMCASbNn7cSzcQ7DVazixnAc.jpg"]],
+};
 // ---------- actor web: dependency-free force-directed graph ----------
 (function(){
   const canvas = document.getElementById('graphCanvas');
@@ -958,6 +1073,83 @@ const actorEntries=Object.entries(actorMap).sort((a,b)=>b[1].length-a[1].length 
   // expose so tab switch can (re)fit once the panel is visible & sized
   window.__initGraph=function(){ resize(); if(W>0){ if(!started){started=true; fit(); loop();} else { fit(); } } };
   window.addEventListener('resize',()=>{ if(W>0){ resize(); } });
+})();
+
+// ---------- actor web: filterable list view ----------
+(function(){
+  const herStatus={}; shows.forEach(s=>herStatus[s.t]={status:s.status,depth:s.depth});
+  const actorNames=Object.keys(actorMap);
+  const connCount=name=>(actorMap[name]||[]).length;
+  function filmsFor(name){
+    const map={};
+    (actorMap[name]||[]).forEach(r=>{ const st=herStatus[r.t]||{}; map[r.t]={title:r.t,year:r.yr,poster:posterUrl(r.t),inLog:true,status:st.status,depth:st.depth}; });
+    (FILMS[name]||[]).forEach(([t,y,p])=>{ if(!map[t]) map[t]={title:t,year:y,poster:p?IMG_BASE+"w185"+p:null,inLog:false}; });
+    return Object.values(map).sort((a,b)=>(b.inLog-a.inLog)||((b.year||"")>(a.year||"")?1:-1));
+  }
+  function filmTag(f){
+    if(!f.inLog) return '<span class="aw-tag new">new to me</span>';
+    if(f.status==='want') return '<span class="aw-tag want">on my list</span>';
+    if(f.depth==='partial') return '<span class="aw-tag started">started</span>';
+    return '<span class="aw-tag seen">watched</span>';
+  }
+  const body=document.getElementById('awListBody');
+  const searchEl=document.getElementById('awSearch');
+  const sortEl=document.getElementById('awSort');
+  let filmFilter='all', query='', sortBy='conn';
+  function render(){
+    let names=actorNames.slice();
+    if(query){ const q=query.toLowerCase(); names=names.filter(n=>n.toLowerCase().includes(q)); }
+    names.sort((a,b)=> sortBy==='az' ? a.localeCompare(b) : (connCount(b)-connCount(a)||a.localeCompare(b)));
+    body.innerHTML=''; let shown=0;
+    names.forEach(name=>{
+      let films=filmsFor(name);
+      if(filmFilter==='seen') films=films.filter(f=>f.inLog);
+      else if(filmFilter==='new') films=films.filter(f=>!f.inLog);
+      if(!films.length) return;
+      shown++;
+      const cc=connCount(name), furl=profileUrl(name);
+      const av = furl
+        ? `<span class="aw-av"><img src="${furl}" alt="${name}" loading="lazy" onerror="this.closest('.aw-av').classList.add('noimg');this.remove()"><span class="aw-ini">${initials(name)}</span></span>`
+        : `<span class="aw-av noimg"><span class="aw-ini">${initials(name)}</span></span>`;
+      const row=document.createElement('div');
+      row.className='aw-row'+(cc>1?' hub':'');
+      row.innerHTML=`
+        <div class="aw-actor">
+          ${av}
+          <div class="aw-meta">
+            <div class="aw-name">${name}</div>
+            <div class="aw-conn">${cc>1?`★ ties ${cc} of your shows`:`in ${cc} of your shows`}</div>
+          </div>
+        </div>
+        <div class="aw-films">
+          ${films.map(f=>`
+            <div class="aw-film${f.inLog?'':' faded'}" title="${f.title}${f.year?` (${f.year})`:''}">
+              <div class="aw-poster">${f.poster?`<img src="${f.poster}" alt="${f.title}" loading="lazy" onerror="this.closest('.aw-poster').classList.add('noimg')">`:''}<span class="aw-poster-fb">${f.title}</span></div>
+              ${filmTag(f)}
+              <div class="aw-ftitle">${f.title}</div>
+            </div>`).join('')}
+        </div>`;
+      body.appendChild(row);
+    });
+    if(!shown) body.innerHTML='<p class="aw-empty">No actors match that.</p>';
+  }
+  searchEl.addEventListener('input',()=>{ query=searchEl.value.trim(); render(); });
+  sortEl.addEventListener('change',()=>{ sortBy=sortEl.value; render(); });
+  document.getElementById('awFchips').addEventListener('click',e=>{ const b=e.target.closest('button'); if(!b)return; filmFilter=b.dataset.f; document.querySelectorAll('#awFchips .chip').forEach(c=>c.classList.remove('on')); b.classList.add('on'); render(); });
+  render();
+})();
+
+// actor web: Web / List view toggle
+(function(){
+  const web=document.getElementById('awWeb'), list=document.getElementById('awList');
+  document.querySelectorAll('.aw-tgl').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.querySelectorAll('.aw-tgl').forEach(b=>b.classList.remove('on')); btn.classList.add('on');
+      const v=btn.dataset.view;
+      web.hidden=(v!=='web'); list.hidden=(v!=='list');
+      if(v==='web' && window.__initGraph) requestAnimationFrame(()=>window.__initGraph());
+    });
+  });
 })();
 
 // ---------- locations ----------
