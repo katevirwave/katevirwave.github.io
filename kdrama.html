@@ -50,8 +50,13 @@
   .hero-sheen{position:absolute;inset:0;background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.16) 47%,rgba(255,255,255,.04) 55%,transparent 72%);transform:translateX(-75%);animation:heroSweep 8.5s ease-in-out infinite;pointer-events:none;mix-blend-mode:screen}
   @keyframes heroSweep{0%{transform:translateX(-75%)}60%,100%{transform:translateX(135%)}}
   .hero-sparkles{position:absolute;inset:0;pointer-events:none}
-  .hero-sparkles span{position:absolute;border-radius:50%;background:radial-gradient(circle,#fff 0%,rgba(255,240,250,.7) 40%,rgba(255,255,255,0) 70%);opacity:0;animation:heroTwinkle 4s ease-in-out infinite}
-  @keyframes heroTwinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:.9;transform:scale(1)}}
+  .hero-sparkles span{position:absolute;border-radius:50%;background:radial-gradient(circle,#fff 0%,rgba(255,236,245,.95) 32%,rgba(255,255,255,0) 72%);box-shadow:0 0 7px 1px rgba(255,255,255,.85),0 0 3px rgba(255,214,232,.9);opacity:0;animation:heroTwinkle 3s ease-in-out infinite}
+  @keyframes heroTwinkle{0%,100%{opacity:0;transform:scale(.3)}50%{opacity:1;transform:scale(1.2)}}
+  /* falling cherry-blossom petals over the hero */
+  .hero-petals{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:2}
+  .hero-petals span{position:absolute;top:-24px;background:radial-gradient(circle at 32% 28%,#ffe1ec,#f2a3c2);border-radius:100% 0 100% 100%;opacity:0;filter:drop-shadow(0 1px 2px rgba(120,40,70,.15));animation:heroPetalFall linear infinite}
+  @keyframes heroPetalFall{0%{transform:translateY(-24px) translateX(0) rotate(0);opacity:0}8%{opacity:.9}88%{opacity:.9}100%{transform:translateY(var(--fall,900px)) translateX(var(--drift,40px)) rotate(560deg);opacity:0}}
+  @media (prefers-reduced-motion:reduce){.hero-petals span{animation:none;opacity:0}}
   @media (prefers-reduced-motion:reduce){.hero-sheen{display:none}.hero-sparkles span{animation:none;opacity:0}}
 
   .why-band{padding:34px 20px 4px}
@@ -417,6 +422,7 @@
 <div class="hero-band">
   <div class="hero-frame">
     <img class="hero-img" src="./assets/kdrama-hero.jpg" alt="Kate and her husband drawn as a Joseon-era couple in hanbok, making a heart with their hands beneath a full moon and cherry blossoms, in the style of Alchemy of Souls." loading="eager" />
+    <div class="hero-petals" id="heroPetals" aria-hidden="true"></div>
     <div class="hero-sparkles" id="heroSparkles" aria-hidden="true"></div>
     <div class="hero-sheen" aria-hidden="true"></div>
   </div>
@@ -787,18 +793,37 @@ const PROFILES = {
   window.addEventListener('scroll',()=>{ if(!ticking){ requestAnimationFrame(upd); ticking=true; } },{passive:true});
 })();
 
-// scatter drifting sparkles across the hero title-card
+// scatter twinkling sparkles + falling cherry-blossom petals across the hero
 (function(){
-  const el=document.getElementById('heroSparkles'); if(!el) return;
-  for(let i=0;i<16;i++){
-    const s=document.createElement('span');
-    const sz=3+(i%4);
-    s.style.left=((i*37+11)%100)+'%';
-    s.style.top=((i*53+7)%96)+'%';
-    s.style.width=s.style.height=sz+'px';
-    s.style.animationDelay=((i%8)*0.55).toFixed(2)+'s';
-    s.style.animationDuration=(3.2+(i%5)*0.6).toFixed(1)+'s';
-    el.appendChild(s);
+  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const el=document.getElementById('heroSparkles');
+  if(el){
+    for(let i=0;i<24;i++){
+      const s=document.createElement('span');
+      const sz=4+(i%5);
+      s.style.left=((i*37+11)%100)+'%';
+      s.style.top=((i*53+7)%96)+'%';
+      s.style.width=s.style.height=sz+'px';
+      s.style.animationDelay=((i%9)*0.45).toFixed(2)+'s';
+      s.style.animationDuration=(2.4+(i%5)*0.5).toFixed(1)+'s';
+      el.appendChild(s);
+    }
+  }
+  const pel=document.getElementById('heroPetals');
+  if(pel && !reduce){
+    const f=document.querySelector('.hero-frame');
+    const fall=(f?f.getBoundingClientRect().height:800)+40;
+    for(let i=0;i<16;i++){
+      const p=document.createElement('span');
+      const w=9+(i%5)*2;
+      p.style.width=w+'px'; p.style.height=Math.round(w*0.82)+'px';
+      p.style.left=((i*61+9)%100)+'%';
+      p.style.setProperty('--fall', fall+'px');
+      p.style.setProperty('--drift', ((i%2?1:-1)*(28+(i%4)*18))+'px');
+      p.style.animationDuration=(7+(i%6))+'s';
+      p.style.animationDelay=(-((i*1.3)%9)).toFixed(2)+'s';
+      pel.appendChild(p);
+    }
   }
 })();
 
