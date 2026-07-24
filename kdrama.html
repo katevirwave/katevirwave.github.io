@@ -159,17 +159,20 @@
   .t.loc{background:#e2eeea;color:var(--jade)}
   .t.loc.abroad{background:#dcefff;color:#2b7cb3;font-weight:600}
 
-  /* actor web */
-  .weblist{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
-  .actor{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:0 2px 8px var(--shadow)}
-  .actor.multi{border-color:var(--rose);border-width:1.5px}
-  .actor h4{font-family:'Gowun Batang',serif;font-size:18px;color:var(--plum);display:flex;align-items:center;gap:8px}
-  .actor .count{font-size:11px;background:var(--rose);color:#fff;border-radius:10px;padding:2px 8px;font-family:'Space Grotesk';font-weight:700}
-  .actor ul{list-style:none;margin-top:10px}
-  .actor li{font-size:13.5px;padding:5px 0;border-top:1px dashed var(--line);color:#4a3f4d}
-  .actor li:first-child{border-top:none}
-  .actor li span{color:var(--jade);font-size:12px}
+  /* actor web — force graph */
   .note{font-size:13px;color:#6b5f6f;margin-bottom:18px;font-style:italic}
+  .graph-wrap{position:relative;width:100%;height:min(72vh,620px);background:radial-gradient(circle at 50% 40%,#fffdfb,#f3ece3);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 4px 18px var(--shadow);touch-action:none}
+  .graph-wrap canvas{display:block;width:100%;height:100%;cursor:grab}
+  .graph-wrap canvas.grabbing{cursor:grabbing}
+  .graph-legend{position:absolute;top:12px;left:14px;display:flex;flex-direction:column;gap:6px;font-size:11.5px;color:#6b5f6f;background:rgba(255,255,255,.72);border:1px solid var(--line);border-radius:10px;padding:9px 11px;backdrop-filter:blur(3px)}
+  .graph-legend .row{display:flex;align-items:center;gap:7px}
+  .graph-legend .dot{width:11px;height:11px;border-radius:50%;flex:0 0 auto}
+  .graph-legend .dot.show{background:var(--plum)}
+  .graph-legend .dot.actor{background:var(--rose)}
+  .graph-legend .dot.hub{background:var(--gold)}
+  .graph-hint{position:absolute;bottom:11px;right:14px;font-size:11px;color:#a99eb0;background:rgba(255,255,255,.6);border-radius:8px;padding:5px 9px}
+  .graph-reset{position:absolute;top:12px;right:14px;font-family:inherit;font-size:12px;font-weight:600;cursor:pointer;background:#fff;border:1px solid var(--line);color:var(--plum);border-radius:9px;padding:6px 11px;box-shadow:0 2px 6px var(--shadow)}
+  .graph-reset:hover{border-color:var(--rose)}
 
   /* locations */
   .locsec{margin-bottom:26px}
@@ -215,7 +218,7 @@
 <header>
   <div class="eyebrow">A watch diary in progress</div>
   <h1>Kate's K-Drama Log<span class="kr">케이드라마 일지</span></h1>
-  <p class="sub">Everything I've loved, everyone I keep spotting, and every real place I could one day go stand in.</p>
+  <p class="sub">Not so long ago, I felt empty — everything I loved had stopped feeling touchable. Then a whole world switched on. The puzzles. The heartache. The romance that reminded me my husband is my own love interest. And the simple joy of being right here, fully in it, the moment I press play.</p>
   <div class="stats">
     <div class="stat"><b id="s-watched">–</b><span>Watched</span></div>
     <div class="stat"><b id="s-want">–</b><span>Want to watch</span></div>
@@ -241,8 +244,17 @@
 
   <!-- ACTORS -->
   <section class="panel" id="actors">
-    <p class="note">Highlighted cards are actors you've seen in more than one show — the start of your web. It grows every time a name repeats.</p>
-    <div class="weblist" id="actorweb"></div>
+    <p class="note">Every actor, every show, wired together. Gold nodes are the ones you've seen in more than one drama — the knots where your web pulls tight. Drag a node, throw it, watch the rest follow. Scroll to zoom, drag the empty space to pan.</p>
+    <div class="graph-wrap" id="actorweb">
+      <canvas id="graphCanvas"></canvas>
+      <div class="graph-legend">
+        <div class="row"><span class="dot show"></span> Show</div>
+        <div class="row"><span class="dot actor"></span> Actor</div>
+        <div class="row"><span class="dot hub"></span> Seen in 2+ shows</div>
+      </div>
+      <button class="graph-reset" id="graphReset">Reset</button>
+      <div class="graph-hint">drag · scroll to zoom · click to pin</div>
+    </div>
   </section>
 
   <!-- LOCATIONS -->
@@ -576,18 +588,215 @@ shows.forEach(s=>s.cast.forEach(a=>{
   actorMap[a].push({t:s.t,yr:s.yr,status:s.status});
 }));
 const actorEntries=Object.entries(actorMap).sort((a,b)=>b[1].length-a[1].length || a[0].localeCompare(b[0]));
-const webEl=document.getElementById('actorweb');
-actorEntries.forEach(([name,roles])=>{
-  const el=document.createElement('div');
-  el.className='actor'+(roles.length>1?' multi':'');
-  const furl=profileUrl(name);
-  const avatar = furl
-    ? `<span class="avatar"><img src="${furl}" alt="${name}" loading="lazy" onerror="this.closest('.avatar').classList.add('noimg');this.remove()"><span class="avatar-ini">${initials(name)}</span></span>`
-    : `<span class="avatar noimg"><span class="avatar-ini">${initials(name)}</span></span>`;
-  el.innerHTML=`<h4>${avatar}<span class="actor-name">${name}</span> ${roles.length>1?`<span class="count">×${roles.length}</span>`:''}</h4>
-    <ul>${roles.sort((a,b)=>a.yr-b.yr).map(r=>`<li>${r.t} <span>${r.yr} · ${r.status==='watched'?'seen':'to watch'}</span></li>`).join('')}</ul>`;
-  webEl.appendChild(el);
-});
+
+// ---------- actor web: dependency-free force-directed graph ----------
+(function(){
+  const canvas = document.getElementById('graphCanvas');
+  const wrap = document.getElementById('actorweb');
+  const ctx = canvas.getContext('2d');
+
+  // build nodes + links
+  const nodes = [], nodeById = {}, links = [];
+  function preload(node, url){
+    if(!url) return;
+    const im = new Image();
+    im.onload = ()=>{ node.img = im; };
+    im.src = url;
+  }
+  function addNode(id, o){ const n=Object.assign({id,x:0,y:0,vx:0,vy:0,fixed:false,img:null},o); nodes.push(n); nodeById[id]=n; return n; }
+  shows.forEach(s=>{
+    const n=addNode("s:"+s.t, {type:"show", label:s.t, r:26, deg:0});
+    preload(n, posterUrl(s.t));
+  });
+  Object.entries(actorMap).forEach(([name,roles])=>{
+    const hub = roles.length>1;
+    const n=addNode("a:"+name, {type:"actor", label:name, hub, r:hub?26:20, deg:roles.length, ini:initials(name)});
+    preload(n, profileUrl(name));
+  });
+  shows.forEach(s=>s.cast.forEach(a=>{
+    links.push({source:nodeById["s:"+s.t], target:nodeById["a:"+a]});
+    nodeById["s:"+s.t].deg++;
+  }));
+  // adjacency for hover highlight
+  const adj = {}; nodes.forEach(n=>adj[n.id]=new Set());
+  links.forEach(l=>{ adj[l.source.id].add(l.target.id); adj[l.target.id].add(l.source.id); });
+
+  // seed positions in a ring
+  nodes.forEach((n,i)=>{ const a=i/nodes.length*Math.PI*2; n.x=Math.cos(a)*180+(i%7-3)*8; n.y=Math.sin(a)*180+(i%5-2)*8; });
+
+  // camera
+  let cam={x:0,y:0,scale:1}, W=0,H=0, dpr=Math.min(window.devicePixelRatio||1,2);
+  function resize(){
+    const rect=wrap.getBoundingClientRect();
+    W=rect.width; H=rect.height;
+    canvas.width=W*dpr; canvas.height=H*dpr;
+    canvas.style.width=W+'px'; canvas.style.height=H+'px';
+  }
+  function fit(){
+    // center graph in view
+    let minX=1e9,minY=1e9,maxX=-1e9,maxY=-1e9;
+    nodes.forEach(n=>{minX=Math.min(minX,n.x);maxX=Math.max(maxX,n.x);minY=Math.min(minY,n.y);maxY=Math.max(maxY,n.y);});
+    const gw=maxX-minX||1, gh=maxY-minY||1;
+    cam.scale=Math.min(W/(gw+120), H/(gh+120), 1.4);
+    cam.x=W/2 - ((minX+maxX)/2)*cam.scale;
+    cam.y=H/2 - ((minY+maxY)/2)*cam.scale;
+  }
+
+  // physics
+  let alpha=1;
+  function tick(){
+    const k=150; // ideal spring length (roomy, so faces don't crowd)
+    // repulsion + hard collision (naive O(n^2), fine for ~70 nodes)
+    for(let i=0;i<nodes.length;i++){
+      const a=nodes[i];
+      for(let j=i+1;j<nodes.length;j++){
+        const b=nodes[j];
+        let dx=a.x-b.x, dy=a.y-b.y, d2=dx*dx+dy*dy||0.01, d=Math.sqrt(d2);
+        const rep=(9000)/d2 * alpha;
+        let fx=dx/d*rep, fy=dy/d*rep;
+        // collision: keep photo circles from overlapping
+        const minD=a.r+b.r+8;
+        if(d<minD){ const push=(minD-d)*0.5; fx+=dx/d*push; fy+=dy/d*push; }
+        a.vx+=fx; a.vy+=fy; b.vx-=fx; b.vy-=fy;
+      }
+    }
+    // spring attraction
+    links.forEach(l=>{
+      const a=l.source,b=l.target;
+      let dx=b.x-a.x, dy=b.y-a.y, d=Math.sqrt(dx*dx+dy*dy)||0.01;
+      const f=(d-k)*0.012*alpha;
+      const fx=dx/d*f, fy=dy/d*f;
+      a.vx+=fx; a.vy+=fy; b.vx-=fx; b.vy-=fy;
+    });
+    // gravity to center + integrate
+    nodes.forEach(n=>{
+      n.vx += (-n.x)*0.0015*alpha;
+      n.vy += (-n.y)*0.0015*alpha;
+      if(n.fixed){ n.vx=0; n.vy=0; return; }
+      n.vx*=0.85; n.vy*=0.85;
+      n.x+=n.vx; n.y+=n.vy;
+    });
+    if(alpha>0.02) alpha*=0.993;
+  }
+
+  // interaction state
+  let hover=null, dragNode=null, panning=false, last={x:0,y:0}, moved=false;
+  const toWorld=(px,py)=>({x:(px-cam.x)/cam.scale, y:(py-cam.y)/cam.scale});
+  function pick(px,py){
+    const w=toWorld(px,py); let best=null,bd=1e9;
+    nodes.forEach(n=>{ const dx=n.x-w.x,dy=n.y-w.y,d=Math.hypot(dx,dy); if(d<Math.max(n.r+6,12/cam.scale)&&d<bd){bd=d;best=n;} });
+    return best;
+  }
+  function evPos(e){ const r=canvas.getBoundingClientRect(); const t=e.touches?e.touches[0]:e; return {x:t.clientX-r.left, y:t.clientY-r.top}; }
+
+  function down(e){
+    const p=evPos(e); moved=false; last=p;
+    const n=pick(p.x,p.y);
+    if(n){ dragNode=n; n.fixed=true; alpha=Math.max(alpha,.5); }
+    else { panning=true; }
+    canvas.classList.add('grabbing');
+  }
+  function move(e){
+    const p=evPos(e);
+    if(dragNode){ const w=toWorld(p.x,p.y); dragNode.x=w.x; dragNode.y=w.y; dragNode.vx=0; dragNode.vy=0; moved=true; alpha=Math.max(alpha,.35); }
+    else if(panning){ cam.x+=p.x-last.x; cam.y+=p.y-last.y; moved=true; }
+    else { hover=pick(p.x,p.y); canvas.style.cursor=hover?'pointer':'grab'; }
+    last=p;
+    if(e.cancelable) e.preventDefault();
+  }
+  function up(e){
+    if(dragNode && !moved){ dragNode.fixed=!dragNode.fixed; } // click toggles pin
+    else if(dragNode && moved){ dragNode.fixed=true; } // thrown node stays where left, keep pinned briefly then release
+    dragNode=null; panning=false; canvas.classList.remove('grabbing');
+  }
+  canvas.addEventListener('mousedown',down);
+  window.addEventListener('mousemove',e=>{ if(dragNode||panning) move(e); });
+  canvas.addEventListener('mousemove',e=>{ if(!dragNode&&!panning) move(e); });
+  window.addEventListener('mouseup',up);
+  canvas.addEventListener('touchstart',down,{passive:false});
+  canvas.addEventListener('touchmove',move,{passive:false});
+  canvas.addEventListener('touchend',up);
+  canvas.addEventListener('wheel',e=>{
+    e.preventDefault();
+    const p=evPos(e), w=toWorld(p.x,p.y);
+    const s=Math.exp(-e.deltaY*0.0012); const ns=Math.min(3,Math.max(.3,cam.scale*s));
+    cam.x=p.x-w.x*ns; cam.y=p.y-w.y*ns; cam.scale=ns;
+  },{passive:false});
+  document.getElementById('graphReset').addEventListener('click',()=>{ nodes.forEach(n=>{n.fixed=false;}); alpha=1; fit(); });
+
+  // draw
+  function draw(){
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,W,H);
+    ctx.save();
+    ctx.translate(cam.x,cam.y); ctx.scale(cam.scale,cam.scale);
+    const hi = hover ? adj[hover.id] : null;
+    // links
+    links.forEach(l=>{
+      const on = hover && (l.source.id===hover.id||l.target.id===hover.id);
+      ctx.strokeStyle = hover ? (on?'rgba(217,106,143,.7)':'rgba(74,43,82,.06)') : 'rgba(74,43,82,.15)';
+      ctx.lineWidth = (on?1.8:1)/1;
+      ctx.beginPath(); ctx.moveTo(l.source.x,l.source.y); ctx.lineTo(l.target.x,l.target.y); ctx.stroke();
+    });
+    // nodes — photo circles (headshots for actors, posters for shows)
+    nodes.forEach(n=>{
+      const dim = hover && n.id!==hover.id && !(hi&&hi.has(n.id));
+      ctx.globalAlpha = dim?0.22:1;
+      const ring = n.type==='show' ? '#4a2b52' : (n.hub ? '#c8963e' : '#d96a8f');
+      const R=n.r;
+      if(n.img){
+        // cover-fit the image inside the circle, biased to the top for faces
+        const iw=n.img.naturalWidth||1, ih=n.img.naturalHeight||1;
+        const s=Math.max((2*R)/iw,(2*R)/ih);
+        const dw=iw*s, dh=ih*s;
+        const dx=n.x-dw/2;
+        const dy=(n.type==='actor') ? (n.y-R-(dh-2*R)*0.08) : (n.y-dh/2);
+        ctx.save();
+        ctx.beginPath(); ctx.arc(n.x,n.y,R,0,Math.PI*2); ctx.closePath(); ctx.clip();
+        ctx.drawImage(n.img,dx,dy,dw,dh);
+        ctx.restore();
+      } else {
+        // fallback: colored disc with initials
+        ctx.beginPath(); ctx.arc(n.x,n.y,R,0,Math.PI*2);
+        ctx.fillStyle = n.type==='show' ? '#4a2b52' : (n.hub?'#c8963e':'#d96a8f'); ctx.fill();
+        if(n.ini){ ctx.fillStyle='#fff'; ctx.textAlign='center'; ctx.textBaseline='middle';
+          ctx.font="700 "+Math.round(R*0.7)+"px 'Space Grotesk',sans-serif"; ctx.fillText(n.ini,n.x,n.y); }
+      }
+      // ring
+      ctx.beginPath(); ctx.arc(n.x,n.y,R,0,Math.PI*2);
+      ctx.lineWidth = n.hub?4:3; ctx.strokeStyle=ring; ctx.stroke();
+      if(n.fixed){ ctx.beginPath(); ctx.arc(n.x,n.y,R+2.5,0,Math.PI*2); ctx.lineWidth=1.5; ctx.strokeStyle='#1a1424'; ctx.stroke(); }
+      ctx.globalAlpha=1;
+    });
+    // labels: shows + hubs always; actors when zoomed or highlighted
+    ctx.textAlign='center'; ctx.textBaseline='top';
+    nodes.forEach(n=>{
+      const nearHi = hover && (n.id===hover.id || (hi&&hi.has(n.id)));
+      let showLabel = n.type==='show' || n.hub || cam.scale>1.25 || nearHi;
+      if(hover && !nearHi && !(n.type==='show'||n.hub)) showLabel=false;
+      if(!showLabel) return;
+      ctx.globalAlpha = (hover && !nearHi) ? 0.3 : 1;
+      ctx.font = (n.type==='show'?'600 ':'500 ') + (n.type==='show'?12:11) + "px 'Space Grotesk',sans-serif";
+      const label = n.label.length>24?n.label.slice(0,23)+'…':n.label;
+      ctx.lineWidth=3.5; ctx.strokeStyle='rgba(247,243,238,.92)';
+      ctx.strokeText(label, n.x, n.y+n.r+4);
+      ctx.fillStyle = n.type==='show' ? '#3a2242' : '#4a3f4d';
+      ctx.fillText(label, n.x, n.y+n.r+4);
+      ctx.globalAlpha=1;
+    });
+    ctx.restore();
+  }
+
+  let raf=null, started=false;
+  function loop(){ tick(); draw(); raf=requestAnimationFrame(loop); }
+  function start(){
+    resize(); fit();
+    if(!started){ started=true; loop(); }
+  }
+  // expose so tab switch can (re)fit once the panel is visible & sized
+  window.__initGraph=function(){ resize(); if(W>0){ if(!started){started=true; fit(); loop();} else { fit(); } } };
+  window.addEventListener('resize',()=>{ if(W>0){ resize(); } });
+})();
 
 // ---------- locations ----------
 const abroad=[], korea=[];
@@ -705,6 +914,7 @@ document.querySelectorAll('.tab').forEach(t=>{
     document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
     t.classList.add('active');
     document.getElementById(t.dataset.tab).classList.add('active');
+    if(t.dataset.tab==='actors' && window.__initGraph){ requestAnimationFrame(()=>window.__initGraph()); }
   };
 });
 </script>
