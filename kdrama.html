@@ -420,6 +420,13 @@ const shows = [
    locs:[{p:"Korea — lakeside modern house, moody winter settings"}]},
 
   // ===== WANT TO WATCH =====
+  {t:"Crash Landing on You",kr:"사랑의 불시착",yr:2019,ep:16,status:"want",depth:null,rewatch:0,
+   genre:["Romance","Comedy","Melodrama"],
+   cast:["Hyun Bin","Son Ye-jin","Seo Ji-hye","Kim Jung-hyun"],
+   themes:["North–South divide","forbidden love","chaebol heiress","military"],
+   note:"The famous one — a South Korean heiress paraglides over the DMZ and crash-lands in North Korea. It couldn't be filmed there: the North was built as a set in Taebaek and shot across Switzerland and Mongolia. Set partly in the North, but never actually filmed there. On the list.",
+   locs:[{p:"Switzerland — Iseltwald, Lake Brienz & Sigriswil",abroad:true},{p:"Mongolia — the steppe, standing in for the North",abroad:true},{p:"Korea — Taebaek (the North Korean village set) & Seoul"}]},
+
   {t:"It's Okay to Not Be Okay",kr:"사이코지만 괜찮아",yr:2020,ep:16,status:"want",depth:null,rewatch:0,
    genre:["Romance","Healing","Psychological"],
    cast:["Kim Soo-hyun","Seo Yea-ji","Oh Jung-se"],
@@ -455,12 +462,12 @@ const shows = [
    note:"",
    locs:[{p:"Korea"}]},
 
-  {t:"Dynamite Kiss",kr:"불꽃같은 키스",yr:2025,ep:12,status:"want",depth:null,rewatch:0,
+  {t:"Dynamite Kiss",kr:"불꽃같은 키스",yr:2025,ep:12,status:"watched",depth:"deep",rewatch:1,
    genre:["Romance","Comedy","Office"],
    cast:["Jang Ki-yong","Ahn Eun-jin"],
    themes:["fake identity","office romance","contract lie","comedy"],
-   note:"",
-   locs:[{p:"Korea"}]},
+   note:"Set partly on Jeju — hearing the island's name a couple of times because of this show is part of what first pulled Jeju onto my radar. The last episode, where he loses his memories, was genuinely weird: I fast-forwarded it the first time, then went back and watched it properly. Weird as it was, it's a very different take — and I kind of respect it for that.",
+   locs:[{p:"Korea — Seoul (office rom-com)"},{p:"Korea — Jeju Island (part of the story)"}]},
 
   {t:"Crash Course in Romance",kr:"일타 스캔들",yr:2023,ep:16,status:"want",depth:null,rewatch:0,
    genre:["Romance","Comedy","Family"],
@@ -494,6 +501,7 @@ const POSTERS = {
   "See You in My 19th Life": "/zbP6wPbdFCTFnzuZoVXMw9q5Hno.jpg",
   "Dynamite Kiss": "/qY3ltlWUB7u3ENocrMOkbGCGYnt.jpg",
   "Crash Course in Romance": "/88rQREli2xtoDV6HToJysp71ZL7.jpg",
+  "Crash Landing on You": "/fgBNLPr6mC8pxuR79ENAJY4nBmj.jpg",
 };
 const PROFILES = {
   "Lee Jae-wook": "/rGGgDCNlbTwENUXXlBD3g9bJDQj.jpg",
@@ -544,6 +552,10 @@ const PROFILES = {
   "Ahn Eun-jin": "/cZDp8Qim5tmUN9gQxPkBOE5MS8w.jpg",
   "Jeon Do-yeon": "/ev2tT7ZbReE06rZy7SX0Mv8evZ7.jpg",
   "Jung Kyung-ho": "/fanLZsECF5nDy17HkhcdoLJjPaw.jpg",
+  "Hyun Bin": "/JQFzhO9j8HRiyr7leGPj6cqhvM.jpg",
+  "Son Ye-jin": "/i6fASFvO3mUceZJvipn4RiLHA44.jpg",
+  "Seo Ji-hye": "/55PUL5Yo6hoD2WJO5ysOiYULopg.jpg",
+  "Kim Jung-hyun": "/6SN5PBj1ycfY4o9HlLK4joS5f1F.jpg",
 };
 // scatter drifting sparkles across the hero title-card
 (function(){
@@ -589,6 +601,7 @@ const SHOW_RATINGS = {
   "Business Proposal":["binged","side"],
   "Start-Up":["binged"],
   "Queen of Tears":["ff","cinematic"],
+  "Dynamite Kiss":["ff","culture"],
   "Destined with You":["binged","char"],
   "Sold Out on You":["binged"],
 };
@@ -933,6 +946,7 @@ const BACKDROPS = {
   "See You in My 19th Life": "/jChgOjgYN7Vhkc5OpBbIYG4uSTG.jpg",
   "Dynamite Kiss": "/cTFQKu8CLftXHUCIBGksfL8uhf3.jpg",
   "Crash Course in Romance": "/o3tS28maAJTDt9Zmnn4JvNv2Hix.jpg",
+  "Crash Landing on You": "/3yEHM2HT2vrUtO93YzTJNgEfiZG.jpg",
 };
 const backdropUrl = t => BACKDROPS[t] ? IMG_BASE+"w780"+BACKDROPS[t] : null;
 // A drama can have several real filming spots — each gets its own pin.
@@ -976,9 +990,16 @@ const PLACES = [
   {drama:"Destined with You", lat:37.5796, lng:126.977, place:"Seoul, South Korea", abroad:false},
   {drama:"See You in My 19th Life", lat:37.5512, lng:126.9882, place:"Seoul, South Korea", abroad:false},
   {drama:"Dynamite Kiss", lat:37.514, lng:127.059, place:"Gangnam, Seoul, South Korea", abroad:false},
+  {drama:"Dynamite Kiss", lat:33.5100, lng:126.5219, place:"Jeju Island (part of the story), South Korea", abroad:false},
   {drama:"Crash Course in Romance", lat:37.4996, lng:127.0628, place:"Daechi-dong, Seoul, South Korea", abroad:false},
   {drama:"Boyfriend on Demand", lat:37.534, lng:126.9946, place:"Seoul, South Korea", abroad:false},
   {drama:"Sold Out on You", lat:37.5443, lng:127.0557, place:"Seoul, South Korea", abroad:false},
+
+  // Crash Landing on You — "North Korea" was never the North: Switzerland, Mongolia + a set in Taebaek
+  {drama:"Crash Landing on You", lat:46.6906, lng:7.9636, place:"Iseltwald & Lake Brienz, Switzerland", abroad:true},
+  {drama:"Crash Landing on You", lat:47.5000, lng:104.5000, place:"The Mongolian steppe — standing in for the North", abroad:true},
+  {drama:"Crash Landing on You", lat:37.1641, lng:128.9856, place:"Taebaek — the 'North Korean' village set, South Korea", abroad:false},
+  {drama:"Crash Landing on You", lat:37.5665, lng:126.9780, place:"Seoul — the Southern scenes, South Korea", abroad:false},
 ];
 const panoLink = (lat,lng)=>`https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${lat},${lng}`;
 let locMap=null;
@@ -1031,9 +1052,10 @@ const learning = [
   {group:"How the language actually works",
    sub:"Not vocabulary I'm memorising — just the parts that made me put the remote down.",
    items:[
-    {hangul:"존댓말 · 반말", rom:"jondaetmal · banmal", gloss:"Formal speech vs. casual speech — chosen by closeness, not mood.",
-     from:"King the Land · Business Proposal",
-     trail:"Why a couple pausing before they speak felt like a plot beat → Korean speech levels → the moment you drop from formal to casual is an actual event, sometimes asked for out loud.",
+    {hangul:"존댓말 · 반말", rom:"jondaetmal · banmal", gloss:"Formal speech vs. casual speech — chosen by closeness and status, not mood.",
+     from:"Hometown Cha-Cha-Cha · King the Land · Business Proposal",
+     trail:"Why a couple pausing before they speak felt like a plot beat → Korean speech levels → the moment you drop from formal to casual is an actual event, sometimes asked for out loud → and getting it wrong is a real social misstep.",
+     extra:"<b>Where I actually noticed it:</b> in Hometown Cha-Cha-Cha, Chief Hong speaks to nearly the whole village in warm, casual 반말 — that easy closeness is the whole point of the town. But when Hye-jin's city parents meet him, the same casualness lands as disrespect: an outsider skipping the formality their status expects. Same words, opposite meaning, depending entirely on who's listening.",
      say:"In English, intimacy leaks in through tone. In Korean it's in the grammar — you can't speak to someone without encoding exactly how close you are. So the shift from 존댓말 to 반말 is a threshold you cross on purpose. The language makes you name the relationship before you can say a sentence. Imagine building a product that honest."},
 
     {hangul:"오빠 · 누나 · 선배", rom:"oppa · noona · sunbae", gloss:"You're addressed by your relationship, not your name.",
@@ -1064,7 +1086,14 @@ const learning = [
     {hangul:"해녀", rom:"haenyeo", gloss:"Jeju's women free-divers — matriarchs of the sea, UNESCO-recognised.",
      from:"When Life Gives You Tangerines",
      trail:"Jeju setting → the diving women → a female-led island economy → a tradition now ageing out → Jeju's whole separate history from the mainland.",
+     extra:"<b>The real Jeju:</b> haenyeo have free-dived for centuries — holding their breath to 10 metres for abalone and seaweed — in a rare matriarchal economy where women were the earners. Most are now in their 60s–80s; UNESCO listed them in 2016 as a living culture that may not outlast them. The island carries a heavier history than its postcards, too — the 1948 Jeju 4·3 tragedy, still being reckoned with today.<br><br><b>On screen:</b> When Life Gives You Tangerines sets its heroine's whole hard, tender life against that world — the diving, the poverty, the mid-century Jeju most dramas never bother to show.",
      say:"Women who dive without tanks, into cold water, for decades — and held up their families doing it. It reframed the whole show for me. The softness on screen sits on top of genuinely hard women. I want to stand on that shore and understand what it cost them."},
+
+    {hangul:"학원 · 수능", rom:"hagwon · suneung", gloss:"Private cram schools (hagwon) and the Suneung — the single national exam that can decide a Korean kid's whole future.",
+     from:"Crash Course in Romance",
+     trail:"A math tutor with fans, bodyguards and a merch line → wait, tutoring is a celebrity industry? → hagwon culture → the Suneung, the one-day exam the entire country reorganises itself around → Daechi-dong, the Seoul district built on it.",
+     extra:"<b>The real thing:</b> Korea spends more on private education per child than almost anywhere on earth. Top 'star' instructors in Daechi-dong can out-earn CEOs; on Suneung day the stock market opens an hour late and planes are held during the English-listening section so nothing breaks the silence.<br><br><b>On screen:</b> Crash Course in Romance turns that pressure-cooker into a rom-com — a celebrity tutor and the mum next door. SKY Castle took the exact same world and made it a thriller. Both are basically documentaries with the edges filed off.",
+     say:"This is the one that stopped me — a tutor with a fandom? Then I read what these families actually spend, and what it does to the kids, and the premise got a lot less cute. I want to understand this one properly before I press play."},
 
     {hangul:"환혼 · 조선", rom:"hwanhon · Joseon", gloss:"Soul-shifting fantasy set in a Joseon-flavoured world.",
      from:"Alchemy of Souls",
