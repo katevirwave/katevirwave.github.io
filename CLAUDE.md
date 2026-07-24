@@ -38,6 +38,14 @@ See `scripts/VISUAL_QA.md` for full options and agent workflows.
 
 ## Constraints
 
-- No npm, no package.json — keep the project dependency-free
-- No frameworks — plain HTML/CSS/JS only
-- `.debug/` is gitignored — never commit it
+- No npm, no package.json. Keep the project dependency-free (exception: the K-drama page `kdrama.html` uses Leaflet + map tiles for its Locations map, a deliberate, approved choice).
+- No frameworks. Plain HTML/CSS/JS only.
+- `.debug/` is gitignored. Never commit it.
+
+## Kate's voice rules (apply to ALL copy on the site)
+
+Kate reviewed the copy and gave two hard rules. Follow them in every note, heading, caption, and microcopy you write:
+
+- **No em dashes (—).** Use a period, comma, or colon instead. She finds em-dash-everywhere an obvious AI tell.
+- **No "X, not Y" negation-as-definition** (e.g. "an actress I follow, not just a face", "made, not watched"). State it in the positive. Simple negation inside a sentence is fine; the "it's this, not that" definitional construction is not.
+- Keep her actual words verbatim. Short, declarative lines. When unsure, write plainer, not fancier.

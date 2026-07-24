@@ -38,13 +38,27 @@
   /* animated hero title-card */
   .hero-band{background:linear-gradient(160deg,#2d1a33,#1a1022)}
   .hero-frame{position:relative;max-width:840px;margin:0 auto;overflow:hidden;line-height:0}
-  .hero-img{width:100%;height:auto;display:block}
+  .hero-img{width:100%;height:auto;display:block;transform:scale(1.07);will-change:transform}
+  /* header entrance + scroll effects */
+  @keyframes kdRise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+  header .eyebrow{animation:kdRise .7s .10s both cubic-bezier(.2,.7,.3,1)}
+  header h1{animation:kdRise .8s .22s both cubic-bezier(.2,.7,.3,1)}
+  header .sub{animation:kdRise .8s .36s both cubic-bezier(.2,.7,.3,1)}
+  header .spoiler-note{animation:kdRise .8s .50s both cubic-bezier(.2,.7,.3,1)}
+  header .stats{animation:kdRise .8s .62s both cubic-bezier(.2,.7,.3,1)}
+  @media (prefers-reduced-motion:reduce){header .eyebrow,header h1,header .sub,header .spoiler-note,header .stats{animation:none}.hero-img{transform:none}}
   .hero-sheen{position:absolute;inset:0;background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.16) 47%,rgba(255,255,255,.04) 55%,transparent 72%);transform:translateX(-75%);animation:heroSweep 8.5s ease-in-out infinite;pointer-events:none;mix-blend-mode:screen}
   @keyframes heroSweep{0%{transform:translateX(-75%)}60%,100%{transform:translateX(135%)}}
   .hero-sparkles{position:absolute;inset:0;pointer-events:none}
   .hero-sparkles span{position:absolute;border-radius:50%;background:radial-gradient(circle,#fff 0%,rgba(255,240,250,.7) 40%,rgba(255,255,255,0) 70%);opacity:0;animation:heroTwinkle 4s ease-in-out infinite}
   @keyframes heroTwinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:.9;transform:scale(1)}}
   @media (prefers-reduced-motion:reduce){.hero-sheen{display:none}.hero-sparkles span{animation:none;opacity:0}}
+
+  .why-band{padding:34px 20px 4px}
+  .why-inner{max-width:600px;margin:0 auto;text-align:center}
+  .why-h{font-family:'Gowun Batang',serif;font-size:23px;color:var(--plum);margin-bottom:12px}
+  .why-inner p{font-family:'Gowun Batang',serif;font-size:16px;line-height:1.72;color:#4a3f4d}
+  .why-inner em{font-style:italic;color:var(--rose)}
 
   .backbar{padding:14px 20px;font-size:13px}
   .backbar a{color:var(--plum);text-decoration:none;font-weight:600;letter-spacing:.04em}
@@ -291,7 +305,8 @@
   .lk-gloss{font-family:'Gowun Batang',serif;font-size:19px;line-height:1.4;color:var(--ink);font-weight:700}
   .lk-from{display:inline-block;margin-top:13px;font-size:11px;font-weight:600;letter-spacing:.02em;padding:4px 11px;border-radius:12px;background:var(--rose-soft);color:var(--plum)}
   .lk-trail{margin-top:15px;font-size:13px;line-height:1.6;color:#6b5f6f}
-  .lk-trail-h{display:block;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--jade);margin-bottom:4px}
+  .lk-trail-h{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--jade);margin-bottom:6px}
+  .lk-rabbit{width:30px;height:30px;object-fit:cover;border-radius:8px;flex:0 0 auto;box-shadow:0 1px 4px var(--shadow)}
   .lk-real{margin-top:15px;padding:14px 16px;background:linear-gradient(135deg,#f5f0f8,#f3ecf6);border:1px solid #e5daf0;border-radius:13px;font-size:12.5px;line-height:1.6;color:#4a3f4d}
   .lk-real b{color:var(--plum);letter-spacing:.01em}
   .lk-real i{color:var(--rose);font-style:normal;font-weight:600}
@@ -354,6 +369,10 @@
   .sd-badge{display:inline-block;margin-top:8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:4px 9px;border-radius:20px;background:var(--jade);color:#fff}
   .sd-badge.want{background:var(--gold)} .sd-badge.started{background:#8a7bb8}
   .sd-body{padding:20px 22px 24px}
+  .sd-trailer{width:100%;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;background:var(--rose);color:#fff;border:none;border-radius:12px;padding:12px;margin-bottom:20px;transition:.15s}
+  .sd-trailer:hover{background:#c85a7f}
+  .sd-video{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;margin-bottom:20px;background:#000}
+  .sd-video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
   .sd-rates{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
   .sd-rate{font-size:11px;font-weight:600;padding:4px 10px;border-radius:12px;background:#f1ecf7;color:#6a54a0;border:1px solid #e2d8ef}
   .sd-note{font-family:'Gowun Batang',serif;font-size:15px;line-height:1.62;color:#4a3f4d;background:#fbf8f4;border-left:3px solid var(--rose);padding:13px 15px;border-radius:0 8px 8px 0;margin-bottom:22px}
@@ -406,7 +425,7 @@
 <header>
   <div class="eyebrow">A watch diary in progress</div>
   <h1>Kate's K-Drama Log<span class="kr">케이드라마 일지</span></h1>
-  <p class="sub">Not so long ago, I felt empty — everything I loved had stopped feeling touchable. Then a whole world switched on. The puzzles. The heartache. The romance that keeps making me look over at my husband and realise he's my real-life K-drama lead. And being all the way here, the second I press play.</p>
+  <p class="sub">Not so long ago, I felt empty. Everything I loved had stopped feeling touchable. Then a whole world switched on. The puzzles. The heartache. The romance that keeps making me look over at my husband and realise he's my real-life K-drama lead. And being all the way here, the second I press play.</p>
   <p class="spoiler-note">⚠ Spoilers ahead — I write like I've already watched it. Fair warning.</p>
   <div class="stats">
     <div class="stat"><b id="s-watched">–</b><span>Watched</span></div>
@@ -415,6 +434,13 @@
     <div class="stat"><b id="s-abroad">–</b><span>Filmed abroad</span></div>
   </div>
 </header>
+
+<section class="why-band">
+  <div class="why-inner">
+    <h2 class="why-h">Why K-dramas?</h2>
+    <p>Because sixteen hours of a world that <em>starts</em>, means something, and actually <em>ends</em> did what rest couldn't. Every thread tied off. Every piece fitting. For a brain that never stops running the pattern, a story that resolves is the closest thing to putting it down. I started at Christmas 2024. I haven't stopped. I just started taking notes, and built this.</p>
+  </div>
+</section>
 
 <nav class="tabs">
   <button class="tab active" data-tab="shows">Shows</button>
@@ -430,7 +456,7 @@
     <div class="tl-wrap" id="timeline">
       <div class="tl-head">
         <h3>By the year each one aired</h3>
-        <p class="tl-sub">When the shows were <b>made</b> — not when I watched them. I only started at Christmas 2024, then binged backwards: one from 2014, a whole stack from right now. I don't just watch what's new. Tap any poster to open it up.</p>
+        <p class="tl-sub">These are release years, the years each show was <b>made</b>. I only started watching at Christmas 2024, then went backwards through a decade. One from 2014. A whole stack from right now. I go back for the good older ones. Tap any poster to open it up.</p>
       </div>
       <div class="tl-track" id="tlTrack"></div>
     </div>
@@ -566,7 +592,7 @@ const shows = [
    genre:["Romance","Comedy","Healing","Slice-of-life"],
    cast:["Jung So-min","Jung Hae-in"],
    themes:["childhood friends to lovers","burnout","illness & recovery","coming home","family"],
-   note:"Jung So-min again — after Alchemy of Souls, here as Bae Seok-ryu, who comes home from California quietly burned out and recovering from cancer, and lands back in the childhood-friend-next-door of it all. The one that made me clock her as an actress I follow, not just a face in one show.",
+   note:"Not a favourite, and that says nothing about how good it is. It was captivating. It almost can't be a favourite, because it lands too close. Seok-ryu comes home from the West Coast burned out on tech, quietly unwell, not sure she was ever really loved. I know that exact tired. I know that ache. Jung So-min carries all of it, and after this and Alchemy of Souls I'll follow her anywhere.",
    locs:[{p:"Korea — Seoul (the old neighbourhood)"}]},
 
   {t:"Start-Up",kr:"스타트업",yr:2020,ep:16,status:"watched",depth:"deep",rewatch:0,
@@ -746,6 +772,21 @@ const PROFILES = {
   "Kim Jung-hyun": "/6SN5PBj1ycfY4o9HlLK4joS5f1F.jpg",
   "Jung Hae-in": "/7ZMUHR2q0XTWMxuqijWSVfWQv14.jpg",
 };
+// hero parallax + fade on scroll
+(function(){
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const img=document.querySelector('.hero-img'), band=document.querySelector('.hero-band');
+  if(!img) return;
+  let ticking=false;
+  function upd(){
+    const y=window.scrollY;
+    img.style.transform='scale(1.07) translateY('+Math.min(y*0.14,24)+'px)';
+    if(band) band.style.opacity=String(1-Math.min(y/640,1)*0.5);
+    ticking=false;
+  }
+  window.addEventListener('scroll',()=>{ if(!ticking){ requestAnimationFrame(upd); ticking=true; } },{passive:true});
+})();
+
 // scatter drifting sparkles across the hero title-card
 (function(){
   const el=document.getElementById('heroSparkles'); if(!el) return;
@@ -908,6 +949,30 @@ renderCards();
   }
 })();
 
+// Official trailer YouTube keys per show (via TMDB).
+const TRAILERS = {
+  "Alchemy of Souls": "50kLmhGpt1s",
+  "Can This Love Be Translated?": "tNZG1aLBATY",
+  "Hometown Cha-Cha-Cha": "z66fazyp3-M",
+  "King the Land": "AGF16szMOmo",
+  "The Potato Lab": "eGXxozmh7ug",
+  "Boyfriend on Demand": "A0GqKTgSpuE",
+  "Business Proposal": "M-PHcxPyasA",
+  "Start-Up": "BemKyzbLDDc",
+  "Sold Out on You": "LhfSS7-RhVE",
+  "Queen of Tears": "Gg2D8zrzlOA",
+  "When the Phone Rings": "Y4P-z1Qy6xI",
+  "The Trunk": "96twl5nStnA",
+  "It's Okay to Not Be Okay": "89i-Fn2CqQg",
+  "It's Okay, That's Love": "evF6CTbHeXk",
+  "When Life Gives You Tangerines": "4ECAaQkNAbc",
+  "Destined with You": "BXTDH1Ropfo",
+  "See You in My 19th Life": "3yUYh-Rbysk",
+  "Dynamite Kiss": "PukVwohE-Vk",
+  "Crash Course in Romance": "M0roNIisQ5w",
+  "Crash Landing on You": "K58Z1RORRaI",
+  "Love Next Door": "3n1AHT-XwvA",
+};
 // ---------- show detail: what a show opens up to ----------
 function sdClose(){ const ov=document.getElementById('showModal'); if(ov) ov.hidden=true; document.body.style.overflow=''; }
 function sdGoActor(name){ sdClose(); document.querySelector('.tab[data-tab="actors"]').click(); const lt=document.querySelector('.aw-tgl[data-view="list"]'); if(lt&&!lt.classList.contains('on')) lt.click(); const s=document.getElementById('awSearch'); if(s){ s.value=name; s.dispatchEvent(new Event('input')); } const a=document.getElementById('actors'); if(a) a.scrollIntoView(); }
@@ -937,6 +1002,7 @@ function openShow(s){
       </div>
     </div>
     <div class="sd-body">
+      ${TRAILERS[s.t]?`<button class="sd-trailer" type="button" data-key="${TRAILERS[s.t]}">▶ Watch the trailer</button>`:''}
       ${rates?`<div class="sd-rates">${rates}</div>`:''}
       ${s.note?`<div class="sd-note">${s.note}</div>`:''}
       ${(s.cast&&s.cast.length)?`<div class="sd-sec"><h4>Actors to follow</h4><div class="sd-chips">${s.cast.map(a=>{ const cc=(actorMap[a]||[]).length, fu=profileUrl(a); return `<button class="sd-actor" data-actor="${a.replace(/"/g,'&quot;')}">${fu?`<img src="${fu}" alt="">`:`<span class="sd-actor-ini">${initials(a)}</span>`}<span>${a}${cc>1?` · ★${cc}`:''}</span></button>`; }).join('')}</div></div>`:''}
@@ -945,6 +1011,7 @@ function openShow(s){
       ${holes.length?`<div class="sd-sec"><h4>Rabbit holes it sent me down</h4><div class="sd-chips">${holes.map(h=>`<button class="sd-hole" data-gi="${h.gi}">${h.hangul} <span>${h.rom}</span></button>`).join('')}</div></div>`:''}
     </div>`;
   card.querySelector('.sd-close').onclick=sdClose;
+  const tb=card.querySelector('.sd-trailer'); if(tb){ const key=tb.dataset.key; tb.onclick=()=>{ tb.outerHTML='<div class="sd-video"><iframe src="https://www.youtube-nocookie.com/embed/'+key+'?autoplay=1&rel=0" title="Trailer" allow="autoplay; encrypted-media; fullscreen" allowfullscreen loading="lazy"></iframe></div>'; }; }
   card.querySelectorAll('.sd-actor').forEach(b=>b.onclick=()=>sdGoActor(b.dataset.actor));
   const mb=card.querySelector('.sd-mapbtn'); if(mb) mb.onclick=sdGoMap;
   card.querySelectorAll('.sd-hole').forEach(b=>b.onclick=()=>sdGoLearn(+b.dataset.gi));
@@ -1526,7 +1593,7 @@ learning.forEach((g,gi)=>{
       <div class="lk-body">
         <div class="lk-gloss">${it.gloss}</div>
         <span class="lk-from">from ${it.from}</span>
-        <div class="lk-trail"><span class="lk-trail-h">↓ down the rabbit hole</span>${it.trail}</div>
+        <div class="lk-trail"><span class="lk-trail-h"><img class="lk-rabbit" src="./assets/rabbit-icon.png" alt="" aria-hidden="true">down the rabbit hole</span>${it.trail}</div>
         ${(it.real&&it.drama)?`
         <div class="lk-flip">
           <div class="lk-flip-inner">
