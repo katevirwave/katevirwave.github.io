@@ -318,6 +318,72 @@
     .lk-body{padding:22px 20px}
   }
 
+  /* year timeline */
+  .tl-wrap{margin-bottom:24px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 18px 14px;box-shadow:0 2px 10px var(--shadow)}
+  .tl-head h3{font-family:'Gowun Batang',serif;font-size:19px;color:var(--plum)}
+  .tl-sub{font-size:12.5px;color:#6b5f6f;margin-top:3px;font-style:italic}
+  .tl-track{display:flex;gap:10px;overflow-x:auto;padding:16px 2px 4px;align-items:flex-end}
+  .tl-year{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:7px}
+  .tl-posters{display:flex;flex-direction:column;gap:6px;align-items:center}
+  .tl-poster{width:46px;height:66px;border-radius:6px;overflow:hidden;cursor:pointer;position:relative;box-shadow:0 2px 6px var(--shadow);border:2px solid var(--jade);transition:transform .12s;background:var(--rose-soft)}
+  .tl-poster.want{border-color:var(--gold)}
+  .tl-poster.partial{border-color:#8a7bb8}
+  .tl-poster:hover{transform:translateY(-3px) scale(1.06)}
+  .tl-poster img{width:100%;height:100%;object-fit:cover;display:block}
+  .tl-tick{width:8px;height:8px;border-radius:50%;background:var(--line)}
+  .tl-ylabel{font-size:11px;font-weight:700;color:var(--jade);font-family:'Space Grotesk',sans-serif;padding-top:6px;border-top:1.5px solid var(--line);width:100%;text-align:center}
+  .tl-year.empty{opacity:.55}
+  .tl-year.empty .tl-ylabel{color:#b3a9b8}
+
+  /* show detail modal — what it opens up to */
+  .sd-overlay{position:fixed;inset:0;z-index:100;background:rgba(26,20,36,.62);backdrop-filter:blur(4px);display:flex;align-items:flex-start;justify-content:center;padding:28px 14px;overflow-y:auto}
+  .sd-overlay[hidden]{display:none}
+  .sd-card{background:var(--paper);width:min(640px,100%);border-radius:20px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45);position:relative;margin:auto;animation:sdIn .25s ease}
+  @keyframes sdIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .sd-close{position:absolute;top:12px;right:14px;z-index:5;width:34px;height:34px;border-radius:50%;border:none;background:rgba(255,255,255,.9);color:var(--plum);font-size:20px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+  .sd-close:hover{background:#fff}
+  .sd-hero{position:relative;padding:22px;color:#fff;background-size:cover;background-position:center}
+  .sd-hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(45,26,51,.5),rgba(26,16,26,.92))}
+  .sd-htop{position:relative;display:flex;gap:16px;align-items:flex-end}
+  .sd-poster{width:84px;height:120px;border-radius:10px;object-fit:cover;flex:0 0 auto;box-shadow:0 6px 18px rgba(0,0,0,.45)}
+  .sd-htext{min-width:0}
+  .sd-title{font-family:'Gowun Batang',serif;font-size:23px;font-weight:700;line-height:1.12}
+  .sd-kr{font-size:14px;color:var(--rose-soft);margin-top:3px}
+  .sd-meta{font-size:12px;color:#e8ddd0;margin-top:6px}
+  .sd-badge{display:inline-block;margin-top:8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:4px 9px;border-radius:20px;background:var(--jade);color:#fff}
+  .sd-badge.want{background:var(--gold)} .sd-badge.started{background:#8a7bb8}
+  .sd-body{padding:20px 22px 24px}
+  .sd-rates{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
+  .sd-rate{font-size:11px;font-weight:600;padding:4px 10px;border-radius:12px;background:#f1ecf7;color:#6a54a0;border:1px solid #e2d8ef}
+  .sd-note{font-family:'Gowun Batang',serif;font-size:15px;line-height:1.62;color:#4a3f4d;background:#fbf8f4;border-left:3px solid var(--rose);padding:13px 15px;border-radius:0 8px 8px 0;margin-bottom:22px}
+  .sd-sec{margin-bottom:22px}
+  .sd-sec:last-child{margin-bottom:0}
+  .sd-sec h4{font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--jade);margin-bottom:11px}
+  .sd-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .sd-actor{display:inline-flex;align-items:center;gap:8px;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--plum);background:#fff;border:1px solid var(--line);border-radius:22px;padding:5px 12px 5px 5px;cursor:pointer;transition:.15s}
+  .sd-actor:hover{border-color:var(--rose)}
+  .sd-actor img{width:30px;height:30px;border-radius:50%;object-fit:cover;object-position:center top}
+  .sd-actor-ini{width:30px;height:30px;border-radius:50%;background:var(--plum);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+  .sd-row{display:flex;gap:12px;overflow-x:auto;padding-bottom:6px}
+  .sd-film{flex:0 0 auto;width:82px;text-align:center}
+  .sd-fposter{width:82px;height:116px;border-radius:8px;overflow:hidden;position:relative;background:linear-gradient(160deg,var(--rose-soft),#e7d5df);box-shadow:0 2px 8px var(--shadow)}
+  .sd-fposter img{width:100%;height:100%;object-fit:cover;display:block}
+  .sd-fposter.noimg img{display:none}
+  .sd-ffb{display:none;position:absolute;inset:0;padding:5px;align-items:center;justify-content:center;text-align:center;font-family:'Gowun Batang',serif;font-size:9px;color:var(--plum)}
+  .sd-fposter.noimg .sd-ffb{display:flex}
+  .sd-ftitle{font-size:10px;color:var(--ink);font-weight:600;margin-top:5px;line-height:1.2}
+  .sd-fvia{font-size:9.5px;color:#8a7f90;margin-top:2px;line-height:1.2}
+  .sd-places{display:flex;flex-direction:column;gap:6px;margin-bottom:11px}
+  .sd-place{font-size:13px;color:#4a3f4d}
+  .sd-place.abroad{color:#2b7cb3;font-weight:600}
+  .sd-mapbtn,.sd-hole{font-family:inherit;cursor:pointer;border-radius:9px;transition:.15s}
+  .sd-mapbtn{font-size:12.5px;font-weight:600;background:var(--plum);color:#fff;border:none;padding:8px 13px}
+  .sd-mapbtn:hover{background:#3a2242}
+  .sd-hole{font-size:13px;font-weight:600;background:#fff;border:1px solid var(--line);color:var(--plum);padding:6px 12px}
+  .sd-hole span{color:var(--jade);font-style:italic;font-size:11px}
+  .sd-hole:hover{border-color:var(--rose)}
+  .card{cursor:pointer}
+
   footer{text-align:center;padding:40px 20px 10px;font-size:12.5px;color:#9a8ea0}
   footer a{color:var(--plum);font-weight:600}
   footer .attrib{margin-top:10px;font-size:11px;color:#b3a9b8;max-width:520px;margin-left:auto;margin-right:auto}
@@ -360,6 +426,13 @@
 
   <!-- SHOWS -->
   <section class="panel active" id="shows">
+    <div class="tl-wrap" id="timeline">
+      <div class="tl-head">
+        <h3>The years I've watched across</h3>
+        <p class="tl-sub">From 2014 to now — mostly recent, but I'll go back for a good one. Tap any poster to open it up.</p>
+      </div>
+      <div class="tl-track" id="tlTrack"></div>
+    </div>
     <div class="filterbar" id="filters"></div>
     <div class="grid" id="cards"></div>
   </section>
@@ -430,6 +503,11 @@
   Started from my Netflix likes · 방가방가 · <a href="./index.html">back to katejulia.com</a>
   <div class="attrib">Posters &amp; cast photos via <a href="https://www.themoviedb.org" target="_blank" rel="noopener noreferrer">TMDB</a>. This product uses the TMDB API but is not endorsed or certified by TMDB.</div>
 </footer>
+
+<!-- SHOW DETAIL: what a show opens up to -->
+<div class="sd-overlay" id="showModal" hidden>
+  <div class="sd-card" id="sdCard" role="dialog" aria-modal="true" aria-label="Show details"></div>
+</div>
 
 <script>
 const shows = [
@@ -797,10 +875,82 @@ function renderCards(){
       ${rateRow}
       <div class="tags">${themeTags}</div>
       <div class="tags">${locTags}</div>`;
+    card.addEventListener('click',()=>openShow(s));
     cardsEl.appendChild(card);
   });
 }
 renderCards();
+
+// ---------- year timeline ----------
+(function(){
+  const track=document.getElementById('tlTrack'); if(!track) return;
+  const yrs=shows.map(s=>s.yr).filter(Boolean);
+  const minY=Math.min(...yrs), maxY=Math.max(...yrs);
+  for(let y=minY;y<=maxY;y++){
+    const inYear=shows.filter(s=>s.yr===y);
+    const col=document.createElement('div');
+    col.className='tl-year'+(inYear.length?'':' empty');
+    const posters=document.createElement('div'); posters.className='tl-posters';
+    if(inYear.length){
+      inYear.forEach(s=>{
+        const cls=s.status==='want'?'want':(s.depth==='partial'?'partial':'watched');
+        const p=document.createElement('div'); p.className='tl-poster '+cls; p.title=s.t+' ('+y+')';
+        const pu=posterUrl(s.t); p.innerHTML=pu?`<img src="${pu}" alt="${s.t}" loading="lazy">`:'';
+        p.addEventListener('click',()=>openShow(s));
+        posters.appendChild(p);
+      });
+    } else { const t=document.createElement('div'); t.className='tl-tick'; posters.appendChild(t); }
+    col.appendChild(posters);
+    const yl=document.createElement('div'); yl.className='tl-ylabel'; yl.textContent="'"+String(y).slice(2);
+    col.appendChild(yl);
+    track.appendChild(col);
+  }
+})();
+
+// ---------- show detail: what a show opens up to ----------
+function sdClose(){ const ov=document.getElementById('showModal'); if(ov) ov.hidden=true; document.body.style.overflow=''; }
+function sdGoActor(name){ sdClose(); document.querySelector('.tab[data-tab="actors"]').click(); const lt=document.querySelector('.aw-tgl[data-view="list"]'); if(lt&&!lt.classList.contains('on')) lt.click(); const s=document.getElementById('awSearch'); if(s){ s.value=name; s.dispatchEvent(new Event('input')); } const a=document.getElementById('actors'); if(a) a.scrollIntoView(); }
+function sdGoMap(){ sdClose(); document.querySelector('.tab[data-tab="locations"]').click(); const l=document.getElementById('locations'); if(l) l.scrollIntoView(); }
+function sdGoLearn(gi){ sdClose(); document.querySelector('.tab[data-tab="learning"]').click(); const sel=document.getElementById('lkSelect'); if(sel){ sel.value=gi; sel.dispatchEvent(new Event('change')); } const l=document.getElementById('learning'); if(l) l.scrollIntoView(); }
+function openShow(s){
+  const card=document.getElementById('sdCard'); if(!card) return;
+  const bd=backdropUrl(s.t)||posterUrl(s.t)||'';
+  const badge = s.status==='want'?'<span class="sd-badge want">Want to watch</span>':(s.depth==='partial'?'<span class="sd-badge started">Started</span>':(s.depth==='skimmed'?'<span class="sd-badge">Skimmed</span>':'<span class="sd-badge">Watched</span>'));
+  const rates=(SHOW_RATINGS[s.t]||[]).map(k=>RATE[k]?`<span class="sd-rate">${RATE[k].icon} ${RATE[k].label}</span>`:'').join('');
+  const wm={}; (s.cast||[]).forEach(a=>(FILMS[a]||[]).forEach(f=>{ const t=f[0],y=f[1],p=f[2]; if(t===s.t||shows.some(x=>x.t===t)) return; if(!wm[t]) wm[t]={title:t,year:y,poster:p?IMG_BASE+"w185"+p:null,via:new Set()}; wm[t].via.add(a); }));
+  const watch=Object.values(wm).sort((a,b)=>b.via.size-a.via.size).slice(0,10);
+  const holes=[]; learning.forEach((g,gi)=>g.items.forEach(it=>{ if((it.from||'').indexOf(s.t)>=0) holes.push({hangul:it.hangul,rom:it.rom,gi}); }));
+  const yr=s.yr, era = yr<=2016?'from a few years back — not just chasing what’s new':(yr<=2021?'a recent one':'fresh off the current wave');
+  const purl=posterUrl(s.t);
+  card.innerHTML=`
+    <button class="sd-close" aria-label="Close">×</button>
+    <div class="sd-hero"${bd?` style="background-image:url('${bd}')"`:''}>
+      <div class="sd-htop">
+        ${purl?`<img class="sd-poster" src="${purl}" alt="">`:''}
+        <div class="sd-htext">
+          <div class="sd-title">${s.t}</div>
+          ${s.kr?`<div class="sd-kr">${s.kr}</div>`:''}
+          <div class="sd-meta">${yr}${s.ep?` · ${s.ep} eps`:''} · ${era}</div>
+          ${badge}
+        </div>
+      </div>
+    </div>
+    <div class="sd-body">
+      ${rates?`<div class="sd-rates">${rates}</div>`:''}
+      ${s.note?`<div class="sd-note">${s.note}</div>`:''}
+      ${(s.cast&&s.cast.length)?`<div class="sd-sec"><h4>Actors to follow</h4><div class="sd-chips">${s.cast.map(a=>{ const cc=(actorMap[a]||[]).length, fu=profileUrl(a); return `<button class="sd-actor" data-actor="${a.replace(/"/g,'&quot;')}">${fu?`<img src="${fu}" alt="">`:`<span class="sd-actor-ini">${initials(a)}</span>`}<span>${a}${cc>1?` · ★${cc}`:''}</span></button>`; }).join('')}</div></div>`:''}
+      ${watch.length?`<div class="sd-sec"><h4>Watch next — through these actors</h4><div class="sd-row">${watch.map(w=>`<div class="sd-film"><div class="sd-fposter">${w.poster?`<img src="${w.poster}" alt="${w.title}" loading="lazy" onerror="this.closest('.sd-fposter').classList.add('noimg')">`:''}<span class="sd-ffb">${w.title}</span></div><div class="sd-ftitle">${w.title}</div><div class="sd-fvia">via ${[...w.via].join(', ')}</div></div>`).join('')}</div></div>`:''}
+      ${(s.locs&&s.locs.length)?`<div class="sd-sec"><h4>Places it takes you</h4><div class="sd-places">${s.locs.map(l=>`<span class="sd-place${l.abroad?' abroad':''}">${l.abroad?'✈ ':'📍 '}${l.p}</span>`).join('')}</div><button class="sd-mapbtn" data-map>See on the map →</button></div>`:''}
+      ${holes.length?`<div class="sd-sec"><h4>Rabbit holes it sent me down</h4><div class="sd-chips">${holes.map(h=>`<button class="sd-hole" data-gi="${h.gi}">${h.hangul} <span>${h.rom}</span></button>`).join('')}</div></div>`:''}
+    </div>`;
+  card.querySelector('.sd-close').onclick=sdClose;
+  card.querySelectorAll('.sd-actor').forEach(b=>b.onclick=()=>sdGoActor(b.dataset.actor));
+  const mb=card.querySelector('.sd-mapbtn'); if(mb) mb.onclick=sdGoMap;
+  card.querySelectorAll('.sd-hole').forEach(b=>b.onclick=()=>sdGoLearn(+b.dataset.gi));
+  const ov=document.getElementById('showModal'); ov.hidden=false; ov.scrollTop=0; document.body.style.overflow='hidden';
+}
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') sdClose(); });
+(function(){ const ov=document.getElementById('showModal'); if(ov) ov.addEventListener('click',e=>{ if(e.target===ov) sdClose(); }); })();
 
 // ---------- actor web ----------
 const actorMap={};
