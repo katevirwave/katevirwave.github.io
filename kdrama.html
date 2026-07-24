@@ -223,24 +223,39 @@
   .learn-intro{max-width:640px;margin:0 auto 30px;text-align:center}
   .learn-intro p{font-family:'Gowun Batang',serif;font-size:16px;line-height:1.7;color:#4a3f4d;margin-bottom:12px}
   .learn-intro p:first-child{font-size:19px;color:var(--plum)}
-  .learn-group{margin-bottom:34px}
-  .learn-group > h3{font-family:'Gowun Batang',serif;font-size:22px;color:var(--plum);margin-bottom:3px}
-  .learn-group > p.gsub{font-size:13px;color:#6b5f6f;margin-bottom:16px;font-style:italic}
-  .learn-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
-  .learn-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 20px 18px;box-shadow:0 2px 10px var(--shadow);transition:.18s}
-  .learn-card:hover{transform:translateY(-3px);box-shadow:0 8px 22px var(--shadow)}
-  .learn-card .word{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
-  .learn-card .hangul{font-family:'Gowun Batang',serif;font-size:30px;font-weight:700;color:var(--plum);line-height:1}
-  .learn-card .rom{font-size:13px;color:var(--jade);font-weight:600;font-style:italic}
-  .learn-card .gloss{font-size:14px;margin-top:8px;color:var(--ink);font-weight:500}
-  .learn-card .from{display:inline-block;margin-top:12px;font-size:11px;font-weight:600;letter-spacing:.02em;padding:4px 10px;border-radius:12px;background:var(--rose-soft);color:var(--plum)}
-  .learn-card .trail{margin-top:12px;font-size:12.5px;color:#6b5f6f;line-height:1.5}
-  .learn-card .trail b{color:var(--jade);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:10.5px;display:block;margin-bottom:2px}
-  .learn-card .learn-extra{margin-top:11px;padding:12px 13px;background:#f3eef7;border:1px solid #e2d8ef;border-radius:10px;font-size:12.5px;line-height:1.55;color:#4a3f4d}
-  .learn-card .learn-extra b{color:var(--plum);letter-spacing:.02em}
-  .learn-card .learn-extra i{color:var(--rose);font-style:normal;font-weight:600}
-  .learn-card .say{margin-top:13px;padding:12px 14px;background:#fbf8f4;border-left:3px solid var(--rose);border-radius:0 8px 8px 0;font-size:13.5px;line-height:1.6;color:#4a3f4d;font-family:'Gowun Batang',serif}
-  .learn-foot{text-align:center;font-size:12.5px;color:#9a8ea0;font-style:italic;margin-top:8px}
+  /* Learning Korea — editorial "rabbit hole" layout */
+  .lk-group{max-width:880px;margin:0 auto 52px}
+  .lk-grouphead{text-align:center;margin-bottom:30px}
+  .lk-grouphead h3{font-family:'Gowun Batang',serif;font-size:clamp(21px,3.2vw,29px);color:var(--plum);letter-spacing:-.01em;line-height:1.2}
+  .lk-grouphead p{font-size:13.5px;color:#8a7f90;font-style:italic;margin-top:7px}
+  .lk-grouphead::after{content:"";display:block;width:56px;height:2px;margin:16px auto 0;background:linear-gradient(90deg,transparent,var(--rose),transparent)}
+  .lk-track{display:flex;flex-direction:column;gap:26px}
+  .lk-entry{display:grid;grid-template-columns:210px 1fr;gap:0;align-items:stretch;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:0 6px 26px var(--shadow);overflow:hidden;transition:transform .2s,box-shadow .2s}
+  .lk-entry:hover{transform:translateY(-3px);box-shadow:0 14px 34px var(--shadow)}
+  .lk-entry:nth-child(even){grid-template-columns:1fr 210px}
+  .lk-entry:nth-child(even) .lk-char{order:2}
+  .lk-entry:nth-child(even) .lk-body{order:1}
+  .lk-char{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 16px;background:radial-gradient(circle at 38% 28%,#5c3663,#2c1932);overflow:hidden}
+  .lk-char::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 70% 90%,rgba(217,106,143,.25),transparent 60%)}
+  .lk-hangul{position:relative;font-family:'Gowun Batang',serif;font-size:clamp(52px,8vw,76px);line-height:1.05;color:#f7f3ee;text-align:center;text-shadow:0 3px 20px rgba(217,106,143,.45)}
+  .lk-rom{position:relative;margin-top:12px;font-size:13px;font-style:italic;color:var(--rose-soft);letter-spacing:.05em;text-align:center}
+  .lk-num{position:absolute;top:12px;left:15px;font-family:'Space Grotesk';font-size:12px;font-weight:700;color:rgba(255,255,255,.32);letter-spacing:.12em}
+  .lk-body{min-width:0;padding:26px 26px 24px}
+  .lk-gloss{font-family:'Gowun Batang',serif;font-size:19px;line-height:1.4;color:var(--ink);font-weight:700}
+  .lk-from{display:inline-block;margin-top:13px;font-size:11px;font-weight:600;letter-spacing:.02em;padding:4px 11px;border-radius:12px;background:var(--rose-soft);color:var(--plum)}
+  .lk-trail{margin-top:15px;font-size:13px;line-height:1.6;color:#6b5f6f}
+  .lk-trail-h{display:block;font-size:10.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--jade);margin-bottom:4px}
+  .lk-real{margin-top:15px;padding:14px 16px;background:linear-gradient(135deg,#f5f0f8,#f3ecf6);border:1px solid #e5daf0;border-radius:13px;font-size:12.5px;line-height:1.6;color:#4a3f4d}
+  .lk-real b{color:var(--plum);letter-spacing:.01em}
+  .lk-real i{color:var(--rose);font-style:normal;font-weight:600}
+  .lk-say{margin:16px 0 0;padding-left:16px;border-left:3px solid var(--rose);font-family:'Gowun Batang',serif;font-size:15px;line-height:1.66;color:#4a3f4d;font-style:italic}
+  .learn-foot{text-align:center;font-size:12.5px;color:#9a8ea0;font-style:italic;margin-top:8px;max-width:640px;margin-left:auto;margin-right:auto}
+  @media(max-width:640px){
+    .lk-entry,.lk-entry:nth-child(even){grid-template-columns:1fr}
+    .lk-entry:nth-child(even) .lk-char,.lk-entry:nth-child(even) .lk-body{order:0}
+    .lk-char{min-height:130px;padding:24px 16px}
+    .lk-body{padding:22px 20px}
+  }
 
   footer{text-align:center;padding:40px 20px 10px;font-size:12.5px;color:#9a8ea0}
   footer a{color:var(--plum);font-weight:600}
@@ -1103,25 +1118,33 @@ const learning = [
 ];
 
 const learnwrap = document.getElementById('learnwrap');
+let lkIndex=0;
 learning.forEach(g=>{
-  const sec=document.createElement('div');
-  sec.className='learn-group';
-  sec.innerHTML=`<h3>${g.group}</h3><p class="gsub">${g.sub}</p>`;
-  const grid=document.createElement('div');
-  grid.className='learn-cards';
+  const sec=document.createElement('section');
+  sec.className='lk-group';
+  sec.innerHTML=`<div class="lk-grouphead"><h3>${g.group}</h3><p>${g.sub}</p></div>`;
+  const track=document.createElement('div');
+  track.className='lk-track';
   g.items.forEach(it=>{
-    const c=document.createElement('div');
-    c.className='learn-card';
-    c.innerHTML=`
-      <div class="word"><span class="hangul">${it.hangul}</span><span class="rom">${it.rom}</span></div>
-      <div class="gloss">${it.gloss}</div>
-      <span class="from">from ${it.from}</span>
-      <div class="trail"><b>Sent me down</b>${it.trail}</div>
-      ${it.extra?`<div class="learn-extra">${it.extra}</div>`:''}
-      <div class="say">${it.say}</div>`;
-    grid.appendChild(c);
+    lkIndex++;
+    const el=document.createElement('article');
+    el.className='lk-entry';
+    el.innerHTML=`
+      <div class="lk-char">
+        <span class="lk-num">${String(lkIndex).padStart(2,'0')}</span>
+        <span class="lk-hangul">${it.hangul}</span>
+        <span class="lk-rom">${it.rom}</span>
+      </div>
+      <div class="lk-body">
+        <div class="lk-gloss">${it.gloss}</div>
+        <span class="lk-from">from ${it.from}</span>
+        <div class="lk-trail"><span class="lk-trail-h">↓ down the rabbit hole</span>${it.trail}</div>
+        ${it.extra?`<div class="lk-real">${it.extra}</div>`:''}
+        <blockquote class="lk-say">${it.say}</blockquote>
+      </div>`;
+    track.appendChild(el);
   });
-  sec.appendChild(grid);
+  sec.appendChild(track);
   learnwrap.appendChild(sec);
 });
 
