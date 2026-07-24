@@ -126,6 +126,34 @@
   .card .meta{font-size:13px;color:#6b5f6f;margin-top:10px}
   .card .cast{font-size:13px;margin-top:8px;color:var(--ink)}
   .card .cast b{color:var(--plum)}
+
+  /* show poster */
+  .card-head{display:flex;gap:14px;align-items:flex-start}
+  .card-headtext{flex:1;min-width:0}
+  .poster{
+    flex:0 0 78px;width:78px;height:112px;border-radius:9px;overflow:hidden;
+    background:linear-gradient(160deg,var(--rose-soft),#e7d5df);
+    position:relative;box-shadow:0 3px 10px var(--shadow);
+  }
+  .poster img{width:100%;height:100%;object-fit:cover;display:block}
+  .poster-fallback{
+    display:none;position:absolute;inset:0;padding:8px;
+    align-items:center;justify-content:center;text-align:center;
+    font-family:'Gowun Batang',serif;font-size:12px;line-height:1.25;color:var(--plum);
+  }
+  .poster.noimg img{display:none}
+  .poster.noimg .poster-fallback{display:flex}
+
+  /* actor headshot */
+  .avatar{
+    flex:0 0 auto;width:38px;height:38px;border-radius:50%;overflow:hidden;
+    position:relative;display:inline-flex;align-items:center;justify-content:center;
+    background:linear-gradient(160deg,var(--plum),#2d1a33);box-shadow:0 2px 6px var(--shadow);
+  }
+  .avatar img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;position:relative;z-index:2}
+  .avatar-ini{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;color:#fff;font-family:'Space Grotesk';z-index:1}
+  .actor h4{gap:10px}
+  .actor .actor-name{flex:1}
   .tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
   .t{font-size:11px;padding:3px 9px;border-radius:12px;background:var(--rose-soft);color:var(--plum);font-weight:500}
   .t.loc{background:#e2eeea;color:var(--jade)}
@@ -346,6 +374,85 @@ const shows = [
    locs:[{p:"Korea — Seoul (the 'academy street' hagwon world)"}]},
 ];
 
+// ---------- TMDB images ----------
+// Poster + headshot paths from The Movie Database (image.tmdb.org CDN).
+// Fetched once, baked in — no API key or live calls at page load.
+const IMG_BASE = "https://image.tmdb.org/t/p/";
+const POSTERS = {
+  "Alchemy of Souls": "/gvOZN1NlAoL8iz9ghpES1zWA3w3.jpg",
+  "Can This Love Be Translated?": "/zgUh4cgalSzBjbsT5P0qmU7Rjzk.jpg",
+  "Hometown Cha-Cha-Cha": "/en6lrlJ1DhyvkeZEqrk3R6EJz1p.jpg",
+  "King the Land": "/tW8BMRCYSe6nySvZ749pzc31x2m.jpg",
+  "The Potato Lab": "/c20CqgsCKKEFBKNOknL6GFSgL35.jpg",
+  "Boyfriend on Demand": "/1WSuH8eK44KDavNggmWhKS5zUCF.jpg",
+  "Business Proposal": "/iLh7L8ZuvgdxFaM9sImyv2iKYLe.jpg",
+  "Start-Up": "/hxJQ3A2wtreuWDnVBbzzXI3YlOE.jpg",
+  "Sold Out on You": "/bcnneY1DWQzmwfvsuhGGnwv9KYD.jpg",
+  "Queen of Tears": "/7ZXLZ3KYL3IVvsSHBZaHjcNQzNU.jpg",
+  "When the Phone Rings": "/glWP5Y7CVeqrOjJpLckQjuLFjQJ.jpg",
+  "The Trunk": "/d4RSgEVbISGhgPpxfZQg5chpAZ9.jpg",
+  "It's Okay to Not Be Okay": "/8XSJfLeImX8NszDUFnK1lbseCi8.jpg",
+  "It's Okay, That's Love": "/pcjGXR5g0YAvvGYmsrQsWf98CyO.jpg",
+  "When Life Gives You Tangerines": "/1VC3sEFxYXYDqQUCAnvWfUsYg1s.jpg",
+  "Destined with You": "/e21UFBbQStpqSkU4iyWwVJsb8DZ.jpg",
+  "See You in My 19th Life": "/zbP6wPbdFCTFnzuZoVXMw9q5Hno.jpg",
+  "Dynamite Kiss": "/qY3ltlWUB7u3ENocrMOkbGCGYnt.jpg",
+  "Crash Course in Romance": "/88rQREli2xtoDV6HToJysp71ZL7.jpg",
+};
+const PROFILES = {
+  "Lee Jae-wook": "/rGGgDCNlbTwENUXXlBD3g9bJDQj.jpg",
+  "Jung So-min": "/cv8i4ALEabYkwnu68p5AdRTrMG9.jpg",
+  "Go Youn-jung": "/wQbPu0QF0IeyXpqJmdmRbfNk6CM.jpg",
+  "Hwang Min-hyun": "/v5EwxluES8RZ8O4eErTz0r9lDJ5.jpg",
+  "Kim Seon-ho": "/qG8QeXHCn3iAJxeUCsPswM3Zw5l.jpg",
+  "Shin Min-a": "/6CjxjYvZBuvbAQTcuoPb8EeVrUI.jpg",
+  "Lee Sang-yi": "/4OSOux7D8ZIbNsA7eINSwmHM9nb.jpg",
+  "Lee Jun-ho": "/DJYwG0eWdCoxvqWhLsnJNKQlMR.jpg",
+  "Im Yoon-ah": "/JzAuAv17bWkLxVtfi9YJvQJhZl.jpg",
+  "Go Won-hee": "/iHGHhIe4keVyxzUKNB0skR1wfGW.jpg",
+  "Ahn Se-ha": "/ah6E27lc3UJrLPLArSEsgY4GXCu.jpg",
+  "Lee Sun-bin": "/8YwNd9PhSym4357gCu9RCDdPXqx.jpg",
+  "Kang Tae-oh": "/aMenmaLlcK6YMZnN7NBvvaVuq4O.jpg",
+  "Ahn Hyo-seop": "/oLS5jvS5cZ7SaXNctA8VYXPp6ax.jpg",
+  "Kim Se-jeong": "/xGlsWq7iKB2DDNs04CaJEyQV3Vl.jpg",
+  "Kim Min-kyu": "/v71O9DXVNGUlet9FSInF9Do2vzq.jpg",
+  "Seol In-ah": "/nfHLot4nBfqWQKwcXykeol4Owjb.jpg",
+  "Bae Suzy": "/39x6Dc4ELZxHbxCuOM0ddbwKh3F.jpg",
+  "Nam Joo-hyuk": "/kuLC8pR24kbEIAjfg3WpKW41Kcl.jpg",
+  "Kang Han-na": "/fXydO3AV3arjm3mMPhIxbf26l6a.jpg",
+  "Kim Soo-hyun": "/q24P4pmtWGhe08T7rTkoDc5EC1p.jpg",
+  "Kim Ji-won": "/lX7W1j9kg4jV6XNn5XEE3rKsd3x.jpg",
+  "Park Sung-hoon": "/nSF8VW2IoZcAA910gKQxbu01umk.jpg",
+  "Kwak Dong-yeon": "/klgX8YheSFFXqEdjuCQY5rxTTGa.jpg",
+  "Yoo Yeon-seok": "/cB95no6uPnMu5FdlVWK3cO9k5xR.jpg",
+  "Chae Soo-bin": "/t8inEDMgceg8EFLvgglvXzemklf.jpg",
+  "Heo Nam-jun": "/17NPgo2g3X6kjLaz9nx2qKFH9.jpg",
+  "Gong Yoo": "/ocGoFb6TrK3uWGXt4WnuibUG1vD.jpg",
+  "Seo Hyun-jin": "/pevSdOgAhz9a75ixFqbf420vK7J.jpg",
+  "Seo Yea-ji": "/a9moiE8WWuygU02m4KE3M2Nrrkp.jpg",
+  "Oh Jung-se": "/oIqRAdI5e777odhOJl6e4Jc9ADj.jpg",
+  "Jo In-sung": "/69gbyFI0ET0l0dyjKChlx1Zx269.jpg",
+  "Gong Hyo-jin": "/u2ZDHJOHRkgzY0dpaORitoZjF4F.jpg",
+  "Sung Dong-il": "/9VLRIvOyQSHkpJaeaBcmHzcEUQn.jpg",
+  "Lee Kwang-soo": "/eqjZXCV4EutnoVxZwOveK6Nl5W9.jpg",
+  "D.O.": "/fYjYGWxYydmVxPle1h6QoeRk2b0.jpg",
+  "IU": "/uNhKOO9lIAFXF11LM6gjCrX2CJz.jpg",
+  "Park Bo-gum": "/iQHhzpJnxPAeZetNLJPr3gTs1rE.jpg",
+  "Moon So-ri": "/iXfIsmrzohNAAf2gyPCE06rJM1N.jpg",
+  "Park Hae-joon": "/heNKjLHWCQXXfkDB1Hb2nhuhDCf.jpg",
+  "Rowoon": "/sWf7wAG4upRgIkWuDfNvUog1UHc.jpg",
+  "Jo Bo-ah": "/1torx99sDl20pTzMI9XHaPuVP96.jpg",
+  "Shin Hye-sun": "/cuCFjBn3SpWyhIfBy9TupzvTrmp.jpg",
+  "Ahn Bo-hyun": "/2pNNCnjI1TwxjyP3Y4cJln1wOKE.jpg",
+  "Jang Ki-yong": "/Gc3gcQLMCkR3l0nQgQ3nUxVv1u.jpg",
+  "Ahn Eun-jin": "/cZDp8Qim5tmUN9gQxPkBOE5MS8w.jpg",
+  "Jeon Do-yeon": "/ev2tT7ZbReE06rZy7SX0Mv8evZ7.jpg",
+  "Jung Kyung-ho": "/fanLZsECF5nDy17HkhcdoLJjPaw.jpg",
+};
+const posterUrl = t => POSTERS[t] ? IMG_BASE+"w342"+POSTERS[t] : null;
+const profileUrl = n => PROFILES[n] ? IMG_BASE+"w185"+PROFILES[n] : null;
+const initials = n => n.split(/[\s-]+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+
 // ---------- render shows ----------
 const cardsEl = document.getElementById('cards');
 const filtersEl = document.getElementById('filters');
@@ -397,16 +504,25 @@ function renderCards(){
     if(s.progress) marks.push(`<span class="mark prog">${s.progress} in</span>`);
     const markRow = marks.length?`<div class="marks">${marks.join('')}</div>`:'';
     const noteBlock = s.note?`<div class="note-box">${s.note}</div>`:'';
+    const purl = posterUrl(s.t);
+    const poster = purl
+      ? `<div class="poster"><img src="${purl}" alt="${s.t} poster" loading="lazy" onerror="this.closest('.poster').classList.add('noimg')"><span class="poster-fallback">${s.t}</span></div>`
+      : `<div class="poster noimg"><span class="poster-fallback">${s.t}</span></div>`;
     card.innerHTML=`
-      <div class="top">
-        <div>
-          <h3>${s.t}</h3>
-          <div class="yr">${s.yr}${s.ep?` · ${s.ep} eps`:''}${s.kr?` · ${s.kr}`:''}</div>
+      <div class="card-head">
+        ${poster}
+        <div class="card-headtext">
+          <div class="top">
+            <div>
+              <h3>${s.t}</h3>
+              <div class="yr">${s.yr}${s.ep?` · ${s.ep} eps`:''}${s.kr?` · ${s.kr}`:''}</div>
+            </div>
+            ${badge}
+          </div>
+          <div class="meta">${s.genre.join(' · ')}</div>
+          ${markRow}
         </div>
-        ${badge}
       </div>
-      <div class="meta">${s.genre.join(' · ')}</div>
-      ${markRow}
       ${castLine}
       ${noteBlock}
       <div class="tags">${themeTags}</div>
@@ -427,7 +543,11 @@ const webEl=document.getElementById('actorweb');
 actorEntries.forEach(([name,roles])=>{
   const el=document.createElement('div');
   el.className='actor'+(roles.length>1?' multi':'');
-  el.innerHTML=`<h4>${name} ${roles.length>1?`<span class="count">×${roles.length}</span>`:''}</h4>
+  const furl=profileUrl(name);
+  const avatar = furl
+    ? `<span class="avatar"><img src="${furl}" alt="${name}" loading="lazy" onerror="this.closest('.avatar').classList.add('noimg');this.remove()"><span class="avatar-ini">${initials(name)}</span></span>`
+    : `<span class="avatar noimg"><span class="avatar-ini">${initials(name)}</span></span>`;
+  el.innerHTML=`<h4>${avatar}<span class="actor-name">${name}</span> ${roles.length>1?`<span class="count">×${roles.length}</span>`:''}</h4>
     <ul>${roles.sort((a,b)=>a.yr-b.yr).map(r=>`<li>${r.t} <span>${r.yr} · ${r.status==='watched'?'seen':'to watch'}</span></li>`).join('')}</ul>`;
   webEl.appendChild(el);
 });
