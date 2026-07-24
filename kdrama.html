@@ -236,6 +236,9 @@
   .learn-card .from{display:inline-block;margin-top:12px;font-size:11px;font-weight:600;letter-spacing:.02em;padding:4px 10px;border-radius:12px;background:var(--rose-soft);color:var(--plum)}
   .learn-card .trail{margin-top:12px;font-size:12.5px;color:#6b5f6f;line-height:1.5}
   .learn-card .trail b{color:var(--jade);font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:10.5px;display:block;margin-bottom:2px}
+  .learn-card .learn-extra{margin-top:11px;padding:12px 13px;background:#f3eef7;border:1px solid #e2d8ef;border-radius:10px;font-size:12.5px;line-height:1.55;color:#4a3f4d}
+  .learn-card .learn-extra b{color:var(--plum);letter-spacing:.02em}
+  .learn-card .learn-extra i{color:var(--rose);font-style:normal;font-weight:600}
   .learn-card .say{margin-top:13px;padding:12px 14px;background:#fbf8f4;border-left:3px solid var(--rose);border-radius:0 8px 8px 0;font-size:13.5px;line-height:1.6;color:#4a3f4d;font-family:'Gowun Batang',serif}
   .learn-foot{text-align:center;font-size:12.5px;color:#9a8ea0;font-style:italic;margin-top:8px}
 
@@ -312,12 +315,12 @@
   <!-- LEARNING KOREA -->
   <section class="panel" id="learning">
     <div class="learn-intro">
-      <p>I didn't set out to study Korea. I set out to finish an episode.</p>
-      <p>But my brain doesn't watch — it maps. A word I couldn't translate. A family structure that made no sense to me. A title even Koreans said they couldn't read. Every one of those became a tab I had to open.</p>
-      <p>So this is the trail. Each drama handed me something I didn't have a word for — and each word sent me somewhere I didn't expect to go. The subtitles were never the lesson. They were the door.</p>
+      <p>Confession: I'm not studying Korean. Not yet.</p>
+      <p>But I can't get through an episode without stopping to look something up — a feeling English has no word for, a family structure that made no sense to me, a crisis every character seems to remember. So this isn't vocabulary I'm memorising. It's everything the dramas made me want to <i>understand</i> about Korea: its culture, its history, and the way the language actually works.</p>
+      <p>The rabbit holes, explained — in the order the shows sent me down them.</p>
     </div>
     <div id="learnwrap"></div>
-    <p class="learn-foot">Romanisations are rough, on purpose — this is a learner's notebook, not a textbook. Corrections welcome; that's the whole point.</p>
+    <p class="learn-foot">I'm not formally learning the language yet — the Korean here is a landmark, not homework. This is what the dramas sent me to find out. Corrections and additions always welcome.</p>
   </section>
 
 </div>
@@ -342,7 +345,7 @@ const shows = [
    cast:["Kim Seon-ho","Go Youn-jung"],
    themes:["interpreter/translation","language barrier","celebrity romance","travel"],
    note:"One of my favourites. I recognised the darkness inside her — someone who doesn't know how to receive love properly, and learns. He never judges her, he just accepts who she is. And structurally it does the thing I love: her POV, then his, and the picture completes. Puzzle-fit, but inside a person.",
-   locs:[{p:"Italy — Siena / Tuscany (poster & scenes)",abroad:true},{p:"Korea — Seoul"}]},
+   locs:[{p:"Italy — Rome (Baths of Caracalla) & Perugia",abroad:true},{p:"Canada — Banff, Lake Louise & Calgary",abroad:true},{p:"Korea — Seoul (Joseon palace)"}]},
 
   {t:"Hometown Cha-Cha-Cha",kr:"갯마을 차차차",yr:2021,ep:16,status:"watched",depth:"deep",rewatch:1,fav:true,
    genre:["Romance","Slice-of-life","Healing"],
@@ -932,19 +935,43 @@ const BACKDROPS = {
   "Crash Course in Romance": "/o3tS28maAJTDt9Zmnn4JvNv2Hix.jpg",
 };
 const backdropUrl = t => BACKDROPS[t] ? IMG_BASE+"w780"+BACKDROPS[t] : null;
+// A drama can have several real filming spots — each gets its own pin.
 const PLACES = [
   {drama:"Alchemy of Souls", lat:36.7519, lng:128.0787, place:"Mungyeong Saejae film set, South Korea", abroad:false},
-  {drama:"Can This Love Be Translated?", lat:43.3186, lng:11.3316, place:"Siena, Tuscany, Italy", abroad:true},
+
+  // Can This Love Be Translated? — filmed across four countries
+  {drama:"Can This Love Be Translated?", lat:41.8790, lng:12.4924, place:"Rome — Baths of Caracalla, Italy", abroad:true},
+  {drama:"Can This Love Be Translated?", lat:43.1107, lng:12.3908, place:"Perugia, Italy", abroad:true},
+  {drama:"Can This Love Be Translated?", lat:51.4254, lng:-116.1773, place:"Lake Louise, Banff, Canada", abroad:true},
+  {drama:"Can This Love Be Translated?", lat:51.0447, lng:-114.0719, place:"Calgary, Canada", abroad:true},
+  {drama:"Can This Love Be Translated?", lat:37.5665, lng:126.9780, place:"Seoul, South Korea", abroad:false},
+
   {drama:"Hometown Cha-Cha-Cha", lat:36.2926, lng:129.3856, place:"Pohang — the real 'Gongjin', South Korea", abroad:false},
+
+  // King the Land — Thailand getaway + Seoul
   {drama:"King the Land", lat:13.7469, lng:100.5349, place:"Bangkok, Thailand", abroad:true},
+  {drama:"King the Land", lat:37.5112, lng:127.0590, place:"Seoul — luxury hotel interiors, South Korea", abroad:false},
+
   {drama:"The Potato Lab", lat:37.7519, lng:128.8761, place:"Gangneung, Gangwon, South Korea", abroad:false},
   {drama:"Business Proposal", lat:37.5665, lng:126.978, place:"Seoul, South Korea", abroad:false},
+
+  // Start-Up — Pohang + Seoul
   {drama:"Start-Up", lat:35.9903, lng:129.5535, place:"Guryongpo, Pohang, South Korea", abroad:false},
+  {drama:"Start-Up", lat:37.5145, lng:127.1050, place:"Seoul — the 'Sandbox' scenes, South Korea", abroad:false},
+
+  // Queen of Tears — Germany honeymoon + Korea
   {drama:"Queen of Tears", lat:52.5192, lng:13.401, place:"Berlin Cathedral, Germany", abroad:true},
+  {drama:"Queen of Tears", lat:37.6699, lng:126.7480, place:"Aqua Planet Ilsan, South Korea", abroad:false},
+  {drama:"Queen of Tears", lat:37.5259, lng:126.9284, place:"The Hyundai Seoul, South Korea", abroad:false},
+
   {drama:"When the Phone Rings", lat:37.5256, lng:126.9247, place:"Yeouido, Seoul, South Korea", abroad:false},
   {drama:"The Trunk", lat:37.8813, lng:127.7298, place:"Chuncheon lakeside, South Korea", abroad:false},
   {drama:"It's Okay to Not Be Okay", lat:36.7845, lng:126.4503, place:"Seosan — the 'Cursed Castle', South Korea", abroad:false},
+
+  // It's Okay, That's Love — Okinawa + Seoul
   {drama:"It's Okay, That's Love", lat:26.2124, lng:127.6809, place:"Okinawa, Japan", abroad:true},
+  {drama:"It's Okay, That's Love", lat:37.5665, lng:126.9780, place:"Seoul — the shared house, South Korea", abroad:false},
+
   {drama:"When Life Gives You Tangerines", lat:33.4507, lng:126.5706, place:"Jeju Island, South Korea", abroad:false},
   {drama:"Destined with You", lat:37.5796, lng:126.977, place:"Seoul, South Korea", abroad:false},
   {drama:"See You in My 19th Life", lat:37.5512, lng:126.9882, place:"Seoul, South Korea", abroad:false},
@@ -981,8 +1008,8 @@ document.getElementById('s-abroad').textContent=shows.filter(s=>s.locs.some(l=>l
 
 // ---------- learning korea ----------
 const learning = [
-  {group:"Words I keep",
-   sub:"The ones with no clean English swap — so I kept the Korean.",
+  {group:"Culture & the things English can't say",
+   sub:"Feelings and ideas Korea has a word for — and we don't.",
    items:[
     {hangul:"정", rom:"jeong", gloss:"The slow, unspoken bond that builds between people who stay.",
      from:"Hometown Cha-Cha-Cha",
@@ -999,14 +1026,10 @@ const learning = [
      trail:"Why Korean melodrama sits in grief without rushing to resolve it → han as a collective, generational feeling → a culture that lets sadness be structural, not a problem to optimise away.",
      say:"We medicate sorrow. They metabolise it. Han isn't a bad day — it's what a whole people carries and keeps living inside. Watching a drama refuse to hurry someone out of their grief did something to me. Not everything painful is a bug to fix."},
 
-    {hangul:"폭싹 속았수다", rom:"pokssak sogatsuda", gloss:"Jeju dialect: \"you've worked so hard.\" The real title of Tangerines.",
-     from:"When Life Gives You Tangerines",
-     trail:"Why the Korean title looked unreadable → it's Jeju satori, not standard Korean → most Koreans can't parse it either → Jeju as a place with its own tongue, not just its own tangerines.",
-     say:"The title is a dialect so specific that the mainland needs subtitles for it. A show about a hard, tender life, named in a language only the island fully speaks. Standard Korean would've said 수고하셨습니다. The point is that it didn't."},
    ]},
 
-  {group:"How the language holds the relationship",
-   sub:"Korean puts who-you-are-to-each-other inside the grammar. That undid me a little.",
+  {group:"How the language actually works",
+   sub:"Not vocabulary I'm memorising — just the parts that made me put the remote down.",
    items:[
     {hangul:"존댓말 · 반말", rom:"jondaetmal · banmal", gloss:"Formal speech vs. casual speech — chosen by closeness, not mood.",
      from:"King the Land · Business Proposal",
@@ -1017,20 +1040,26 @@ const learning = [
      from:"Start-Up · most of them",
      trail:"Why almost no one uses first names → address-by-role → hierarchy and warmth baked into how you're allowed to call someone.",
      say:"You don't call people by their name here — you call them by where they stand to you. Older brother. Senior. The one who came before. It sounds rigid until you feel it: everyone always knows exactly where they are in relation to everyone else. No guessing. For a brain like mine, that's not a constraint. That's relief."},
+
+    {hangul:"폭싹 속았수다", rom:"pokssak sogatsuda", gloss:"Jeju dialect for \"you've worked so hard\" — and the real title of Tangerines.",
+     from:"When Life Gives You Tangerines",
+     trail:"Why the Korean title looked unreadable → it's Jeju satori (dialect), not standard Korean → most mainland Koreans can't parse it either → Jeju as a place with its own tongue, not just its own tangerines.",
+     say:"The title is a dialect so specific that the rest of Korea needs subtitles for it. A show about a hard, tender life, named in a language only the island fully speaks. Standard Korean would've said 수고하셨습니다. The point is that it didn't."},
    ]},
 
-  {group:"History it sent me into",
-   sub:"A drama would drop a word, and three hours later I'd be deep in a Wikipedia hole I didn't plan on.",
+  {group:"History & society — the stuff I had to Google",
+   sub:"One word in a scene, and three hours later I'm deep in a Wikipedia hole I didn't plan on.",
    items:[
-    {hangul:"재벌", rom:"chaebol", gloss:"Family-controlled conglomerates that run much of the economy.",
-     from:"King the Land · Queen of Tears",
-     trail:"My first chaebol drama → what a chaebol family actually is → marrying in, succession, the whole dynastic machine → straight into the 1997 IMF crisis.",
+    {hangul:"재벌", rom:"chaebol", gloss:"Family-controlled conglomerates — a handful of bloodlines that steer much of Korea's economy, passed down like a throne.",
+     from:"King the Land · Queen of Tears · Business Proposal",
+     trail:"My first chaebol drama → what a chaebol family actually is → marrying in, succession wars, the whole dynastic machine → straight into the 1997 IMF crisis.",
+     extra:"<b>The real dynasties:</b> Samsung (the Lee family), Hyundai (Chung), LG (Koo), SK (Chey), Lotte (Shin) — founder-descended families still holding the controls of empires that touch phones, cars, ships, insurance, everything.<br><br><b>Their on-screen twins:</b> Queen of Tears' <i>Hong family</i> and their Queens Group retail empire; King the Land's <i>Gu family</i> and King Group (hotels, air, distribution); Business Proposal's food-conglomerate heir. The dramas file the serial numbers off the real thing — the marriages-of-alliance, the succession knives, the grandfather-chairman — and let you root for the heir anyway.",
      say:"This was the entry point for the entire obsession. I didn't know what a chaebol was, so I looked it up, and the thread never ended. The perfect suits and the marble lobbies are set dressing over a real, strange, concentrated way of holding power. You can't understand the romance until you understand the empire behind it."},
 
-    {hangul:"IMF 위기", rom:"IMF wigi", gloss:"The 1997 Asian financial crisis — a national scar Koreans still date time by.",
+    {hangul:"IMF 위기", rom:"IMF wigi", gloss:"1997: South Korea nearly went bankrupt and took a record International Monetary Fund bailout — the trauma that reshaped the country.",
      from:"chaebol dramas, in the background",
-     trail:"Chaebol → how they nearly collapsed in '97 → the IMF bailout → gold-collecting drives, mass layoffs → why \"the IMF\" is shorthand for a whole era of Korean hardship.",
-     say:"Once you know the crisis is there, you see its shadow everywhere in these shows — in who has money, who lost it, what security means to a Korean character. An entire generation's anxiety has a date on it. The dramas are quietly still processing it."},
+     trail:"What actually happened: over-borrowed chaebol + a run on the won → Korea couldn't pay its foreign debts → a ~$58 billion IMF rescue with brutal conditions → mass layoffs and companies collapsing → ordinary people queued to donate their gold to help repay the loan. Koreans still call any hard stretch \"the IMF.\"",
+     say:"Once you know the crisis is there, you see its shadow everywhere in these shows — who has money, who lost it, what security means to a Korean character. An entire generation's anxiety has a date on it. The dramas are quietly still processing it."},
 
     {hangul:"해녀", rom:"haenyeo", gloss:"Jeju's women free-divers — matriarchs of the sea, UNESCO-recognised.",
      from:"When Life Gives You Tangerines",
@@ -1059,6 +1088,7 @@ learning.forEach(g=>{
       <div class="gloss">${it.gloss}</div>
       <span class="from">from ${it.from}</span>
       <div class="trail"><b>Sent me down</b>${it.trail}</div>
+      ${it.extra?`<div class="learn-extra">${it.extra}</div>`:''}
       <div class="say">${it.say}</div>`;
     grid.appendChild(c);
   });
