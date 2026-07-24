@@ -35,6 +35,17 @@
   }
   .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
 
+  /* animated hero title-card */
+  .hero-band{background:linear-gradient(160deg,#2d1a33,#1a1022)}
+  .hero-frame{position:relative;max-width:1200px;margin:0 auto;overflow:hidden;line-height:0}
+  .hero-img{width:100%;height:auto;display:block}
+  .hero-sheen{position:absolute;inset:0;background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.16) 47%,rgba(255,255,255,.04) 55%,transparent 72%);transform:translateX(-75%);animation:heroSweep 8.5s ease-in-out infinite;pointer-events:none;mix-blend-mode:screen}
+  @keyframes heroSweep{0%{transform:translateX(-75%)}60%,100%{transform:translateX(135%)}}
+  .hero-sparkles{position:absolute;inset:0;pointer-events:none}
+  .hero-sparkles span{position:absolute;border-radius:50%;background:radial-gradient(circle,#fff 0%,rgba(255,240,250,.7) 40%,rgba(255,255,255,0) 70%);opacity:0;animation:heroTwinkle 4s ease-in-out infinite}
+  @keyframes heroTwinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:.9;transform:scale(1)}}
+  @media (prefers-reduced-motion:reduce){.hero-sheen{display:none}.hero-sparkles span{animation:none;opacity:0}}
+
   .backbar{padding:14px 20px;font-size:13px}
   .backbar a{color:var(--plum);text-decoration:none;font-weight:600;letter-spacing:.04em}
   .backbar a:hover{text-decoration:underline}
@@ -237,6 +248,14 @@
 <body>
 
 <div class="backbar"><a href="./index.html">← katejulia.com</a></div>
+
+<div class="hero-band">
+  <div class="hero-frame">
+    <img class="hero-img" src="./assets/kdrama-hero.jpg" alt="Kate and her husband drawn as a Joseon-era couple in hanbok, making a heart with their hands beneath a full moon and cherry blossoms — in the style of Alchemy of Souls." loading="eager" />
+    <div class="hero-sparkles" id="heroSparkles" aria-hidden="true"></div>
+    <div class="hero-sheen" aria-hidden="true"></div>
+  </div>
+</div>
 
 <header>
   <div class="eyebrow">A watch diary in progress</div>
@@ -523,6 +542,21 @@ const PROFILES = {
   "Jeon Do-yeon": "/ev2tT7ZbReE06rZy7SX0Mv8evZ7.jpg",
   "Jung Kyung-ho": "/fanLZsECF5nDy17HkhcdoLJjPaw.jpg",
 };
+// scatter drifting sparkles across the hero title-card
+(function(){
+  const el=document.getElementById('heroSparkles'); if(!el) return;
+  for(let i=0;i<16;i++){
+    const s=document.createElement('span');
+    const sz=3+(i%4);
+    s.style.left=((i*37+11)%100)+'%';
+    s.style.top=((i*53+7)%96)+'%';
+    s.style.width=s.style.height=sz+'px';
+    s.style.animationDelay=((i%8)*0.55).toFixed(2)+'s';
+    s.style.animationDuration=(3.2+(i%5)*0.6).toFixed(1)+'s';
+    el.appendChild(s);
+  }
+})();
+
 const posterUrl = t => POSTERS[t] ? IMG_BASE+"w342"+POSTERS[t] : null;
 const profileUrl = n => PROFILES[n] ? IMG_BASE+"w185"+PROFILES[n] : null;
 const initials = n => n.split(/[\s-]+/).map(w=>w[0]).slice(0,2).join('').toUpperCase();
