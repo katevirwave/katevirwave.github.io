@@ -226,6 +226,11 @@
   .learn-intro p{font-family:'Gowun Batang',serif;font-size:16px;line-height:1.7;color:#4a3f4d;margin-bottom:12px}
   .learn-intro p:first-child{font-size:19px;color:var(--plum)}
   /* Learning Korea — editorial "rabbit hole" layout */
+  .lk-nav{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 auto 36px;flex-wrap:wrap}
+  .lk-nav-label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--jade)}
+  .lk-select{font-family:inherit;font-size:15px;font-weight:600;color:var(--plum);background:#fff;border:1.5px solid var(--line);border-radius:13px;padding:12px 42px 12px 18px;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%234a2b52' stroke-width='2.5' stroke-linecap='round'><polyline points='6 9 12 15 18 9'/></svg>");background-repeat:no-repeat;background-position:right 15px center;box-shadow:0 4px 16px var(--shadow);transition:.15s;max-width:100%}
+  .lk-select:hover{border-color:var(--rose)}
+  .lk-select:focus-visible{outline:2px solid var(--rose);outline-offset:2px}
   .lk-group{max-width:880px;margin:0 auto 52px}
   .lk-grouphead{text-align:center;margin-bottom:30px}
   .lk-grouphead h3{font-family:'Gowun Batang',serif;font-size:clamp(21px,3.2vw,29px);color:var(--plum);letter-spacing:-.01em;line-height:1.2}
@@ -353,8 +358,9 @@
     <div class="learn-intro">
       <p>Confession: I'm not studying Korean. Not yet.</p>
       <p>But I can't get through an episode without stopping to look something up — a feeling English has no word for, a family structure that made no sense to me, a crisis every character seems to remember. So this isn't vocabulary I'm memorising. It's everything the dramas made me want to <i>understand</i> about Korea: its culture, its history, and the way the language actually works.</p>
-      <p>The rabbit holes, explained — in the order the shows sent me down them.</p>
+      <p>The rabbit holes, explained — pick a shelf to wander.</p>
     </div>
+    <div class="lk-nav" id="lkNav"></div>
     <div id="learnwrap"></div>
     <p class="learn-foot">I'm not formally learning the language yet — the Korean here is a landmark, not homework. This is what the dramas sent me to find out. Corrections and additions always welcome.</p>
   </section>
@@ -1157,9 +1163,10 @@ const learning = [
 
 const learnwrap = document.getElementById('learnwrap');
 let lkIndex=0;
-learning.forEach(g=>{
+learning.forEach((g,gi)=>{
   const sec=document.createElement('section');
   sec.className='lk-group';
+  sec.dataset.idx=gi;
   sec.innerHTML=`<div class="lk-grouphead"><h3>${g.group}</h3><p>${g.sub}</p></div>`;
   const track=document.createElement('div');
   track.className='lk-track';
@@ -1199,6 +1206,19 @@ learning.forEach(g=>{
   sec.appendChild(track);
   learnwrap.appendChild(sec);
 });
+
+// dropdown: show one topic shelf at a time (keeps the page calm)
+const lkNav=document.getElementById('lkNav');
+const lkGroups=[...document.querySelectorAll('#learnwrap .lk-group')];
+if(lkNav){
+  const sel=document.createElement('select'); sel.id='lkSelect'; sel.className='lk-select'; sel.setAttribute('aria-label','Choose a topic');
+  learning.forEach((g,gi)=>{ const o=document.createElement('option'); o.value=gi; o.textContent=g.group; sel.appendChild(o); });
+  lkNav.innerHTML='<span class="lk-nav-label">Explore</span>';
+  lkNav.appendChild(sel);
+  const showGroup=idx=>{ lkGroups.forEach((s,i)=>{ s.style.display=(i===idx)?'':'none'; }); if(window.__initLearn) requestAnimationFrame(()=>window.__initLearn()); };
+  sel.addEventListener('change',()=>showGroup(+sel.value));
+  showGroup(0);
+}
 
 // petals drifting behind each hangul panel
 document.querySelectorAll('.lk-char').forEach((panel,pi)=>{
