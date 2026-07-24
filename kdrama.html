@@ -101,6 +101,12 @@
   }
   .chip:hover{border-color:var(--rose)}
   .chip.on{background:var(--plum);color:#fff;border-color:var(--plum)}
+  .filt-sep{align-self:center;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#b3a9b8;font-weight:600;padding:0 4px 0 8px}
+
+  /* rating merit badges */
+  .rates{display:flex;flex-wrap:wrap;gap:5px;margin-top:11px}
+  .rate{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:4px 10px;border-radius:12px;background:#f1ecf7;color:#6a54a0;border:1px solid #e2d8ef}
+  .rate .ic{font-size:12.5px;line-height:1}
 
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
   .card{
@@ -526,6 +532,30 @@ const cardsEl = document.getElementById('cards');
 const filtersEl = document.getElementById('filters');
 let activeFilter = 'all';
 
+// rating vocabulary — merit badges Kate assigns per watched show
+const RATE = {
+  binged:   {icon:'🍿', label:'watched every minute'},
+  ff:       {icon:'⏩', label:'fast-forwarded parts'},
+  cinematic:{icon:'🎬', label:'cinematic'},
+  char:     {icon:'🌱', label:'great character development'},
+  side:     {icon:'✨', label:'scene-stealing side characters'},
+  culture:  {icon:'🇰🇷', label:'sparked my Korea curiosity'},
+};
+// first-pass ratings seeded from Kate's own notes — easy to edit per show
+const SHOW_RATINGS = {
+  "Alchemy of Souls":["binged","cinematic","char","side","culture"],
+  "Can This Love Be Translated?":["binged","char","cinematic","culture"],
+  "Hometown Cha-Cha-Cha":["binged","char","side","cinematic"],
+  "King the Land":["binged","cinematic","culture"],
+  "The Potato Lab":["binged"],
+  "Boyfriend on Demand":["binged"],
+  "Business Proposal":["binged","side"],
+  "Start-Up":["binged"],
+  "Queen of Tears":["ff","cinematic"],
+  "Destined with You":["binged","char"],
+  "Sold Out on You":["binged"],
+};
+
 const filters = [
   {k:'all',label:'All'},
   {k:'watched',label:'✓ Watched'},
@@ -534,8 +564,16 @@ const filters = [
   {k:'fav',label:'♥ Favourites'},
   {k:'rewatched',label:'↻ Rewatched'},
   {k:'abroad',label:'✈ Filmed abroad'},
+  {sep:'rated for'},
+  {k:'cinematic',label:'🎬 Cinematic'},
+  {k:'char',label:'🌱 Character growth'},
+  {k:'side',label:'✨ Side characters'},
+  {k:'culture',label:'🇰🇷 Korea curiosity'},
+  {k:'binged',label:'🍿 Every minute'},
+  {k:'ff',label:'⏩ Fast-forwarded'},
 ];
 filters.forEach((f,i)=>{
+  if(f.sep){ const s=document.createElement('span'); s.className='filt-sep'; s.textContent=f.sep; filtersEl.appendChild(s); return; }
   const b=document.createElement('button');
   b.className='chip'+(i===0?' on':'');
   b.textContent=f.label;
@@ -552,6 +590,7 @@ function renderCards(){
     if(activeFilter==='rewatched')return (s.rewatch||0)>0;
     if(activeFilter==='partial')return s.depth==='partial';
     if(activeFilter==='watched')return s.status==='watched'&&s.depth!=='partial';
+    if(RATE[activeFilter])return (SHOW_RATINGS[s.t]||[]).includes(activeFilter);
     return s.status===activeFilter;
   }).forEach(s=>{
     const card=document.createElement('div');
@@ -571,6 +610,8 @@ function renderCards(){
     if(s.rewatchFlag) marks.push('<span class="mark flag">needs a proper rewatch</span>');
     if(s.progress) marks.push(`<span class="mark prog">${s.progress} in</span>`);
     const markRow = marks.length?`<div class="marks">${marks.join('')}</div>`:'';
+    const ratePills = (SHOW_RATINGS[s.t]||[]).map(k=>RATE[k]?`<span class="rate"><span class="ic">${RATE[k].icon}</span>${RATE[k].label}</span>`:'').join('');
+    const rateRow = ratePills?`<div class="rates">${ratePills}</div>`:'';
     const noteBlock = s.note?`<div class="note-box">${s.note}</div>`:'';
     const purl = posterUrl(s.t);
     const poster = purl
@@ -593,6 +634,7 @@ function renderCards(){
       </div>
       ${castLine}
       ${noteBlock}
+      ${rateRow}
       <div class="tags">${themeTags}</div>
       <div class="tags">${locTags}</div>`;
     cardsEl.appendChild(card);
