@@ -409,6 +409,34 @@
   .sd-hole:hover{border-color:var(--rose)}
   .card{cursor:pointer}
 
+  /* SHOP — things a drama made me want */
+  .shop-intro{max-width:640px;margin:0 auto 30px;text-align:center}
+  .shop-intro p{font-family:'Gowun Batang',serif;font-size:16px;line-height:1.7;color:#4a3f4d;margin-bottom:12px}
+  .shop-intro p:first-child{font-size:19px;color:var(--plum)}
+  .shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+  .shop-card{
+    background:#fff;border:1px solid var(--line);border-radius:16px;
+    padding:18px 18px 16px;box-shadow:0 2px 10px var(--shadow);
+    transition:.18s;display:flex;flex-direction:column;
+  }
+  .shop-card:hover{transform:translateY(-3px);box-shadow:0 8px 22px var(--shadow)}
+  .shop-head{display:flex;gap:14px;align-items:flex-start}
+  .shop-thumb{
+    flex:0 0 78px;width:78px;height:78px;border-radius:12px;overflow:hidden;
+    background:linear-gradient(160deg,var(--rose-soft),#e7d5df);
+    display:flex;align-items:center;justify-content:center;font-size:38px;
+    box-shadow:0 3px 10px var(--shadow);
+  }
+  .shop-headtext{flex:1;min-width:0}
+  .shop-card h3{font-family:'Gowun Batang',serif;font-size:20px;line-height:1.15;font-weight:700;color:var(--plum)}
+  .shop-from{font-size:12.5px;color:var(--jade);font-weight:600;margin-top:4px}
+  .shop-note{margin-top:11px;padding:11px 13px;background:#fbf8f4;border-left:3px solid var(--rose);border-radius:0 8px 8px 0;font-size:13.5px;line-height:1.55;color:#4a3f4d;font-family:'Gowun Batang',serif}
+  .shop-buy{
+    margin-top:14px;align-self:flex-start;font-family:inherit;font-size:13px;font-weight:600;
+    text-decoration:none;background:var(--plum);color:#fff;border-radius:9px;padding:8px 15px;transition:.15s;
+  }
+  .shop-buy:hover{background:#3a2242}
+
   footer{text-align:center;padding:40px 20px 10px;font-size:12.5px;color:#9a8ea0}
   footer a{color:var(--plum);font-weight:600}
   footer .attrib{margin-top:10px;font-size:11px;color:#b3a9b8;max-width:520px;margin-left:auto;margin-right:auto}
@@ -453,6 +481,7 @@
   <button class="tab" data-tab="actors">Actor Web</button>
   <button class="tab" data-tab="locations">Locations</button>
   <button class="tab" data-tab="learning">Learning Korea</button>
+  <button class="tab" data-tab="shop">Things to Buy</button>
 </nav>
 
 <div class="wrap">
@@ -528,6 +557,15 @@
     <div class="lk-nav" id="lkNav"></div>
     <div id="learnwrap"></div>
     <p class="learn-foot">I'm not formally learning the language yet. The Korean here is a landmark to notice in passing. This is what the dramas sent me to find out. Corrections and additions always welcome.</p>
+  </section>
+
+  <!-- THINGS TO BUY -->
+  <section class="panel" id="shop">
+    <div class="shop-intro">
+      <p>The things a drama put on my wishlist.</p>
+      <p>Every so often a show holds up an object and I want it in my own hands. A prop, a food, a thing two people made together on screen. This is the running list, and the reason each one is on it.</p>
+    </div>
+    <div class="shop-grid" id="shopGrid"></div>
   </section>
 
 </div>
@@ -953,6 +991,35 @@ function renderCards(){
   });
 }
 renderCards();
+
+// ---------- things to buy ----------
+const SHOP = [
+  {
+    name: 'The DIY miniature house kit',
+    from: 'Business Proposal (2022)',
+    emoji: '🏠',
+    note: 'The date where they sit and build the tiny house together, piece by piece, until it stands on the table. I want that exact kit on my desk, half finished, for a slow evening.',
+    // honest wishlist link: a live shopping search, not a fixed store
+    link: 'https://www.google.com/search?tbm=shop&q=DIY+miniature+house+kit',
+    linkLabel: 'Find the kit'
+  }
+];
+(function(){
+  const grid = document.getElementById('shopGrid');
+  if(!grid) return;
+  grid.innerHTML = SHOP.map(item => `
+    <div class="shop-card">
+      <div class="shop-head">
+        <div class="shop-thumb" aria-hidden="true">${item.emoji}</div>
+        <div class="shop-headtext">
+          <h3>${item.name}</h3>
+          <div class="shop-from">from ${item.from}</div>
+        </div>
+      </div>
+      <div class="shop-note">${item.note}</div>
+      ${item.link ? `<a class="shop-buy" href="${item.link}" target="_blank" rel="noopener noreferrer">${item.linkLabel||'Find it'}</a>` : ''}
+    </div>`).join('');
+})();
 
 // ---------- year timeline ----------
 (function(){
