@@ -166,6 +166,8 @@
   .card .meta{font-size:13px;color:#6b5f6f;margin-top:10px}
   .card .cast{font-size:13px;margin-top:8px;color:var(--ink)}
   .card .cast b{color:var(--plum)}
+  .where-pill{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;font-weight:600;padding:4px 11px;border-radius:20px;background:var(--rose-soft);color:var(--plum)}
+  .where-pill .wq{opacity:.7;font-weight:500}
 
   /* show poster */
   .card-head{display:flex;gap:14px;align-items:flex-start}
@@ -374,6 +376,10 @@
   .sd-badge{display:inline-block;margin-top:8px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;padding:4px 9px;border-radius:20px;background:var(--jade);color:#fff}
   .sd-badge.want{background:var(--gold)} .sd-badge.started{background:#8a7bb8}
   .sd-body{padding:20px 22px 24px}
+  .sd-where{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:18px;font-size:13.5px;color:var(--ink)}
+  .sd-where .wlabel{font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--jade)}
+  .sd-where .wname{font-weight:700;padding:4px 12px;border-radius:20px;background:var(--rose-soft);color:var(--plum)}
+  .sd-where .wq{color:#6b5f6f}
   .sd-trailer{width:100%;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer;background:var(--rose);color:#fff;border:none;border-radius:12px;padding:12px;margin-bottom:20px;transition:.15s}
   .sd-trailer:hover{background:#c85a7f}
   .sd-video{position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;margin-bottom:20px;background:#000}
@@ -545,70 +551,70 @@
 <script>
 const shows = [
   // ===== DEEP / LOVED =====
-  {t:"Alchemy of Souls",kr:"환혼",yr:2022,ep:20,status:"watched",depth:"deep",rewatch:3,withSeb:true,fav:true,
+  {t:"Alchemy of Souls",where:"Netflix",kr:"환혼",yr:2022,ep:20,status:"watched",depth:"deep",rewatch:3,withSeb:true,fav:true,
    genre:["Fantasy","Romance","Action","Historical"],
    cast:["Lee Jae-wook","Jung So-min","Go Youn-jung","Hwang Min-hyun"],
    themes:["soul-swapping","magic & mages","master-student","fantasy world"],
    note:"The one that started it all. Watched 3x, including with Sebastian. Two seasons where the lead actress changes: first time I felt like I was cheating on Go Youn-jung, second time I fell for both. A whole world, built properly. This is what I mean when I say K-dramas are perfect puzzles: a real start, a real end, every piece fitting. Got me into Lee Jae-wook and down the whole Korean-celebrity rabbit hole. Want to go deep on how they actually made it.",
    locs:[{p:"Korea — Mungyeong, historical sets (fictional Daeho nation)"}]},
 
-  {t:"Can This Love Be Translated?",kr:"이 사랑 통역 되나요",yr:2025,ep:16,status:"watched",depth:"deep",rewatch:0,fav:true,
+  {t:"Can This Love Be Translated?",where:"Netflix",kr:"이 사랑 통역 되나요",yr:2025,ep:16,status:"watched",depth:"deep",rewatch:0,fav:true,
    genre:["Romance","Comedy"],
    cast:["Kim Seon-ho","Go Youn-jung"],
    themes:["interpreter/translation","language barrier","celebrity romance","travel"],
    note:"One of my favourites. I recognised the darkness inside her, someone who doesn't know how to receive love properly, and learns. He never judges her, he just accepts who she is. And structurally it does the thing I love: her POV, then his, and the picture completes. Puzzle-fit, but inside a person.",
    locs:[{p:"Italy — Rome (Baths of Caracalla) & Perugia",abroad:true},{p:"Canada — Banff, Lake Louise & Calgary",abroad:true},{p:"Korea — Seoul (Joseon palace)"}]},
 
-  {t:"Hometown Cha-Cha-Cha",kr:"갯마을 차차차",yr:2021,ep:16,status:"watched",depth:"deep",rewatch:1,fav:true,
+  {t:"Hometown Cha-Cha-Cha",where:"Netflix",kr:"갯마을 차차차",yr:2021,ep:16,status:"watched",depth:"deep",rewatch:1,fav:true,
    genre:["Romance","Slice-of-life","Healing"],
    cast:["Shin Min-a","Kim Seon-ho","Lee Sang-yi"],
    themes:["small-town life","seaside","opposites attract","community"],
    note:"Didn't get it at first. By the end I was telling Sebastian he absolutely has to watch it. Rewatched. The slow reveal pays off completely, another one where the pieces click late and all at once.",
    locs:[{p:"Korea — Pohang (Cheongho, the real 'Gongjin' fishing village)"}]},
 
-  {t:"King the Land",kr:"킹더랜드",yr:2023,ep:16,status:"watched",depth:"deep",rewatch:0,
+  {t:"King the Land",where:"Netflix",kr:"킹더랜드",yr:2023,ep:16,status:"watched",depth:"deep",rewatch:0,
    genre:["Romance","Comedy","Business"],
    cast:["Lee Jun-ho","Im Yoon-ah","Go Won-hee","Ahn Se-ha"],
    themes:["chaebol heir","hotel setting","enemies to lovers","class difference"],
    note:"My first chaebol drama and my entry point into the whole thing. I didn't know about chaebol families, marrying in, any of it. Sent me straight to Wikipedia, then down a tangent into the IMF crisis. Also just beautiful: the UK-educated heir, the perfectly made suits, the settings. Lots to write about here.",
    locs:[{p:"Thailand — Bangkok, getaway episodes",abroad:true},{p:"Korea — Seoul, luxury hotel interiors"}]},
 
-  {t:"The Potato Lab",kr:"감자연구소",yr:2025,ep:12,status:"watched",depth:"deep",rewatch:0,fav:true,
+  {t:"The Potato Lab",where:"Netflix",kr:"감자연구소",yr:2025,ep:12,status:"watched",depth:"deep",rewatch:0,fav:true,
    genre:["Romance","Comedy","Workplace"],
    cast:["Lee Sun-bin","Kang Tae-oh"],
    themes:["office romance","research institute","enemies to lovers","comedy"],
    note:"Really liked this one.",
    locs:[{p:"Korea — Gangwon, potato research institute"}]},
 
-  {t:"Boyfriend on Demand",kr:null,yr:2024,ep:null,status:"watched",depth:"deep",rewatch:0,fav:true,
+  {t:"Boyfriend on Demand",where:"Netflix",kr:null,yr:2024,ep:null,status:"watched",depth:"deep",rewatch:0,fav:true,
    genre:["Romance","Fantasy","Web drama"],
    cast:[],
    themes:["app/summoned boyfriend","fantasy rom-com","short-form","comedy"],
    note:"Hilarious. Could not stop laughing.",
    locs:[{p:"Korea"}]},
 
-  {t:"Business Proposal",kr:"사내맞선",yr:2022,ep:12,status:"watched",depth:"deep",rewatch:0,
+  {t:"Business Proposal",where:"Netflix",kr:"사내맞선",yr:2022,ep:12,status:"watched",depth:"deep",rewatch:0,
    genre:["Romance","Comedy","Office"],
    cast:["Ahn Hyo-seop","Kim Se-jeong","Kim Min-kyu","Seol In-ah"],
    themes:["fake dating","contract romance","office romance","chaebol CEO"],
    note:"Solid. Liked it. Full review to come.",
    locs:[{p:"Korea — Seoul (office/city rom-com settings)"}]},
 
-  {t:"Love Next Door",kr:"엄마친구아들",yr:2024,ep:16,status:"watched",depth:"deep",rewatch:0,
+  {t:"Love Next Door",where:"Netflix",kr:"엄마친구아들",yr:2024,ep:16,status:"watched",depth:"deep",rewatch:0,
    genre:["Romance","Comedy","Healing","Slice-of-life"],
    cast:["Jung So-min","Jung Hae-in"],
    themes:["childhood friends to lovers","burnout","illness & recovery","coming home","family"],
    note:"Not a favourite, and that says nothing about how good it is. It was captivating. It almost can't be a favourite, because it lands too close. Seok-ryu comes home from the West Coast burned out on tech, quietly unwell, not sure she was ever really loved. I know that exact tired. I know that ache. Jung So-min carries all of it, and after this and Alchemy of Souls I'll follow her anywhere.",
    locs:[{p:"Korea — Seoul (the old neighbourhood)"}]},
 
-  {t:"Start-Up",kr:"스타트업",yr:2020,ep:16,status:"watched",depth:"deep",rewatch:0,
+  {t:"Start-Up",where:"Netflix",kr:"스타트업",yr:2020,ep:16,status:"watched",depth:"deep",rewatch:0,
    genre:["Romance","Business","Coming-of-age"],
    cast:["Bae Suzy","Nam Joo-hyuk","Kim Seon-ho","Kang Han-na"],
    themes:["startups & tech","first love","found family","second-lead syndrome"],
    note:"It was fine. The character threads never fully connected: rushed at the end, and the fight it lands on left me disheartened. Kim Seon-ho again here (also Hometown, also Translated). Easy one to review properly, and I have my own startup, so I can hold it against the real thing. That's the angle.",
    locs:[{p:"Korea — Pohang (Guryongpo), Seoul Sandbox scenes"}]},
 
-  {t:"Sold Out on You",kr:null,yr:2024,ep:null,status:"watched",depth:"deep",rewatch:0,
+  {t:"Sold Out on You",where:"Netflix",kr:null,yr:2024,ep:null,status:"watched",depth:"deep",rewatch:0,
    genre:["Romance","Comedy","Web drama"],
    cast:[],
    themes:["short-form","shopping/commerce","light rom-com"],
@@ -616,7 +622,7 @@ const shows = [
    locs:[{p:"Korea"}]},
 
   // ===== SKIMMED =====
-  {t:"Queen of Tears",kr:"눈물의 여왕",yr:2024,ep:16,status:"watched",depth:"skimmed",rewatch:0,rewatchFlag:true,
+  {t:"Queen of Tears",where:"Netflix",kr:"눈물의 여왕",yr:2024,ep:16,status:"watched",depth:"skimmed",rewatch:0,rewatchFlag:true,
    genre:["Romance","Melodrama","Chaebol"],
    cast:["Kim Soo-hyun","Kim Ji-won","Park Sung-hoon","Kwak Dong-yeon"],
    themes:["marriage in crisis","chaebol family","second-chance love","terminal illness"],
@@ -624,21 +630,21 @@ const shows = [
    locs:[{p:"Germany — Berlin Cathedral, Botanical garden honeymoon",abroad:true},{p:"Korea — The Hyundai Seoul, Aqua Planet Ilsan, Mungyeong rail-bike"}]},
 
   // ===== STARTED =====
-  {t:"When the Phone Rings",kr:"지금 거신 전화는",yr:2024,ep:12,status:"watched",depth:"partial",rewatch:0,progress:"1 episode",
+  {t:"When the Phone Rings",where:"Netflix",kr:"지금 거신 전화는",yr:2024,ep:12,status:"watched",depth:"partial",rewatch:0,progress:"1 episode",
    genre:["Thriller","Romance","Mystery"],
    cast:["Yoo Yeon-seok","Chae Soo-bin","Heo Nam-jun"],
    themes:["contract marriage","political thriller","hostage mystery","sign language"],
    note:"Started it, one episode in.",
    locs:[{p:"Korea — Seoul (political/broadcast-house thriller)"}]},
 
-  {t:"The Trunk",kr:"트렁크",yr:2024,ep:8,status:"watched",depth:"partial",rewatch:0,progress:"1 episode",
+  {t:"The Trunk",where:"Netflix",kr:"트렁크",yr:2024,ep:8,status:"watched",depth:"partial",rewatch:0,progress:"1 episode",
    genre:["Melodrama","Mystery","Romance"],
    cast:["Gong Yoo","Seo Hyun-jin"],
    themes:["contract marriage","dark secrets","cold mood-piece","mystery"],
    note:"Only one episode so far, not actually watched.",
    locs:[{p:"Korea — lakeside modern house, moody winter settings"}]},
 
-  {t:"Crash Landing on You",kr:"사랑의 불시착",yr:2019,ep:16,status:"watched",depth:"partial",rewatch:0,progress:"4 episodes",
+  {t:"Crash Landing on You",where:"Netflix",kr:"사랑의 불시착",yr:2019,ep:16,status:"watched",depth:"partial",rewatch:0,progress:"4 episodes",
    genre:["Romance","Comedy","Melodrama"],
    cast:["Hyun Bin","Son Ye-jin","Seo Ji-hye","Kim Jung-hyun"],
    themes:["North–South divide","forbidden love","chaebol heiress","military"],
@@ -646,56 +652,56 @@ const shows = [
    locs:[{p:"Switzerland — Iseltwald, Lake Brienz & Sigriswil",abroad:true},{p:"Mongolia — the steppe, standing in for the North",abroad:true},{p:"Korea — Taebaek (the North Korean village set) & Seoul"}]},
 
   // ===== WANT TO WATCH =====
-  {t:"Dream to You",kr:"그대에게 드림",yr:2026,ep:12,status:"want",depth:null,rewatch:0,
+  {t:"Dream to You",where:"Viki",whereNote:"not on Netflix",kr:"그대에게 드림",yr:2026,ep:12,status:"want",depth:null,rewatch:0,
    genre:["Romance","Comedy"],
    cast:["Hwang In-youp","Lee Hye-ri","Baek Sung-chul","Lee Yul-eum"],
    themes:["first loves","reunion after 15 years","film director & reporter","second-chance romance"],
    note:"Hwang In-youp and Hye-ri, two first loves who meet again 15 years later. I usually watch on Netflix. This one isn't on there, so I'll have to track it down another way.",
    locs:[{p:"Korea"}]},
 
-  {t:"It's Okay to Not Be Okay",kr:"사이코지만 괜찮아",yr:2020,ep:16,status:"want",depth:null,rewatch:0,
+  {t:"It's Okay to Not Be Okay",where:"Netflix",kr:"사이코지만 괜찮아",yr:2020,ep:16,status:"want",depth:null,rewatch:0,
    genre:["Romance","Healing","Psychological"],
    cast:["Kim Soo-hyun","Seo Yea-ji","Oh Jung-se"],
    themes:["mental health","found family","fairy tales","trauma"],
    note:"Pair this with It's Okay, That's Love: same territory a decade apart. That comparison is a post.",
    locs:[{p:"Korea — Seosan, the 'Cursed Castle' house"}]},
 
-  {t:"It's Okay, That's Love",kr:"괜찮아, 사랑이야",yr:2014,ep:16,status:"want",depth:null,rewatch:0,
+  {t:"It's Okay, That's Love",where:"Netflix",kr:"괜찮아, 사랑이야",yr:2014,ep:16,status:"want",depth:null,rewatch:0,
    genre:["Romance","Melodrama","Psychological"],
    cast:["Jo In-sung","Gong Hyo-jin","Sung Dong-il","Lee Kwang-soo","D.O."],
    themes:["mental health","schizophrenia","writer & psychiatrist","trauma","found family"],
    note:"The 2014 ancestor of It's Okay to Not Be Okay.",
    locs:[{p:"Japan — Okinawa, getaway scenes",abroad:true},{p:"Korea — Seoul shared house"}]},
 
-  {t:"When Life Gives You Tangerines",kr:"폭싹 속았수다",yr:2025,ep:16,status:"want",depth:null,rewatch:0,
+  {t:"When Life Gives You Tangerines",where:"Netflix",kr:"폭싹 속았수다",yr:2025,ep:16,status:"want",depth:null,rewatch:0,
    genre:["Melodrama","Period","Family","Romance"],
    cast:["IU","Park Bo-gum","Moon So-ri","Park Hae-joon"],
    themes:["life-spanning epic","Jeju Island","poverty to hope","motherhood"],
    note:"",
    locs:[{p:"Korea — Jeju Island (1950s–present setting)"}]},
 
-  {t:"Destined with You",kr:"이 연애는 불가항력",yr:2023,ep:16,status:"watched",depth:"deep",rewatch:0,
+  {t:"Destined with You",where:"Netflix",kr:"이 연애는 불가항력",yr:2023,ep:16,status:"watched",depth:"deep",rewatch:0,
    genre:["Romance","Fantasy","Comedy"],
    cast:["Rowoon","Jo Bo-ah"],
    themes:["curse & fate","magic book","destiny","supernatural"],
    note:"Sebastian was out of town, so I binge-watched this one while he was gone, the whole thing, no one to pause and explain the plot to. A good show. And Rowoon is a genuinely excellent actor; he's the one who made the story come to life.",
    locs:[{p:"Korea"}]},
 
-  {t:"See You in My 19th Life",kr:"이번 생도 잘 부탁해",yr:2023,ep:12,status:"want",depth:null,rewatch:0,
+  {t:"See You in My 19th Life",where:"Netflix",kr:"이번 생도 잘 부탁해",yr:2023,ep:12,status:"want",depth:null,rewatch:0,
    genre:["Romance","Fantasy"],
    cast:["Shin Hye-sun","Ahn Bo-hyun"],
    themes:["reincarnation","past lives","destined love","memory"],
    note:"",
    locs:[{p:"Korea"}]},
 
-  {t:"Dynamite Kiss",kr:"불꽃같은 키스",yr:2025,ep:12,status:"watched",depth:"deep",rewatch:1,
+  {t:"Dynamite Kiss",where:"Netflix",kr:"불꽃같은 키스",yr:2025,ep:12,status:"watched",depth:"deep",rewatch:1,
    genre:["Romance","Comedy","Office"],
    cast:["Jang Ki-yong","Ahn Eun-jin"],
    themes:["fake identity","office romance","contract lie","comedy"],
    note:"Set partly on Jeju. Hearing the island's name a couple of times because of this show is part of what first pulled Jeju onto my radar. The last episode, where he loses his memories, was genuinely weird: I fast-forwarded it the first time, then went back and watched it properly. Weird as it was, it's a very different take, and I kind of respect it for that.",
    locs:[{p:"Korea — Seoul (office rom-com)"},{p:"Korea — Jeju Island (part of the story)"}]},
 
-  {t:"Crash Course in Romance",kr:"일타 스캔들",yr:2023,ep:16,status:"want",depth:null,rewatch:0,
+  {t:"Crash Course in Romance",where:"Netflix",kr:"일타 스캔들",yr:2023,ep:16,status:"want",depth:null,rewatch:0,
    genre:["Romance","Comedy","Family"],
    cast:["Jeon Do-yeon","Jung Kyung-ho"],
    themes:["star tutor","academic pressure","single parenthood","slow-burn"],
@@ -913,6 +919,7 @@ function renderCards(){
     else if(s.depth==='skimmed') badge='<span class="badge skimmed">Skimmed</span>';
     else badge='<span class="badge watched">Watched</span>';
     const castLine = s.cast.length? `<div class="cast"><b>Cast:</b> ${s.cast.join(' · ')}</div>`:'';
+    const whereLine = s.where? `<div class="where-pill">📺 ${s.where}${s.whereNote?` <span class="wq">· ${s.whereNote}</span>`:''}</div>`:'';
     const themeTags = s.themes.map(t=>`<span class="t">${t}</span>`).join('');
     const locTags = s.locs.map(l=>{
       const parts=l.p.split('—');
@@ -951,6 +958,7 @@ function renderCards(){
         </div>
       </div>
       ${castLine}
+      ${whereLine}
       ${noteBlock}
       ${rateRow}
       <div class="tags">${themeTags}</div>
@@ -1040,6 +1048,7 @@ function openShow(s){
       </div>
     </div>
     <div class="sd-body">
+      ${s.where?`<div class="sd-where"><span class="wlabel">Where to watch</span><span class="wname">📺 ${s.where}</span>${s.whereNote?`<span class="wq">${s.whereNote}</span>`:''}</div>`:''}
       ${TRAILERS[s.t]?`<button class="sd-trailer" type="button" data-key="${TRAILERS[s.t]}">▶ Watch the trailer</button>`:''}
       ${rates?`<div class="sd-rates">${rates}</div>`:''}
       ${s.note?`<div class="sd-note">${s.note}</div>`:''}
