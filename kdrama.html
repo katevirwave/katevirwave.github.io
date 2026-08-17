@@ -162,6 +162,7 @@
   .mark.seb{background:#f4ecd8;color:#8a6d24;border-color:#e6d6b0}
   .mark.flag{background:#fde8ec;color:#b03a5b;border-color:#f5cdd6}
   .mark.prog{background:#efe9f7;color:#6a54a0;border-color:#ddd2ee}
+  .mark.cdrama{background:#fbe9e7;color:#b3402c;border-color:#f3cfc7}
   .note-box{margin-top:11px;padding:11px 13px;background:#fbf8f4;border-left:3px solid var(--rose);border-radius:0 8px 8px 0;font-size:13.5px;line-height:1.55;color:#4a3f4d;font-family:'Gowun Batang',serif}
   .card .meta{font-size:13px;color:#6b5f6f;margin-top:10px}
   .card .cast{font-size:13px;margin-top:8px;color:var(--ink)}
@@ -680,6 +681,14 @@ const shows = [
    note:"",
    locs:[{p:"Korea — Seoul, Gangnam district"}]},
 
+  // ===== C-DRAMAS =====
+  {t:"Only for Love",origin:"China",where:"Viki",whereNote:"not on Netflix",kr:"以爱为营",yr:2023,ep:36,status:"want",depth:null,rewatch:0,
+   genre:["Romance","Business","Workplace"],
+   cast:["Bai Lu","Dylan Wang"],
+   themes:["reporter & CEO","workplace romance","slow burn","modern city"],
+   note:"",
+   locs:[{p:"China"}]},
+
   {t:"It's Okay to Not Be Okay",where:"Netflix",kr:"사이코지만 괜찮아",yr:2020,ep:16,status:"want",depth:null,rewatch:0,
    genre:["Romance","Healing","Psychological"],
    cast:["Kim Soo-hyun","Seo Yea-ji","Oh Jung-se"],
@@ -903,6 +912,9 @@ const filters = [
   {k:'fav',label:'♥ Favourites'},
   {k:'rewatched',label:'↻ Rewatched'},
   {k:'abroad',label:'✈ Filmed abroad'},
+  {sep:'by country'},
+  {k:'kdrama',label:'🇰🇷 K-dramas'},
+  {k:'cdrama',label:'🇨🇳 C-dramas'},
   {sep:'rated for'},
   {k:'cinematic',label:'🎬 Cinematic'},
   {k:'char',label:'🌱 Character growth'},
@@ -925,6 +937,8 @@ function renderCards(){
   shows.filter(s=>{
     if(activeFilter==='all')return true;
     if(activeFilter==='abroad')return s.locs.some(l=>l.abroad);
+    if(activeFilter==='cdrama')return s.origin==='China';
+    if(activeFilter==='kdrama')return s.origin!=='China';
     if(activeFilter==='fav')return !!s.fav;
     if(activeFilter==='rewatched')return (s.rewatch||0)>0;
     if(activeFilter==='partial')return s.depth==='partial';
@@ -950,6 +964,7 @@ function renderCards(){
       return `<span class="t loc${l.abroad?' abroad':''}">${l.abroad?'✈ ':'📍 '}${label}</span>`;
     }).join('');
     const marks=[];
+    if(s.origin==='China') marks.push('<span class="mark cdrama">🇨🇳 C-drama</span>');
     if(s.fav) marks.push('<span class="mark fav">♥ favourite</span>');
     if(s.rewatch>0) marks.push(`<span class="mark rw">↻ rewatched ×${s.rewatch}</span>`);
     if(s.withSeb) marks.push('<span class="mark seb">watched w/ Sebastian</span>');
@@ -1063,7 +1078,7 @@ function openShow(s){
         <div class="sd-htext">
           <div class="sd-title">${s.t}</div>
           ${s.kr?`<div class="sd-kr">${s.kr}</div>`:''}
-          <div class="sd-meta">${yr}${s.ep?` · ${s.ep} eps`:''} · ${era}</div>
+          <div class="sd-meta">${s.origin==='China'?'🇨🇳 C-drama · ':''}${yr}${s.ep?` · ${s.ep} eps`:''} · ${era}</div>
           ${badge}
         </div>
       </div>
