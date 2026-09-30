@@ -413,6 +413,54 @@
   footer a{color:var(--plum);font-weight:600}
   footer .attrib{margin-top:10px;font-size:11px;color:#b3a9b8;max-width:520px;margin-left:auto;margin-right:auto}
   footer .attrib a{color:#8a7f90;font-weight:500}
+
+  /* ===== motion layer: how-to intro, scroll reveals, card tilt, tab slider ===== */
+  .howto{max-width:1100px;margin:0 auto;padding:30px 20px 6px}
+  .howto-head{text-align:center;margin-bottom:16px}
+  .howto-head h2{font-family:'Gowun Batang',serif;font-size:21px;color:var(--plum)}
+  .howto-head p{font-size:13.5px;color:#6b5f6f;margin-top:4px}
+  .howto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+  .howto-step{display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-start;font-family:inherit;text-align:left;cursor:pointer;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px 16px 14px;box-shadow:0 2px 10px var(--shadow);color:var(--ink);transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease,opacity .7s ease var(--d,0s),translate .7s cubic-bezier(.2,.7,.3,1) var(--d,0s)}
+  .howto-step:hover,.howto-step:focus-visible{transform:translateY(-3px);box-shadow:0 10px 24px var(--shadow);border-color:var(--rose);outline:none}
+  .howto-num{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--rose-soft);color:var(--plum);font-family:'Gowun Batang',serif;font-weight:700;font-size:14px;margin-bottom:8px;transition:background .2s ease,color .2s ease}
+  .howto-step:hover .howto-num{background:var(--rose);color:#fff}
+  .howto-step b{display:block;font-family:'Gowun Batang',serif;font-size:17px;color:var(--plum);margin-bottom:4px}
+  .howto-step span.txt{display:block;font-size:13px;line-height:1.55;color:#4a3f4d}
+  .howto-go{display:block;margin-top:auto;padding-top:10px;font-size:12px;font-weight:600;color:var(--rose);letter-spacing:.03em}
+  .howto-go i{font-style:normal;display:inline-block;transition:transform .2s ease}
+  .howto-step:hover .howto-go i{transform:translateX(4px)}
+
+  /* scroll reveals (only when JS + motion are on) */
+  .motion .rv{opacity:0;translate:0 26px;transition:opacity .7s ease var(--d,0s),translate .7s cubic-bezier(.2,.7,.3,1) var(--d,0s)}
+  .motion .rv.in{opacity:1;translate:0 0}
+
+  /* card hover: tilt toward the cursor + soft pink glow */
+  .card{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--lift,0px));transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease,opacity .6s ease var(--d,0s),translate .6s cubic-bezier(.2,.7,.3,1) var(--d,0s)}
+  .card::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(217,106,143,.13),transparent 65%);transition:opacity .25s ease}
+  .card:hover{--lift:-5px;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--lift));box-shadow:0 16px 34px rgba(74,43,82,.18);border-color:var(--rose-soft)}
+  .card:hover::after{opacity:1}
+  .card .poster img{transition:transform .35s ease}
+  .card:hover .poster img{transform:scale(1.05)}
+
+  /* tabs: sliding pill */
+  nav.tabs{position:sticky}
+  .tab{position:relative;z-index:1}
+  .tab.active{background:none}
+  .tab-pill{position:absolute;left:0;top:0;height:0;width:0;background:var(--rose-soft);border-radius:20px 20px 0 0;z-index:0;pointer-events:none;transition:transform .38s cubic-bezier(.3,.8,.3,1),width .38s cubic-bezier(.3,.8,.3,1),height .38s ease}
+  .panel.active{animation:panelIn .42s cubic-bezier(.2,.7,.3,1)}
+  @keyframes panelIn{from{opacity:0;transform:translateX(calc(var(--dir,0) * 28px))}to{opacity:1;transform:none}}
+  .stat b{font-variant-numeric:tabular-nums}
+  .stat{transition:transform .2s ease,background .2s ease}
+  .stat:hover{transform:translateY(-2px);background:rgba(255,255,255,.13)}
+
+  @media (prefers-reduced-motion:reduce){
+    .card,.card:hover{transform:none}
+    .card::after{display:none}
+    .card:hover .poster img{transform:none}
+    .tab-pill{transition:none}
+    .panel.active{animation:none}
+    .howto-step:hover{transform:none}
+  }
 </style>
 </head>
 <body>
@@ -445,6 +493,20 @@
   <div class="why-inner">
     <h2 class="why-h">Why K-dramas?</h2>
     <p>Because sixteen hours of a world that <em>starts</em>, means something, and actually <em>ends</em> did what rest couldn't. Every thread tied off. Every piece fitting. For a brain that never stops running the pattern, a story that resolves is the closest thing to putting it down. I started at Christmas 2024. I haven't stopped. I just started taking notes, and built this.</p>
+  </div>
+</section>
+
+
+<section class="howto" id="howto" aria-labelledby="howto-title">
+  <div class="howto-head">
+    <h2 id="howto-title">How to use this page</h2>
+    <p>Four rooms. Tap one to jump in.</p>
+  </div>
+  <div class="howto-grid">
+    <button class="howto-step" type="button" data-go="shows"><span class="howto-num">1</span><b>Shows</b><span class="txt">Every drama I've watched or want to. Filter by favourites, rewatches, or filmed abroad. Tap any poster to open it up: cast, my notes, and where it was filmed.</span><span class="howto-go">Open Shows <i>→</i></span></button>
+    <button class="howto-step" type="button" data-go="actors"><span class="howto-num">2</span><b>Actor Web</b><span class="txt">Every actor wired to every show. Gold nodes are the faces I keep spotting. Drag one and watch the web follow. Switch to List to search a name.</span><span class="howto-go">Open Actor Web <i>→</i></span></button>
+    <button class="howto-step" type="button" data-go="locations"><span class="howto-num">3</span><b>Locations</b><span class="txt">Real filming spots on a map. Rose pins are Korea. Blue pins are abroad. Click a pin, then hit Look around here to stand in the scene.</span><span class="howto-go">Open Locations <i>→</i></span></button>
+    <button class="howto-step" type="button" data-go="learning"><span class="howto-num">4</span><b>Learning Korea</b><span class="txt">The rabbit holes the dramas sent me down, sorted onto shelves. Pick a shelf and flip the cards.</span><span class="howto-go">Open Learning Korea <i>→</i></span></button>
   </div>
 </section>
 
@@ -1701,6 +1763,85 @@ document.querySelectorAll('.tab').forEach(t=>{
     if(t.dataset.tab==='learning' && window.__initLearn){ requestAnimationFrame(()=>window.__initLearn()); }
   };
 });
+
+// ---------- motion layer: tab slider, count-up, reveals, card tilt, how-to ----------
+(function(){
+  const reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const tabs=[...document.querySelectorAll('.tab')];
+  const nav=document.querySelector('nav.tabs');
+
+  // sliding pill behind the active tab
+  const pill=document.createElement('span'); pill.className='tab-pill'; pill.setAttribute('aria-hidden','true');
+  nav.appendChild(pill);
+  function movePill(){
+    const a=nav.querySelector('.tab.active'); if(!a) return;
+    pill.style.width=a.offsetWidth+'px'; pill.style.height=a.offsetHeight+'px';
+    pill.style.transform=`translate(${a.offsetLeft}px,${a.offsetTop}px)`;
+  }
+  let cur=tabs.findIndex(t=>t.classList.contains('active'));
+  tabs.forEach((t,i)=>t.addEventListener('click',()=>{
+    const panel=document.getElementById(t.dataset.tab);
+    if(panel) panel.style.setProperty('--dir', i>cur?1:(i<cur?-1:0));
+    cur=i; movePill();
+  }));
+  movePill();
+  window.addEventListener('resize',movePill);
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(movePill);
+
+  // how-to steps jump to a tab
+  document.querySelectorAll('.howto-step').forEach(b=>b.addEventListener('click',()=>{
+    const t=document.querySelector(`.tab[data-tab="${b.dataset.go}"]`); if(!t) return;
+    t.click();
+    const y=nav.getBoundingClientRect().top+window.scrollY-2;
+    window.scrollTo({top:y,behavior:reduce?'auto':'smooth'});
+  }));
+
+  if(reduce) return;
+  document.documentElement.classList.add('motion');
+
+  // stat count-up
+  document.querySelectorAll('.stat b').forEach((el,i)=>{
+    const end=parseInt(el.textContent,10); if(!(end>0)) return;
+    el.textContent='0';
+    const dur=1100+Math.min(end,80)*6, start=performance.now()+650+i*120;
+    function step(now){
+      const k=Math.max(0,Math.min(1,(now-start)/dur));
+      el.textContent=Math.round(end*(1-Math.pow(1-k,3)));
+      if(k<1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  });
+
+  // scroll reveals
+  if(!('IntersectionObserver' in window)) return;
+  const io=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  }),{rootMargin:'0px 0px -8% 0px',threshold:.08});
+  function watch(el,delay){ el.classList.add('rv'); if(delay) el.style.setProperty('--d',delay+'s'); io.observe(el); }
+  ['.why-inner','.howto-head','.tl-wrap','.filterbar','#awWeb .note','#locations > .note','.abroad-banner','.learn-intro','footer']
+    .forEach(q=>document.querySelectorAll(q).forEach(el=>watch(el,0)));
+  document.querySelectorAll('.howto-step').forEach((el,i)=>watch(el,(i*0.09).toFixed(2)));
+  const cardsBox=document.getElementById('cards');
+  function watchCards(){ [...cardsBox.children].forEach((el,i)=>{ if(!el.classList.contains('rv')) watch(el,((i%3)*0.07+Math.min(i,5)*0.03).toFixed(2)); }); }
+  watchCards();
+  new MutationObserver(watchCards).observe(cardsBox,{childList:true});
+
+  // card tilt toward the cursor (mouse/trackpad only)
+  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    cardsBox.addEventListener('pointermove',e=>{
+      const c=e.target.closest('.card'); if(!c) return;
+      const r=c.getBoundingClientRect(), x=(e.clientX-r.left)/r.width, y=(e.clientY-r.top)/r.height;
+      c.style.setProperty('--ry',((x-.5)*5).toFixed(2)+'deg');
+      c.style.setProperty('--rx',((.5-y)*4).toFixed(2)+'deg');
+      c.style.setProperty('--mx',(x*100).toFixed(1)+'%');
+      c.style.setProperty('--my',(y*100).toFixed(1)+'%');
+    });
+    cardsBox.addEventListener('pointerout',e=>{
+      const c=e.target.closest('.card'); if(!c||c.contains(e.relatedTarget)) return;
+      c.style.setProperty('--rx','0deg'); c.style.setProperty('--ry','0deg');
+    });
+  }
+})();
 </script>
 </body>
 </html>
