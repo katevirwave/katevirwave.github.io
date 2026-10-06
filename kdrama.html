@@ -169,6 +169,12 @@
   .card .cast b{color:var(--plum)}
   .where-pill{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-size:12px;font-weight:600;padding:4px 11px;border-radius:20px;background:var(--rose-soft);color:var(--plum)}
   .where-pill .wq{opacity:.7;font-weight:500}
+  .moments-love{margin-top:11px;padding:11px 13px;background:#f6f1f8;border-left:3px solid var(--plum);border-radius:0 8px 8px 0}
+  .moments-love .ml-head{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--plum);margin-bottom:8px}
+  .ml-item{display:flex;gap:9px;align-items:baseline;margin-top:8px;font-size:13px;line-height:1.5}
+  .ml-item:first-of-type{margin-top:0}
+  .ml-at{flex:0 0 auto;font-size:10.5px;font-weight:700;color:#6a54a0;background:#efe9f7;border:1px solid #ddd2ee;border-radius:10px;padding:2px 8px;white-space:nowrap}
+  .ml-txt{flex:1;font-family:'Gowun Batang',serif;color:#4a3f4d}
 
   /* show poster */
   .card-head{display:flex;gap:14px;align-items:flex-start}
@@ -388,6 +394,10 @@
   .sd-rates{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px}
   .sd-rate{font-size:11px;font-weight:600;padding:4px 10px;border-radius:12px;background:#f1ecf7;color:#6a54a0;border:1px solid #e2d8ef}
   .sd-note{font-family:'Gowun Batang',serif;font-size:15px;line-height:1.62;color:#4a3f4d;background:#fbf8f4;border-left:3px solid var(--rose);padding:13px 15px;border-radius:0 8px 8px 0;margin-bottom:22px}
+  .sd-moments{display:flex;flex-direction:column;gap:11px}
+  .sd-moment{display:flex;gap:10px;align-items:baseline}
+  .sd-mat{flex:0 0 auto;font-size:11px;font-weight:700;color:#6a54a0;background:#f1ecf7;border:1px solid #e2d8ef;border-radius:12px;padding:3px 9px;white-space:nowrap}
+  .sd-mtxt{flex:1;font-family:'Gowun Batang',serif;font-size:14px;line-height:1.6;color:#4a3f4d}
   .sd-sec{margin-bottom:22px}
   .sd-sec:last-child{margin-bottom:0}
   .sd-sec h4{font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--jade);margin-bottom:11px}
@@ -577,7 +587,11 @@ const shows = [
    genre:["Romance","Comedy","Business"],
    cast:["Lee Jun-ho","Im Yoon-ah","Go Won-hee","Ahn Se-ha"],
    themes:["chaebol heir","hotel setting","enemies to lovers","class difference"],
-   note:"My first chaebol drama and my entry point into the whole thing. I didn't know about chaebol families, marrying in, any of it. Sent me straight to Wikipedia, then down a tangent into the IMF crisis. Also just beautiful: the UK-educated heir, the perfectly made suits, the settings. Lots to write about here. One scene stays with me: season one, episode four, around nine minutes in, a police officer arrests a man and he breaks into song about the woman he lost. I really love that part. Episode four again, at 34 minutes and 20 seconds, he sends her a text and then keeps staring at it, wondering what's happening. I see myself in that completely. When I apply to competitions, pitch events and award ceremonies and I'm waiting to hear back, that is exactly what I look like on my phone. The difference is my husband always answers me, so I never have to wait the way he does for his crush.",
+   note:"My first chaebol drama and my entry point into the whole thing. I didn't know about chaebol families, marrying in, any of it. Sent me straight to Wikipedia, then down a tangent into the IMF crisis. Also just beautiful: the UK-educated heir, the perfectly made suits, the settings. Lots to write about here.",
+   moments:[
+     {at:"Ep 4 · 9:00", note:"A police officer arrests a man and he breaks into song about the woman he lost. I really love that part."},
+     {at:"Ep 4 · 34:20", note:"He sends her a text and then keeps staring at it, wondering what's happening. I see myself in that completely. When I apply to competitions, pitch events and award ceremonies and I'm waiting to hear back, that is exactly what I look like on my phone. The difference is my husband always answers me, so I never have to wait the way he does for his crush."},
+   ],
    locs:[{p:"Thailand — Bangkok, getaway episodes",abroad:true},{p:"Korea — Seoul, luxury hotel interiors"}]},
 
   {t:"The Potato Lab",where:"Netflix",kr:"감자연구소",yr:2025,ep:12,status:"watched",depth:"deep",rewatch:0,fav:true,
@@ -1018,6 +1032,7 @@ function renderCards(){
     const ratePills = (SHOW_RATINGS[s.t]||[]).map(k=>RATE[k]?`<span class="rate"><span class="ic">${RATE[k].icon}</span>${RATE[k].label}</span>`:'').join('');
     const rateRow = ratePills?`<div class="rates">${ratePills}</div>`:'';
     const noteBlock = s.note?`<div class="note-box">${s.note}</div>`:'';
+    const momentsBlock = (s.moments&&s.moments.length)?`<div class="moments-love"><div class="ml-head">♥ Moments I love</div>${s.moments.map(m=>`<div class="ml-item"><span class="ml-at">${m.at}</span><span class="ml-txt">${m.note}</span></div>`).join('')}</div>`:'';
     const purl = posterUrl(s.t);
     const poster = purl
       ? `<div class="poster"><img src="${purl}" alt="${s.t} poster" loading="lazy" onerror="this.closest('.poster').classList.add('noimg')"><span class="poster-fallback">${s.t}</span></div>`
@@ -1040,6 +1055,7 @@ function renderCards(){
       ${castLine}
       ${whereLine}
       ${noteBlock}
+      ${momentsBlock}
       ${rateRow}
       <div class="tags">${themeTags}</div>
       <div class="tags">${locTags}</div>`;
@@ -1132,6 +1148,7 @@ function openShow(s){
       ${TRAILERS[s.t]?`<button class="sd-trailer" type="button" data-key="${TRAILERS[s.t]}">▶ Watch the trailer</button>`:''}
       ${rates?`<div class="sd-rates">${rates}</div>`:''}
       ${s.note?`<div class="sd-note">${s.note}</div>`:''}
+      ${(s.moments&&s.moments.length)?`<div class="sd-sec"><h4>Moments I love</h4><div class="sd-moments">${s.moments.map(m=>`<div class="sd-moment"><span class="sd-mat">${m.at}</span><span class="sd-mtxt">${m.note}</span></div>`).join('')}</div></div>`:''}
       ${(s.cast&&s.cast.length)?`<div class="sd-sec"><h4>Actors to follow</h4><div class="sd-chips">${s.cast.map(a=>{ const cc=(actorMap[a]||[]).length, fu=profileUrl(a); return `<button class="sd-actor" data-actor="${a.replace(/"/g,'&quot;')}">${fu?`<img src="${fu}" alt="">`:`<span class="sd-actor-ini">${initials(a)}</span>`}<span>${a}${cc>1?` · ★${cc}`:''}</span></button>`; }).join('')}</div></div>`:''}
       ${watch.length?`<div class="sd-sec"><h4>Watch next, through these actors</h4><div class="sd-row">${watch.map(w=>`<div class="sd-film"><div class="sd-fposter">${w.poster?`<img src="${w.poster}" alt="${w.title}" loading="lazy" onerror="this.closest('.sd-fposter').classList.add('noimg')">`:''}<span class="sd-ffb">${w.title}</span></div><div class="sd-ftitle">${w.title}</div><div class="sd-fvia">via ${[...w.via].join(', ')}</div></div>`).join('')}</div></div>`:''}
       ${(s.locs&&s.locs.length)?`<div class="sd-sec"><h4>Places it takes you</h4><div class="sd-places">${s.locs.map(l=>`<span class="sd-place${l.abroad?' abroad':''}">${l.abroad?'✈ ':'📍 '}${l.p.replace(/\s—\s/g,' · ')}</span>`).join('')}</div><button class="sd-mapbtn" data-map>See on the map →</button></div>`:''}
