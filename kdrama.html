@@ -641,6 +641,54 @@
     .panel.active{animation:none}
     .howto-step:hover{transform:none}
   }
+
+  /* ===== episode picker: the rooms as one sticky row of episode tiles ===== */
+  nav.tabs.eps{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;max-width:1160px;margin:34px auto 0;padding:14px 20px 14px;justify-content:stretch;border-bottom:none;background:linear-gradient(var(--paper) 82%,rgba(247,243,238,0))}
+  .eps .tab-pill{display:none}
+  .tab.ep{--ac:var(--rose);--ac2:#fbe8ef;position:relative;display:flex;flex-direction:column;align-items:stretch;padding:0;border-radius:16px;overflow:hidden;background:#fff;border:1px solid var(--line);opacity:.6;filter:saturate(.75);text-align:left;box-shadow:0 2px 10px var(--shadow);transition:opacity .3s ease,filter .3s ease,transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s ease,border-color .3s ease}
+  .tab.ep:hover{opacity:.9;filter:none;transform:translateY(-3px)}
+  .tab.ep.active{opacity:1;filter:none;border-color:var(--ac);transform:translateY(-4px) scale(1.03);box-shadow:0 18px 34px -14px rgba(74,43,82,.4),0 0 0 2px var(--ac)}
+  .tab.ep:focus-visible{outline:2px solid var(--ac);outline-offset:3px}
+  .ep-art.hs-art{height:84px;transition:height .35s cubic-bezier(.2,.7,.3,1)}
+  .ep-art.hs-art::after{height:24px}
+  .ep-meta{display:flex;flex-direction:column;gap:1px;padding:9px 12px 11px}
+  .ep-no{font-size:9.5px;font-weight:700;letter-spacing:.22em;color:var(--ac)}
+  .ep-name{font-family:'Gowun Batang',serif;font-size:16px;font-weight:700;line-height:1.15;color:var(--plum);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ep-kr{font-family:'Gowun Batang',serif;font-size:11px;letter-spacing:.1em;color:#9a8ea0}
+  /* small versions of the episode art */
+  .ep .hs-fan{bottom:-12px}
+  .ep .hs-poster{width:40px;height:58px;margin-left:-20px;border-width:1.5px}
+  .ep .hs-poster:nth-child(1){transform:rotate(-14deg) translateX(-12px)}
+  .ep .hs-poster:nth-child(3){transform:rotate(14deg) translateX(12px)}
+  .ep:hover .hs-poster:nth-child(1),.ep.active .hs-poster:nth-child(1){transform:rotate(-20deg) translateX(-22px) translateY(-3px)}
+  .ep:hover .hs-poster:nth-child(2),.ep.active .hs-poster:nth-child(2){transform:translateY(-10px) scale(1.04)}
+  .ep:hover .hs-poster:nth-child(3),.ep.active .hs-poster:nth-child(3){transform:rotate(20deg) translateX(22px) translateY(-3px)}
+  .ep .hs-flip{width:52px;height:58px;margin:-29px 0 0 -26px}
+  .ep .hs-shadowcard{width:52px;height:58px;margin:-26px 0 0 -18px}
+  .ep .hs-face.front{font-size:26px}
+  .ep .hs-face.back{font-size:12px}
+  .ep:hover .hs-flip-in,.ep.active .hs-flip-in{transform:rotateY(180deg)}
+  .ep:hover .hs-web line,.ep.active .hs-web line{stroke:var(--gold)}
+  .ep:hover .hs-map .pin,.ep.active .hs-map .pin{transform:translateY(-4px)}
+  .ep .hs-items{gap:6px}
+  .ep .hs-item{width:32px;height:32px;border-radius:9px;font-size:17px}
+  /* once you scroll past it, the row folds into slim episode chips */
+  nav.tabs.eps.stuck .ep-art.hs-art{height:0}
+  nav.tabs.eps.stuck{padding-top:10px;padding-bottom:10px;box-shadow:0 10px 24px -18px rgba(74,43,82,.35);background:var(--paper)}
+  nav.tabs.eps.stuck .tab.ep.active{transform:none;box-shadow:0 0 0 2px var(--ac)}
+  nav.tabs.eps.stuck .ep-meta{padding:7px 12px}
+  nav.tabs.eps.stuck .ep-kr{display:none}
+  @media (max-width:900px){
+    nav.tabs.eps{display:flex;flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;scroll-snap-type:x proximity;gap:10px;padding:14px 16px;margin-top:24px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+    nav.tabs.eps::-webkit-scrollbar{display:none}
+    .tab.ep{flex:0 0 150px;scroll-snap-align:center}
+    .tab.ep.active{transform:translateY(-2px)}
+    nav.tabs.eps.stuck .tab.ep{flex:0 0 auto}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .tab.ep,.ep-art.hs-art{transition:none}
+    .tab.ep.active,.tab.ep:hover{transform:none}
+  }
 </style>
 </head>
 <body>
@@ -697,32 +745,30 @@
 </section>
 
 
-<section class="howto" id="howto" aria-labelledby="howto-title">
-  <div class="howto-head">
-    <h2 id="howto-title">How to use this page<span class="kr">사용 설명서</span></h2>
-    <p>Six rooms. Tap one to jump in.</p>
-  </div>
-  <div class="howto-grid">
-    <button class="howto-step" type="button" data-go="shows" style="--ac:#d96a8f;--ac2:#fbe6ee">
-      <span class="hs-art" aria-hidden="true"><span class="hs-ep">EP 01</span>
-        <span class="hs-fan" id="hsFan"><span class="hs-poster"></span><span class="hs-poster"></span><span class="hs-poster"></span></span>
-      </span>
-      <span class="hs-body"><span class="hs-kr">드라마</span><b>Shows</b><span class="txt">Every drama I've watched or want to. Filter by favourites, rewatches, or filmed abroad. Tap any poster to open it up: cast, my notes, and where it was filmed.</span><span class="howto-go">Open Shows <i>→</i></span></span>
-    </button>
-    <button class="howto-step" type="button" data-go="actors" style="--ac:#c8963e;--ac2:#f8eedb">
-      <span class="hs-art" aria-hidden="true"><span class="hs-ep">EP 02</span>
-        <svg class="hs-svg hs-web" viewBox="0 0 240 132" preserveAspectRatio="xMidYMid slice">
+
+
+<div class="ep-sentinel" aria-hidden="true"></div>
+<nav class="tabs eps" aria-label="Rooms">
+  <button class="tab ep active" data-tab="shows" style="--ac:#d96a8f;--ac2:#fbe6ee">
+    <span class="ep-art hs-art" aria-hidden="true">
+      <span class="hs-fan" id="hsFan"><span class="hs-poster"></span><span class="hs-poster"></span><span class="hs-poster"></span></span>
+    </span>
+    <span class="ep-meta"><span class="ep-no">EP 01</span><span class="ep-name">Shows</span><span class="ep-kr">드라마</span></span>
+  </button>
+  <button class="tab ep" data-tab="actors" style="--ac:#c8963e;--ac2:#f8eedb">
+    <span class="ep-art hs-art" aria-hidden="true">
+      <svg class="hs-svg hs-web" viewBox="0 0 240 132" preserveAspectRatio="xMidYMid slice">
           <line x1="60" y1="46" x2="120" y2="70"/><line x1="120" y1="70" x2="182" y2="40"/><line x1="120" y1="70" x2="96" y2="112"/><line x1="120" y1="70" x2="170" y2="104"/><line x1="182" y1="40" x2="214" y2="78"/><line x1="60" y1="46" x2="30" y2="92"/><line x1="170" y1="104" x2="214" y2="78"/><line x1="60" y1="46" x2="96" y2="112"/>
           <g class="f1"><circle class="n s" cx="60" cy="46" r="7"/><circle class="n" cx="30" cy="92" r="5"/></g>
           <g class="f2"><circle class="n h" cx="120" cy="70" r="11"/><circle class="n" cx="96" cy="112" r="5"/></g>
           <g class="f3"><circle class="n s" cx="182" cy="40" r="7"/><circle class="n" cx="214" cy="78" r="5"/><circle class="n s" cx="170" cy="104" r="6"/></g>
         </svg>
-      </span>
-      <span class="hs-body"><span class="hs-kr">배우들</span><b>Actor Web</b><span class="txt">Every actor wired to every show. Gold nodes are the faces I keep spotting. Drag one and watch the web follow. Switch to List to search a name.</span><span class="howto-go">Open Actor Web <i>→</i></span></span>
-    </button>
-    <button class="howto-step" type="button" data-go="locations" style="--ac:#4a8cc0;--ac2:#e3f2fb">
-      <span class="hs-art" aria-hidden="true"><span class="hs-ep">EP 03</span>
-        <svg class="hs-svg hs-map" viewBox="0 0 240 132" preserveAspectRatio="xMidYMid slice">
+    </span>
+    <span class="ep-meta"><span class="ep-no">EP 02</span><span class="ep-name">Actor Web</span><span class="ep-kr">배우들</span></span>
+  </button>
+  <button class="tab ep" data-tab="locations" style="--ac:#4a8cc0;--ac2:#e3f2fb">
+    <span class="ep-art hs-art" aria-hidden="true">
+      <svg class="hs-svg hs-map" viewBox="0 0 240 132" preserveAspectRatio="xMidYMid slice">
           <defs><pattern id="hsDots" width="10" height="10" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#4a2b52" fill-opacity=".13"/></pattern></defs>
           <rect width="240" height="132" fill="url(#hsDots)"/>
           <path class="route" d="M44 92 C 80 40, 130 40, 150 70 S 196 104, 206 52"/>
@@ -734,38 +780,28 @@
           <path class="pin" d="M206 52c-6 0-10-4.4-10-9.6C196 35 206 24 206 24s10 11 10 18.4c0 5.2-4 9.6-10 9.6z" fill="#3a97d4" transform="translate(0,-2)"/>
           <circle cx="206" cy="39" r="3.2" fill="#fff"/>
         </svg>
-      </span>
-      <span class="hs-body"><span class="hs-kr">촬영지</span><b>Locations</b><span class="txt">Real filming spots on a map. Rose pins are Korea. Blue pins are abroad. Click a pin, then hit Look around here to stand in the scene.</span><span class="howto-go">Open Locations <i>→</i></span></span>
-    </button>
-    <button class="howto-step" type="button" data-go="learning" style="--ac:#4a8c7a;--ac2:#e2f2ec">
-      <span class="hs-art" aria-hidden="true"><span class="hs-ep">EP 04</span>
-        <span class="hs-shadowcard"></span>
+    </span>
+    <span class="ep-meta"><span class="ep-no">EP 03</span><span class="ep-name">Locations</span><span class="ep-kr">촬영지</span></span>
+  </button>
+  <button class="tab ep" data-tab="learning" style="--ac:#4a8c7a;--ac2:#e2f2ec">
+    <span class="ep-art hs-art" aria-hidden="true">
+      <span class="hs-shadowcard"></span>
         <span class="hs-flip"><span class="hs-flip-in"><span class="hs-face front">정</span><span class="hs-face back">jeong</span></span></span>
-      </span>
-      <span class="hs-body"><span class="hs-kr">한국 배우기</span><b>Learning Korea</b><span class="txt">The rabbit holes the dramas sent me down, sorted onto shelves. Pick a shelf and flip the cards.</span><span class="howto-go">Open Learning Korea <i>→</i></span></span>
-    </button>
-    <button class="howto-step" type="button" data-go="shop" style="--ac:#8a5a9e;--ac2:#f1e6f4">
-      <span class="hs-art" aria-hidden="true"><span class="hs-ep">EP 05</span>
-        <span class="hs-items"><span class="hs-item">🏠</span><span class="hs-item">🐯</span><span class="hs-item">🛍️</span></span>
-      </span>
-      <span class="hs-body"><span class="hs-kr">사고 싶은 것</span><b>Things to Buy</b><span class="txt">The things a drama put on my wishlist. Each card says which show put it there and why.</span><span class="howto-go">Open Things to Buy <i>→</i></span></span>
-    </button>
-    <button class="howto-step" type="button" data-go="films" style="--ac:#c0603f;--ac2:#fbe9e1">
-      <span class="hs-art" aria-hidden="true"><span class="hs-ep">EP 06</span>
-        <span class="hs-items"><span class="hs-item">🎬</span><span class="hs-item">🎟️</span><span class="hs-item">🍿</span></span>
-      </span>
-      <span class="hs-body"><span class="hs-kr">영화</span><b>Films</b><span class="txt">Korean films, and my first Korean film festival: LKFF 2026 in London.</span><span class="howto-go">Open Films <i>→</i></span></span>
-    </button>
-  </div>
-</section>
-
-<nav class="tabs">
-  <button class="tab active" data-tab="shows">Shows</button>
-  <button class="tab" data-tab="actors">Actor Web</button>
-  <button class="tab" data-tab="locations">Locations</button>
-  <button class="tab" data-tab="learning">Learning Korea</button>
-  <button class="tab" data-tab="shop">Things to Buy</button>
-  <button class="tab" data-tab="films">Films</button>
+    </span>
+    <span class="ep-meta"><span class="ep-no">EP 04</span><span class="ep-name">Learning Korea</span><span class="ep-kr">한국 배우기</span></span>
+  </button>
+  <button class="tab ep" data-tab="shop" style="--ac:#8a5a9e;--ac2:#f1e6f4">
+    <span class="ep-art hs-art" aria-hidden="true">
+      <span class="hs-items"><span class="hs-item">🏠</span><span class="hs-item">🐯</span><span class="hs-item">🛍️</span></span>
+    </span>
+    <span class="ep-meta"><span class="ep-no">EP 05</span><span class="ep-name">Things to Buy</span><span class="ep-kr">사고 싶은 것</span></span>
+  </button>
+  <button class="tab ep" data-tab="films" style="--ac:#c0603f;--ac2:#fbe9e1">
+    <span class="ep-art hs-art" aria-hidden="true">
+      <span class="hs-items"><span class="hs-item">🎬</span><span class="hs-item">🎟️</span><span class="hs-item">🍿</span></span>
+    </span>
+    <span class="ep-meta"><span class="ep-no">EP 06</span><span class="ep-name">Films</span><span class="ep-kr">영화</span></span>
+  </button>
 </nav>
 
 <div class="wrap">
@@ -1219,6 +1255,22 @@ const PROFILES = {
   "Kim Jung-hyun": "/6SN5PBj1ycfY4o9HlLK4joS5f1F.jpg",
   "Jung Hae-in": "/7ZMUHR2q0XTWMxuqijWSVfWQv14.jpg",
 };
+
+// episode picker: fold to slim chips when stuck, keep the active tile in view
+(function(){
+  const nav=document.querySelector('nav.tabs.eps'), sen=document.querySelector('.ep-sentinel');
+  if(!nav) return;
+  if(sen && 'IntersectionObserver' in window){
+    new IntersectionObserver(([e])=>nav.classList.toggle('stuck',!e.isIntersecting && e.boundingClientRect.top<0)).observe(sen);
+  }
+  nav.querySelectorAll('.tab.ep').forEach(t=>t.addEventListener('click',()=>{
+    if(nav.scrollWidth>nav.clientWidth) t.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'});
+    if(nav.classList.contains('stuck')){
+      const y=sen.getBoundingClientRect().top+window.scrollY;
+      window.scrollTo({top:y,behavior:'auto'});
+    }
+  }));
+})();
 
 // open a room from the URL (#films, #shop...) or from the LKFF strip
 (function(){
