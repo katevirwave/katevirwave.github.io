@@ -6,7 +6,7 @@
     <title>Kate Julia</title>
     <meta
       name="description"
-      content="Founder of VirWave. 2x TEDx speaker. Neurodivergent — building emotional infrastructure for systems that weren't designed for real humans."
+      content="Founder of VirWave. 2x TEDx speaker. Neurodivergent. Building emotional infrastructure for systems that weren't designed for real humans."
     />
 
     <link rel="icon" href="./assets/favicon.svg" type="image/svg+xml" />
@@ -21,19 +21,22 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://katejulia.com" />
     <meta property="og:image" content="https://katejulia.com/assets/kate_profile.png" />
-    <meta property="og:image:width" content="900" />
+    <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="1200" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://katejulia.com/assets/kate_profile.png" />
 
-    <link rel="stylesheet" href="./styles.css" />
+    <!-- Scroll reveals only hide content when JS is running. -->
+    <script>document.documentElement.classList.add("js");</script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@300;400;500&family=Caveat:wght@500;600;700&family=Permanent+Marker&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Instrument+Sans:wght@400;500;600&family=Caveat:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <link rel="stylesheet" href="./styles.css" />
   </head>
 
   <body>
@@ -41,69 +44,65 @@
 
     <header class="site-header">
       <div class="container header-inner">
-        <div class="brand">
-          <a href="#top" class="brand-link" aria-label="Back to top">KATE JULIA</a>
-        </div>
+        <a href="#top" class="brand" aria-label="Kate Julia, back to top">Kate Julia</a>
 
         <nav class="nav" aria-label="Primary">
           <a href="#work">What I've made</a>
-          <a href="#currently">Currently</a>
-          <a href="#thinking">Thinking</a>
+          <a href="#thinking" class="nav-opt">Thinking</a>
+          <a href="#currently" class="nav-opt">Currently</a>
           <a href="#kdrama">K-dramas</a>
-          <a href="#contact">Say hi</a>
+          <a href="#contact" class="nav-cta">Say hi</a>
         </nav>
       </div>
     </header>
 
     <main id="main">
       <!-- HERO -->
-      <section id="top" class="section hero">
-        <div class="signature-stage" aria-hidden="true" data-signature></div>
-
-        <div class="container hero-inner">
+      <section id="top" class="hero">
+        <div class="container hero-grid">
           <div class="hero-copy">
             <h1 class="hero-title">
               I build systems that don't assume
               <em>you're having a good day.</em>
             </h1>
             <p class="hero-subtitle">
-              Founder of VirWave. 2x TEDx speaker. Neurodivergent —
+              Founder of VirWave. 2x TEDx speaker. Neurodivergent,
               building what I couldn't find.
             </p>
 
-            <div class="hero-actions">
+            <div class="actions">
               <a class="btn" href="#work">What I've made</a>
               <a class="btn btn-ghost" href="#thinking">The one idea</a>
             </div>
-
-            <p class="hero-note">
-              rebuilding in public.
-            </p>
           </div>
 
-          <div class="hero-rule" aria-hidden="true"></div>
+          <figure class="hero-portrait">
+            <div class="arch">
+              <img
+                src="./assets/web/profile.jpg"
+                alt="Portrait of Kate Julia"
+                width="1000"
+                height="1000"
+              />
+            </div>
+            <p class="handnote hero-note">rebuilding in public.</p>
+            <figcaption>London · Global</figcaption>
+          </figure>
         </div>
+
+        <!-- Wavelength line. Drawn by script.js to fit the viewport. -->
+        <div class="wave" aria-hidden="true" data-wave></div>
       </section>
 
-      <!-- ORIGIN + PHOTO -->
+      <!-- WHY I BUILD -->
       <section class="section origin" aria-labelledby="origin-title">
-        <div class="container origin-grid">
-          <div class="portrait-pair">
-            <figure class="portrait-card">
-              <img
-                src="./assets/kate_profile.png"
-                alt="Portrait of Kate Julia"
-                class="portrait"
-                loading="lazy"
-              />
-              <figcaption class="portrait-caption">London · Global</figcaption>
-            </figure>
-
+        <div class="container split">
+          <div class="split-head">
+            <h2 id="origin-title" class="section-title">Why I build</h2>
           </div>
 
-          <div class="origin-copy">
-            <h2 id="origin-title" class="section-title">Why I build</h2>
-            <p class="lead">
+          <div class="split-body" data-reveal>
+            <p class="statement">
               I'm neurodivergent. I've been in systems that couldn't read me
               and called it my failure.
             </p>
@@ -113,14 +112,14 @@
               and started building them.
             </p>
 
-            <div class="micro-pillars" aria-label="Themes">
-              <span class="pill">Emotional infrastructure</span>
-              <span class="pill">Neurodivergent by design</span>
-              <span class="pill">Systems that stay human</span>
-              <span class="pill">Identity as a living thing</span>
-            </div>
+            <ul class="pillars" aria-label="Themes">
+              <li>Emotional infrastructure</li>
+              <li>Neurodivergent by design</li>
+              <li>Systems that stay human</li>
+              <li>Identity as a living thing</li>
+            </ul>
 
-            <p class="handnote origin-handnote">
+            <p class="handnote origin-note">
               also: 18-minute TEDx talks &amp; five named AI agents.
             </p>
           </div>
@@ -128,160 +127,172 @@
       </section>
 
       <!-- SELECTED WORK -->
-      <section id="work" class="section work wide-band" aria-labelledby="work-title">
+      <section id="work" class="section work" aria-labelledby="work-title">
         <div class="container">
           <div class="section-head">
             <h2 id="work-title" class="section-title">What I've made</h2>
-            <p class="muted">The work, told honestly.</p>
+            <p class="section-sub">The work, told honestly.</p>
           </div>
 
-          <div class="card-grid">
-            <article class="card">
-              <div class="card-eyebrow">Relationship Identity Platform</div>
-              <h3 class="card-title">VirWave</h3>
-              <p class="card-text">
-                A living portrait of who you are in relationship — built
+          <article class="feature feature-dark" data-reveal>
+            <div class="feature-copy">
+              <div class="eyebrow">Relationship Identity Platform</div>
+              <h3 class="feature-title">VirWave</h3>
+              <p>
+                A living portrait of who you are in relationship, built
                 from how you actually feel, not how you test. Seven
                 archetypes. Emotional wavelengths. A system that grows
                 more accurate over time.
               </p>
-              <div class="card-actions">
-                <a class="link" href="https://virwave.com" target="_blank" rel="noopener noreferrer">Explore VirWave →</a>
-              </div>
-              <span class="card-handnote">my love letter to nervous systems.</span>
-            </article>
+              <a class="btn btn-light" href="https://virwave.com" target="_blank" rel="noopener noreferrer">Explore VirWave →</a>
+              <p class="handnote">my love letter to nervous systems.</p>
+            </div>
+            <div class="feature-media">
+              <img
+                src="./assets/web/kate_virwave.jpg"
+                alt="Kate demonstrating the VirWave app"
+                width="900"
+                height="1200"
+                loading="lazy"
+              />
+            </div>
+          </article>
 
-            <article class="card">
-              <div class="card-eyebrow">Public Talks</div>
-              <h3 class="card-title">TEDx, twice</h3>
-              <p class="card-text">
-                Two talks: <em>Credibility is Regulated</em> and
-                <em>The Myth of CALM</em> — both arguing that emotional
+          <article class="feature feature-flip" data-reveal>
+            <div class="feature-copy">
+              <div class="eyebrow">Public Talks</div>
+              <h3 class="feature-title">TEDx, twice</h3>
+              <p>
+                Two talks, <em>Credibility is Regulated</em> and
+                <em>The Myth of CALM</em>, both arguing that emotional
                 regulation isn't a personal skill. It's infrastructure.
               </p>
-              <div class="card-actions">
-                <span class="link link-pending" aria-disabled="true">Talks releasing soon →</span>
-              </div>
-              <span class="card-handnote">18 minutes of things I actually believe.</span>
-            </article>
+              <span class="pending" aria-disabled="true">Talks releasing soon →</span>
+              <p class="handnote">18 minutes of things I actually believe.</p>
+            </div>
+            <div class="feature-media feature-collage">
+              <img
+                class="collage-main"
+                src="./assets/web/kate_tedx_ucl.jpg"
+                alt="Kate on stage at TEDxUCL"
+                width="900"
+                height="1200"
+                loading="lazy"
+              />
+              <img
+                class="collage-inset"
+                src="./assets/web/kate_tedx_hult.jpg"
+                alt="Kate at TEDx HultLondon"
+                width="1100"
+                height="984"
+                loading="lazy"
+              />
+            </div>
+          </article>
 
-            <article class="card">
-              <div class="card-eyebrow">Policy + Systems Reform</div>
+          <div class="card-pair">
+            <article class="card" data-reveal>
+              <img class="card-logo" src="./assets/logos/a4.png" alt="" loading="lazy" />
+              <div class="eyebrow">Policy + Systems Reform</div>
               <h3 class="card-title">A4 Safety Alliance</h3>
-              <p class="card-text">
+              <p>
                 Board member. Advocacy and systems reform focused on
-                institutional accountability and child safety — the kind
+                institutional accountability and child safety. The kind
                 of work that doesn't end, only gets sharper.
               </p>
-              <div class="card-actions">
-                <a class="link" href="https://a4safetyalliance.org" target="_blank" rel="noopener noreferrer">
-                  Visit A4SafetyAlliance.org →
-                </a>
-              </div>
-              <span class="card-handnote">the one I keep fighting for.</span>
+              <a class="link" href="https://a4safetyalliance.org" target="_blank" rel="noopener noreferrer">
+                Visit A4SafetyAlliance.org →
+              </a>
+              <p class="handnote">the one I keep fighting for.</p>
             </article>
 
-            <article class="card">
-              <div class="card-eyebrow">Children's Digital Wellbeing</div>
+            <article class="card" data-reveal>
+              <img class="card-logo" src="./assets/logos/fundamentally.png" alt="" loading="lazy" />
+              <div class="eyebrow">Children's Digital Wellbeing</div>
               <h3 class="card-title">Fundamentally Children</h3>
-              <p class="card-text">
+              <p>
                 Regulation panel contributor. Screens are nervous systems
-                too — the work is about making sure the ones kids grow up
+                too. The work is about making sure the ones kids grow up
                 inside are built to know that.
               </p>
-              <div class="card-actions">
-                <a class="link" href="https://fundamentallychildren.com" target="_blank" rel="noopener noreferrer">
-                  View FundamentallyChildren.com →
-                </a>
-              </div>
-              <span class="card-handnote">because screens are nervous systems too.</span>
+              <a class="link" href="https://fundamentallychildren.com" target="_blank" rel="noopener noreferrer">
+                View FundamentallyChildren.com →
+              </a>
+              <p class="handnote">because screens are nervous systems too.</p>
             </article>
           </div>
         </div>
       </section>
 
       <!-- LOGOS / AFFILIATIONS -->
-      <section class="section logos-strip wide-band" aria-labelledby="logos-title">
-        <div class="container">
-          <div class="section-head">
-            <h2 id="logos-title" class="section-title">In good company</h2>
-            <p class="muted">Organisations, events, and collaborations.</p>
-          </div>
-          <div class="logo-grid">
-            <img src="./assets/logos/ucltedx.png" alt="UCL TEDx" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/ucl.png" alt="UCL" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/download.jpeg" alt="TEDx HultLondon" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/hatchery.png" alt="UCL Hatchery" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/fundamentally.png" alt="Fundamentally Children" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/a4.png" alt="A4 Safety Alliance" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/deloitte.png" alt="Deloitte" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/kpmg.png" alt="KPMG" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/foster.png" alt="Foster School of Business" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/wayne.png" alt="Wayne State University" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/claude.png" alt="Claude" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/yogatt.jpeg" alt="Yoga Alliance" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/kididing.jpeg" alt="Kidding Around Yoga" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/foundingucl.jpeg" alt="Founding Her — UCL" class="logo-img" loading="lazy" />
-            <img src="./assets/logos/tina.jpeg" alt="UCL Founder Under Pressure" class="logo-img" loading="lazy" />
-          </div>
+      <section class="logos" aria-labelledby="logos-title">
+        <div class="container logos-head">
+          <h2 id="logos-title" class="logos-title">In good company</h2>
+          <p class="section-sub">Organisations, events, and collaborations.</p>
         </div>
-      </section>
-
-      <!-- GRAFFITI STATEMENT -->
-      <section class="section graffiti-band" aria-label="Mission statement">
-        <div class="container graffiti-inner">
-          <p class="graffiti-text" data-graffiti>
-            <span class="gtag">Let's build</span>
-            <span class="gtag">systems for</span>
-            <span class="gtag">humanity.</span>
-          </p>
+        <div class="logos-viewport" data-marquee>
+          <div class="logos-set">
+            <img src="./assets/logos/ucltedx.png" alt="UCL TEDx" loading="lazy" />
+            <img src="./assets/logos/ucl.png" alt="UCL" loading="lazy" />
+            <img src="./assets/logos/download.jpeg" alt="TEDx HultLondon" loading="lazy" />
+            <img src="./assets/logos/hatchery.png" alt="UCL Hatchery" loading="lazy" />
+            <img src="./assets/logos/fundamentally.png" alt="Fundamentally Children" loading="lazy" />
+            <img src="./assets/logos/a4.png" alt="A4 Safety Alliance" loading="lazy" />
+            <img src="./assets/logos/deloitte.png" alt="Deloitte" loading="lazy" />
+            <img src="./assets/logos/kpmg.png" alt="KPMG" loading="lazy" />
+            <img src="./assets/logos/foster.png" alt="Foster School of Business" loading="lazy" />
+            <img src="./assets/logos/wayne.png" alt="Wayne State University" loading="lazy" />
+            <img src="./assets/logos/claude.png" alt="Claude" loading="lazy" />
+            <img src="./assets/logos/yogatt.jpeg" alt="Yoga Alliance" loading="lazy" />
+            <img src="./assets/logos/kididing.jpeg" alt="Kidding Around Yoga" loading="lazy" />
+            <img src="./assets/logos/foundingucl.jpeg" alt="Founding Her, UCL" loading="lazy" />
+            <img src="./assets/logos/tina.jpeg" alt="UCL Founder Under Pressure" loading="lazy" />
+          </div>
         </div>
       </section>
 
       <!-- THE THINKING -->
-      <section id="thinking" class="section thinking wide-band" aria-labelledby="thinking-title">
+      <section id="thinking" class="section thinking" aria-labelledby="thinking-title">
         <div class="container">
-          <div class="section-head">
-            <h2 id="thinking-title" class="section-title">The one idea I keep building from</h2>
-          </div>
+          <h2 id="thinking-title" class="thinking-title">The one idea I keep building from</h2>
 
-          <blockquote class="pull-quote">
+          <blockquote class="pull-quote" data-reveal>
             <p>
-              If I cry, I am unstable.
-              If I don't cry, it didn't happen.
+              <span>If I cry, I am unstable.</span>
+              <span>If I don't cry, it didn't happen.</span>
             </p>
             <p>
-              If I love working, I don't like being a mom.
-              If I don't work, I can't put food on the table.
+              <span>If I love working, I don't like being a mom.</span>
+              <span>If I don't work, I can't put food on the table.</span>
             </p>
-            <footer class="pull-attrib">— from both TEDx talks</footer>
+            <footer class="handnote pull-attrib">from both TEDx talks</footer>
           </blockquote>
         </div>
       </section>
 
       <!-- CURRENTLY -->
-      <section id="currently" class="section currently wide-band" aria-labelledby="currently-title">
-        <div class="container">
-          <div class="section-head">
+      <section id="currently" class="section currently" aria-labelledby="currently-title">
+        <div class="container split">
+          <div class="split-head">
             <h2 id="currently-title" class="section-title">Currently</h2>
-            <p class="muted">Dispatches from real life. Updated most months.</p>
+            <p class="section-sub">Dispatches from real life. Updated most months.</p>
           </div>
 
-          <div class="currently-grid">
-            <div class="currently-card">
+          <div class="split-body currently-grid">
+            <div class="currently-item" data-reveal>
               <div class="currently-label">WTF about</div>
               <p>The fact that emotional regulation is still treated as a personal failing when it's a systems design problem. I said it on stage at TEDxUCL. I'll keep saying it until the systems change.</p>
             </div>
-            <div class="currently-card">
+            <div class="currently-item" data-reveal>
               <div class="currently-label">From the TEDx</div>
-              <p>Modern systems are built for a fictional human — rational, calm, consistent, cognitively available on demand. That human doesn't exist. I have the data. And the talk.</p>
+              <p>Modern systems are built for a fictional human: rational, calm, consistent, cognitively available on demand. That human doesn't exist. I have the data. And the talk.</p>
             </div>
-            <div class="currently-card">
+            <div class="currently-item" data-reveal>
               <div class="currently-label">Watching</div>
-              <p>The Mentalist — and an ever-growing pile of K-dramas.</p>
-              <p><a class="btn btn-ghost btn-small" href="./kdrama.html">Open the K-drama log →</a></p>
+              <p>The Mentalist, and an ever-growing pile of K-dramas.</p>
+              <p><a class="link" href="./kdrama.html">Open the K-drama log →</a></p>
             </div>
-            <div class="currently-card">
+            <div class="currently-item" data-reveal>
               <div class="currently-label">Pop Mart</div>
               <p>Current obsession: Moldy Muffin.</p>
             </div>
@@ -290,31 +301,39 @@
       </section>
 
       <!-- K-DRAMAS -->
-      <section id="kdrama" class="section kdrama wide-band" aria-labelledby="kdrama-title">
+      <section id="kdrama" class="section kdrama" aria-labelledby="kdrama-title">
         <div class="container">
-          <div class="section-head">
-            <h2 id="kdrama-title" class="section-title">The K-drama obsession</h2>
-            <p class="muted">A watch diary that got out of hand. 케이드라마 일지.</p>
-          </div>
+          <div class="kdrama-card" data-reveal>
+            <a class="kdrama-art" href="./kdrama.html" tabindex="-1" aria-hidden="true">
+              <img
+                src="./assets/kdrama-hero.jpg"
+                alt=""
+                width="1200"
+                height="1200"
+                loading="lazy"
+              />
+            </a>
 
-          <div class="kdrama-inner">
             <div class="kdrama-copy">
+              <h2 id="kdrama-title" class="section-title">The K-drama obsession</h2>
+              <p class="section-sub">A watch diary that got out of hand. <span lang="ko">케이드라마 일지.</span></p>
+
               <p class="lead">
                 It started as background noise and turned into a spreadsheet.
                 I track what I've watched, which actors keep reappearing across
-                shows, and every real place they filmed — because half of them
+                shows, and every real place they filmed, because half of them
                 are somewhere I could actually go stand.
               </p>
 
-              <div class="micro-pillars" aria-label="What's in the log">
-                <span class="pill">13 watched</span>
-                <span class="pill">6 on the list</span>
-                <span class="pill">48 actors tracked</span>
-                <span class="pill">4 filmed abroad</span>
-              </div>
+              <dl class="stats" aria-label="What's in the log">
+                <div><dt>watched</dt><dd>16</dd></div>
+                <div><dt>on the list</dt><dd>13</dd></div>
+                <div><dt>actors tracked</dt><dd>90</dd></div>
+                <div><dt>filmed abroad</dt><dd>6</dd></div>
+              </dl>
 
-              <div class="hero-actions">
-                <a class="btn" href="./kdrama.html">Open the K-drama log →</a>
+              <div class="actions">
+                <a class="btn btn-light" href="./kdrama.html">Open the K-drama log →</a>
               </div>
 
               <p class="handnote">
@@ -326,14 +345,14 @@
       </section>
 
       <!-- NOT ON THE CV -->
-      <section class="section ncv wide-band" aria-labelledby="ncv-title">
-        <div class="container">
-          <div class="section-head">
+      <section class="section ncv" aria-labelledby="ncv-title">
+        <div class="container split">
+          <div class="split-head">
             <h2 id="ncv-title" class="section-title">Not on the CV</h2>
-            <p class="muted">The parts I usually leave out of the bio.</p>
+            <p class="section-sub">The parts I usually leave out of the bio.</p>
           </div>
 
-          <ul class="ncv-list">
+          <ul class="split-body ncv-list" data-reveal>
             <li>Built a creative capture system called SPARK because ideas arrive everywhere, all the time, and I didn't want to lose any.</li>
             <li>My AI agent team has names. ARIA, SIGNAL, BRIDGE, GROVE, NOVA. Yes, I know.</li>
             <li>Currently in a Healing Adventure Era. It has its own Excel sheet. Don't ask.</li>
@@ -342,20 +361,20 @@
         </div>
       </section>
 
-      <!-- LATELY — polaroid strip.
+      <!-- LATELY — polaroid wall.
            Each polaroid removes itself if its image file is missing.
            The whole section hides via CSS (:has) when none remain. -->
-      <section class="section lately wide-band" aria-labelledby="lately-title">
+      <section class="section lately" aria-labelledby="lately-title">
         <div class="container">
           <div class="section-head">
             <h2 id="lately-title" class="section-title">Lately</h2>
-            <p class="muted">London, mostly. Alive, always.</p>
+            <p class="section-sub">London, mostly. Alive, always.</p>
           </div>
 
           <div class="lately-grid">
-            <figure class="polaroid polaroid-1">
+            <figure class="polaroid">
               <img
-                src="./assets/kate_lately_1.jpg"
+                src="./assets/web/kate_lately_1.jpg"
                 alt="On an escalator, mid-step, grinning"
                 loading="lazy"
                 onerror="this.closest('.polaroid').remove();"
@@ -363,9 +382,9 @@
               <figcaption>escalator diaries</figcaption>
             </figure>
 
-            <figure class="polaroid polaroid-2">
+            <figure class="polaroid">
               <img
-                src="./assets/kate_lately_2.jpg"
+                src="./assets/web/kate_lately_2.jpg"
                 alt="On the Millennium Bridge with St Paul's behind"
                 loading="lazy"
                 onerror="this.closest('.polaroid').remove();"
@@ -373,9 +392,9 @@
               <figcaption>home ↓</figcaption>
             </figure>
 
-            <figure class="polaroid polaroid-3">
+            <figure class="polaroid">
               <img
-                src="./assets/kate_lately_3.jpg"
+                src="./assets/web/kate_lately_3.jpg"
                 alt="Under a flowering archway, arms up"
                 loading="lazy"
                 onerror="this.closest('.polaroid').remove();"
@@ -383,56 +402,62 @@
               <figcaption>lilac fits</figcaption>
             </figure>
 
-            <figure class="polaroid polaroid-4">
+            <figure class="polaroid polaroid-komo">
               <img
                 src="./assets/logos/a4safety.jpeg"
                 alt="KOMO News coverage of A4 Safety Alliance"
                 loading="lazy"
+                onerror="this.closest('.polaroid').remove();"
               />
               <figcaption>komo news → A4 safety</figcaption>
             </figure>
 
-            <figure class="polaroid polaroid-5">
+            <figure class="polaroid">
               <img
-                src="./assets/kate_lately_4.jpg"
+                src="./assets/web/kate_lately_4.jpg"
                 alt="Silhouette against a city skyline at golden hour"
                 loading="lazy"
+                onerror="this.closest('.polaroid').remove();"
               />
               <figcaption>golden hour</figcaption>
             </figure>
 
-            <figure class="polaroid polaroid-6">
+            <figure class="polaroid">
               <img
-                src="./assets/kate_candid.jpg"
+                src="./assets/web/kate_candid.jpg"
                 alt="Candid portrait of Kate Julia at a gallery"
                 loading="lazy"
+                onerror="this.closest('.polaroid').remove();"
               />
               <figcaption>off the record</figcaption>
             </figure>
 
-            <figure class="polaroid polaroid-7">
+            <figure class="polaroid">
               <img
-                src="./assets/kate_virwave.jpg"
+                src="./assets/web/kate_virwave.jpg"
                 alt="Kate demonstrating the VirWave app"
                 loading="lazy"
+                onerror="this.closest('.polaroid').remove();"
               />
               <figcaption>the app, live</figcaption>
             </figure>
 
-            <figure class="polaroid polaroid-8">
+            <figure class="polaroid">
               <img
-                src="./assets/kate_tedx_ucl.jpg"
+                src="./assets/web/kate_tedx_ucl.jpg"
                 alt="Kate on stage at TEDxUCL"
                 loading="lazy"
+                onerror="this.closest('.polaroid').remove();"
               />
               <figcaption>TEDxUCL</figcaption>
             </figure>
 
-            <figure class="polaroid polaroid-9">
+            <figure class="polaroid">
               <img
-                src="./assets/kate_tedx_hult.jpg"
+                src="./assets/web/kate_tedx_hult.jpg"
                 alt="Kate at TEDx HultLondon"
                 loading="lazy"
+                onerror="this.closest('.polaroid').remove();"
               />
               <figcaption>TEDx HultLondon</figcaption>
             </figure>
@@ -440,34 +465,35 @@
         </div>
       </section>
 
-      <!-- CONTACT -->
-      <section id="contact" class="section contact wide-band" aria-labelledby="contact-title">
-        <div class="container contact-inner">
-          <div>
-            <h2 id="contact-title" class="section-title">Come say hi</h2>
-            <p class="muted">Speaking · partnerships · research · letters about nothing in particular.</p>
+      <!-- CLOSING STATEMENT + CONTACT -->
+      <section id="contact" class="closing" aria-labelledby="contact-title">
+        <div class="wave wave-light" aria-hidden="true" data-wave></div>
+
+        <div class="container">
+          <p class="closing-statement" data-reveal>
+            Let's build systems for <em>humanity.</em>
+          </p>
+
+          <div class="contact">
+            <div>
+              <h2 id="contact-title" class="contact-title">Come say hi</h2>
+              <p class="section-sub">Speaking · partnerships · research · letters about nothing in particular.</p>
+            </div>
+
+            <div class="actions">
+              <a class="btn btn-light" href="mailto:kate@virwave.com">kate@virwave.com</a>
+              <a class="btn btn-ghost-light" href="https://www.linkedin.com/in/kate-julia/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </div>
           </div>
 
-          <div class="contact-actions">
-            <a class="btn btn-ghost" href="mailto:kate@virwave.com">kate@virwave.com</a>
-            <a class="btn btn-ghost" href="https://www.linkedin.com/in/kate-julia/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-          </div>
+          <footer class="site-footer">
+            <span>Kate Julia</span>
+            <span>London · Global</span>
+          </footer>
         </div>
       </section>
-
-      <footer class="site-footer">
-        <div class="container footer-inner">
-          <div class="footer-left">Kate Julia</div>
-          <div class="footer-right">
-            <span>London</span>
-            <span class="dot" aria-hidden="true">•</span>
-            <span>Global</span>
-          </div>
-        </div>
-      </footer>
     </main>
 
-    <!-- Keep at the end; script.js now handles DOMContentLoaded safely -->
     <script src="./script.js"></script>
   </body>
 </html>
