@@ -24,7 +24,7 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400..600;1,9..144,400..600&family=Caveat:wght@500;600&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#1a1424;
@@ -48,6 +48,50 @@
     padding-bottom:60px;
   }
   .wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+
+
+  /* site header, shared look with katejulia.com */
+  .site-top{background:#f6f1ea;border-bottom:1px solid rgba(19,28,56,.13);font-family:'Instrument Sans',system-ui,sans-serif}
+  .st-inner{max-width:1160px;margin:0 auto;padding:0 24px;height:68px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .st-brand{font-family:'Fraunces',Georgia,serif;font-size:22px;font-weight:500;letter-spacing:-.01em;color:#171b2c;text-decoration:none;white-space:nowrap}
+  .st-nav{display:flex;align-items:center;gap:4px}
+  .st-nav a{font-size:14px;font-weight:500;color:#171b2c;text-decoration:none;padding:8px 12px;border-radius:999px;white-space:nowrap;transition:background .18s ease}
+  .st-nav a:hover{background:rgba(19,28,56,.07)}
+  .st-nav a[aria-current="page"]{background:rgba(74,43,82,.1);color:var(--plum)}
+  .st-nav .st-cta{margin-left:8px;padding:8px 16px;background:#131C38;color:#f6f1ea}
+  .st-nav .st-cta:hover{background:#3B4E8C}
+  @media (max-width:680px){.st-opt{display:none}.st-nav a{padding:8px 9px}.st-nav .st-cta{margin-left:4px;padding:8px 14px}.st-brand{font-size:20px}.st-inner{padding:0 16px}}
+  @media (max-width:440px){.st-nav a:first-child{display:none}}
+
+  /* split hero: portrait beside the title, like the homepage card */
+  .hero-split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.08fr);max-width:1160px;margin:28px auto 0;border-radius:24px;overflow:hidden;background:linear-gradient(160deg,var(--plum),#2d1a33);box-shadow:0 18px 44px rgba(74,43,82,.18)}
+  .hero-split .hero-band{background:none;min-height:100%}
+  .hero-split .hero-frame{max-width:none;height:100%}
+  .hero-split .hero-img{height:100%;object-fit:cover}
+  .hero-split header{background:none;text-align:left;padding:48px 44px 40px;display:flex;flex-direction:column;justify-content:center}
+  .hero-split header .sub{margin-left:0;margin-right:0;max-width:none}
+  .hero-split header .spoiler-note{align-self:flex-start}
+  .hero-split .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;justify-content:stretch}
+  .hero-split .stat{min-width:0;padding:10px 12px}
+  .hero-split .stat span{font-size:10px;letter-spacing:.08em}
+  .hero-split h1{font-family:'Fraunces',Georgia,serif;font-weight:500;letter-spacing:-.02em}
+  .hero-split h1 .kr{font-family:'Gowun Batang',serif}
+  .hero-split .handnote{font-family:'Caveat',cursive;font-size:24px;color:var(--rose-soft);margin-top:18px;transform:rotate(-1.5deg);transform-origin:left}
+  @media (max-width:860px){
+    .hero-split{grid-template-columns:1fr;margin:0;border-radius:0;box-shadow:none}
+    .hero-split header{text-align:center;padding:36px 20px 30px}
+    .hero-split header .spoiler-note{align-self:center}
+    .hero-split .stats{grid-template-columns:repeat(2,minmax(0,1fr));max-width:340px;margin-left:auto;margin-right:auto}
+    .hero-split .handnote{transform:none}
+  }
+
+  /* LKFF banner */
+  .lkff-strip{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:center;max-width:1160px;margin:16px auto 0;padding:14px 20px;border-radius:16px;background:#fbe9e1;border:1px solid #f1cbbb;color:#5a2e1f;text-decoration:none;transition:transform .15s ease,box-shadow .15s ease}
+  .lkff-strip:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(192,96,63,.15)}
+  .lkff-tag{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:#c0603f;border-radius:20px;padding:4px 10px}
+  .lkff-txt{font-family:'Gowun Batang',serif;font-size:16px}
+  .lkff-go{font-size:13px;font-weight:600;color:#c0603f}
+  @media (max-width:860px){.lkff-strip{margin:12px 16px 0}}
 
   /* animated hero title-card */
   .hero-band{background:linear-gradient(160deg,#2d1a33,#1a1022)}
@@ -601,8 +645,20 @@
 </head>
 <body>
 
-<div class="backbar"><a href="./index.html">← katejulia.com</a></div>
+<div class="site-top">
+  <div class="st-inner">
+    <a class="st-brand" href="./index.html">Kate Julia</a>
+    <nav class="st-nav" aria-label="Primary">
+      <a href="./index.html#work">What I've made</a>
+      <a class="st-opt" href="./index.html#thinking">Thinking</a>
+      <a class="st-opt" href="./index.html#currently">Currently</a>
+      <a href="./kdrama.html" aria-current="page">K-dramas</a>
+      <a class="st-cta" href="./index.html#contact">Say hi</a>
+    </nav>
+  </div>
+</div>
 
+<section class="hero-split">
 <div class="hero-band">
   <div class="hero-frame">
     <img class="hero-img" src="./assets/kdrama-hero.jpg" alt="Kate and her husband drawn as a Joseon-era couple in hanbok, making a heart with their hands beneath a full moon and cherry blossoms, in the style of Alchemy of Souls." loading="eager" />
@@ -623,7 +679,15 @@
     <div class="stat"><b id="s-actors">–</b><span>Actors tracked</span></div>
     <div class="stat"><b id="s-abroad">–</b><span>Filmed abroad</span></div>
   </div>
+  <p class="handnote">currently defending my second-lead syndrome.</p>
 </header>
+</section>
+
+<a class="lkff-strip" href="#films" data-go="films">
+  <span class="lkff-tag">🎬 Next up</span>
+  <span class="lkff-txt">My first Korean film festival: <b>LKFF 2026</b>, 2 to 16 November in London</span>
+  <span class="lkff-go">See the Films room →</span>
+</a>
 
 <section class="why-band">
   <div class="why-inner">
@@ -1155,6 +1219,24 @@ const PROFILES = {
   "Kim Jung-hyun": "/6SN5PBj1ycfY4o9HlLK4joS5f1F.jpg",
   "Jung Hae-in": "/7ZMUHR2q0XTWMxuqijWSVfWQv14.jpg",
 };
+
+// open a room from the URL (#films, #shop...) or from the LKFF strip
+(function(){
+  const nav=document.querySelector('nav.tabs'); if(!nav) return;
+  function go(id,smooth){
+    const t=document.querySelector(`.tab[data-tab="${id}"]`); if(!t) return false;
+    t.click();
+    const y=nav.getBoundingClientRect().top+window.scrollY-2;
+    window.scrollTo({top:y,behavior:smooth?'smooth':'auto'});
+    return true;
+  }
+  document.querySelectorAll('.lkff-strip[data-go]').forEach(a=>a.addEventListener('click',e=>{
+    if(go(a.dataset.go,true)){ e.preventDefault(); history.replaceState(null,'','#'+a.dataset.go); }
+  }));
+  const h=location.hash.slice(1);
+  if(h) window.addEventListener('load',()=>setTimeout(()=>go(h,false),60));
+})();
+
 // hero parallax + fade on scroll
 (function(){
   if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;

@@ -1,8 +1,9 @@
 // script.js
-// Three small progressive enhancements. The page reads fine without any of them.
+// Small progressive enhancements. The page reads fine without any of them.
 //   1. Wavelength line: the hero and closing waves, drawn to fit the viewport.
 //   2. Logo marquee: "In good company" drifts slowly instead of wrapping.
 //   3. Scroll reveals: blocks marked [data-reveal] ease in as they arrive.
+//   4. K-drama stats: counted live from kdrama.html so they never go stale.
 
 const prefersReducedMotion =
   window.matchMedia &&
@@ -164,5 +165,37 @@ const onReady = (fn) => {
       { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
     );
     els.forEach((el) => observer.observe(el));
+  });
+})();
+
+/* -------------------------------------------------------------- */
+/* K-drama stats, counted from the log itself                     */
+/* -------------------------------------------------------------- */
+// The numbers in the K-drama card are typed into index.html as a fallback.
+// This reads the `shows` list from kdrama.html and recounts them the same way
+// the log page does, so adding a show there updates the homepage too.
+(() => {
+  onReady(() => {
+    const dds = document.querySelectorAll("#kdrama .stats dd");
+    if (dds.length < 4 || !window.fetch) return;
+    fetch("./kdrama.html", { cache: "no-cache" })
+      .then((r) => (r.ok ? r.text() : Promise.reject()))
+      .then((src) => {
+        const start = src.indexOf("const shows = [");
+        const end = src.indexOf("\n];", start);
+        if (start < 0 || end < 0) return;
+        const shows = new Function("return " + src.slice(start + 14, end + 2))();
+        if (!Array.isArray(shows) || !shows.length) return;
+        const actors = new Set();
+        shows.forEach((s) => (s.cast || []).forEach((a) => actors.add(a)));
+        const counts = [
+          shows.filter((s) => s.status === "watched" && s.depth !== "partial").length,
+          shows.filter((s) => s.status === "want").length,
+          actors.size,
+          shows.filter((s) => (s.locs || []).some((l) => l.abroad)).length,
+        ];
+        dds.forEach((dd, i) => { dd.textContent = String(counts[i]); });
+      })
+      .catch(() => {});
   });
 })();
