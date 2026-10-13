@@ -465,7 +465,12 @@
   .howto-head h2{font-family:'Gowun Batang',serif;font-size:26px;color:var(--plum);letter-spacing:.01em}
   .howto-head h2 .kr{display:block;font-size:.5em;color:var(--rose);letter-spacing:.3em;margin-top:6px;font-weight:400}
   .howto-head p{font-size:13.5px;color:#7a6e80;margin-top:8px}
-  .howto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+  .howto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}
+  .hs-items{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:8px}
+  .hs-item{width:48px;height:48px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:25px;box-shadow:0 4px 12px var(--shadow)}
+  .hs-item:nth-child(1){transform:rotate(-8deg) translateY(6px)}
+  .hs-item:nth-child(2){transform:translateY(-6px)}
+  .hs-item:nth-child(3){transform:rotate(8deg) translateY(6px)}
   .howto-step{--ac:var(--rose);--ac2:#fbe8ef;position:relative;display:flex;flex-direction:column;align-items:stretch;text-align:left;font-family:inherit;cursor:pointer;padding:0;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:20px;color:var(--ink);box-shadow:0 2px 12px var(--shadow);transition:transform .35s cubic-bezier(.2,.7,.3,1),box-shadow .35s ease,border-color .35s ease,opacity .7s ease var(--d,0s),translate .7s cubic-bezier(.2,.7,.3,1) var(--d,0s)}
   .howto-step:hover,.howto-step:focus-visible{transform:translateY(-6px);border-color:var(--ac);box-shadow:0 22px 44px -14px rgba(74,43,82,.32),0 0 0 1px var(--ac);outline:none}
   .hs-art{position:relative;display:block;height:132px;overflow:hidden;background:radial-gradient(120% 90% at 20% 0%,#fff 0%,var(--ac2) 55%,color-mix(in srgb,var(--ac2) 70%,var(--ac)) 100%)}
@@ -475,7 +480,7 @@
   .hs-kr{position:absolute;right:14px;top:-26px;z-index:3;font-family:'Gowun Batang',serif;font-size:13px;letter-spacing:.12em;color:var(--plum);background:#fff;padding:5px 11px;border-radius:20px;box-shadow:0 4px 14px rgba(74,43,82,.12)}
   .howto-step b{display:block;font-family:'Gowun Batang',serif;font-size:21px;color:var(--plum);margin:2px 0 6px}
   .howto-step span.txt{display:block;font-size:13px;line-height:1.6;color:#554a58}
-  .howto-go{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;margin-top:auto;font-size:12px;font-weight:600;letter-spacing:.03em;color:var(--plum);background:var(--ac2);padding:7px 14px;border-radius:20px;transition:background .3s ease,color .3s ease}
+  .howto-go{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;margin-top:auto;font-size:12px;font-weight:600;letter-spacing:.02em;white-space:nowrap;color:var(--plum);background:var(--ac2);padding:7px 12px;border-radius:20px;transition:background .3s ease,color .3s ease}
   .hs-body .howto-go{margin-top:16px}
   .hs-body .txt{flex:1}
   .howto-go i{font-style:normal;display:inline-block;transition:transform .3s ease}
@@ -594,7 +599,7 @@
 <section class="howto" id="howto" aria-labelledby="howto-title">
   <div class="howto-head">
     <h2 id="howto-title">How to use this page<span class="kr">사용 설명서</span></h2>
-    <p>Four rooms. Tap one to jump in.</p>
+    <p>Five rooms. Tap one to jump in.</p>
   </div>
   <div class="howto-grid">
     <button class="howto-step" type="button" data-go="shows" style="--ac:#d96a8f;--ac2:#fbe6ee">
@@ -637,6 +642,12 @@
         <span class="hs-flip"><span class="hs-flip-in"><span class="hs-face front">정</span><span class="hs-face back">jeong</span></span></span>
       </span>
       <span class="hs-body"><span class="hs-kr">한국 배우기</span><b>Learning Korea</b><span class="txt">The rabbit holes the dramas sent me down, sorted onto shelves. Pick a shelf and flip the cards.</span><span class="howto-go">Open Learning Korea <i>→</i></span></span>
+    </button>
+    <button class="howto-step" type="button" data-go="shop" style="--ac:#8a5a9e;--ac2:#f1e6f4">
+      <span class="hs-art" aria-hidden="true"><span class="hs-ep">EP 05</span>
+        <span class="hs-items"><span class="hs-item">🏠</span><span class="hs-item">🐯</span><span class="hs-item">🛍️</span></span>
+      </span>
+      <span class="hs-body"><span class="hs-kr">사고 싶은 것</span><b>Things to Buy</b><span class="txt">The things a drama put on my wishlist. Each card says which show put it there and why.</span><span class="howto-go">Open Things to Buy <i>→</i></span></span>
     </button>
   </div>
 </section>
@@ -1273,6 +1284,14 @@ const SHOP = [
     // honest wishlist link: a live shopping search, not a fixed store
     link: 'https://www.google.com/search?tbm=shop&q=DIY+miniature+house+kit',
     linkLabel: 'Find the kit'
+  },
+  {
+    name: 'Tiger Balm',
+    from: 'King the Land (2023)',
+    emoji: '🐯',
+    note: 'Episode 11: he gives the grandma Tiger Balm, a pain relief lotion. They sell it at H Mart, and I really want to buy it and try it.',
+    link: 'https://www.google.com/search?tbm=shop&q=Tiger+Balm',
+    linkLabel: 'Find it'
   }
 ];
 (function(){
