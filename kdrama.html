@@ -264,6 +264,7 @@
   .kd-pin{display:block;width:40px;height:40px;border-radius:50%;background-size:cover;background-position:center top;background-color:#fff;border:3px solid var(--rose);box-shadow:0 2px 8px rgba(74,43,82,.4);cursor:pointer;transition:transform .12s}
   .kd-pin.abroad{border-color:var(--sky)}
   .kd-pinwrap:hover .kd-pin{transform:scale(1.12)}
+  .kd-pin.noimg{display:flex;align-items:center;justify-content:center;font-family:'Gowun Batang',serif;font-size:18px;font-weight:700;color:var(--plum);background:var(--rose-soft)}
   .kd-popup .leaflet-popup-content-wrapper{border-radius:15px;padding:0;overflow:hidden;box-shadow:0 10px 30px rgba(74,43,82,.28)}
   .kd-popup .leaflet-popup-content{margin:0;width:262px!important;font-family:'Space Grotesk',sans-serif}
   .kd-popup .leaflet-popup-tip{background:#fff}
@@ -361,6 +362,8 @@
   .tl-poster.partial{border-color:#8a7bb8}
   .tl-poster:hover{transform:translateY(-3px) scale(1.06)}
   .tl-poster img{width:100%;height:100%;object-fit:cover;display:block}
+  .tl-fallback{display:none}
+  .tl-poster.noimg .tl-fallback{display:flex;position:absolute;inset:0;align-items:center;justify-content:center;text-align:center;padding:3px;font-family:'Gowun Batang',serif;font-size:8.5px;line-height:1.15;color:var(--plum);overflow:hidden}
   .tl-tick{width:8px;height:8px;border-radius:50%;background:var(--line)}
   .tl-ylabel{font-size:11px;font-weight:700;color:var(--jade);font-family:'Space Grotesk',sans-serif;padding-top:6px;border-top:1.5px solid var(--line);width:100%;text-align:center}
   .tl-year.empty{opacity:.55}
@@ -1338,7 +1341,7 @@ const SHOP = [
       inYear.forEach(s=>{
         const cls=s.status==='want'?'want':(s.depth==='partial'?'partial':'watched');
         const p=document.createElement('div'); p.className='tl-poster '+cls; p.title=s.t+' ('+y+')';
-        const pu=posterUrl(s.t); p.innerHTML=pu?`<img src="${pu}" alt="${s.t}" loading="lazy">`:'';
+        const pu=posterUrl(s.t); p.innerHTML=(pu?`<img src="${pu}" alt="${s.t}" loading="lazy" onerror="this.parentNode.classList.add('noimg');this.remove()">`:'')+`<span class="tl-fallback">${s.t}</span>`; if(!pu) p.classList.add('noimg');
         p.addEventListener('click',()=>openShow(s));
         posters.appendChild(p);
       });
@@ -1878,7 +1881,7 @@ function buildLocMap(){
   }).addTo(locMap);
   PLACES.forEach(p=>{
     const poster=posterUrl(p.drama);
-    const icon=L.divIcon({className:'kd-pinwrap', html:`<span class="kd-pin${p.abroad?' abroad':''}" style="background-image:url('${poster||''}')"></span>`, iconSize:[46,46], iconAnchor:[23,23], popupAnchor:[0,-22]});
+    const icon=L.divIcon({className:'kd-pinwrap', html:`<span class="kd-pin${p.abroad?' abroad':''}${poster?'':' noimg'}" style="${poster?`background-image:url('${poster}')`:''}">${poster?'':p.drama.charAt(0)}</span>`, iconSize:[46,46], iconAnchor:[23,23], popupAnchor:[0,-22]});
     const m=L.marker([p.lat,p.lng],{icon, title:p.drama}).addTo(locMap);
     const bd=backdropUrl(p.drama);
     const html=`<div class="kd-pop">${bd?`<img class="kd-pop-still" src="${bd}" alt="${p.drama} scene" loading="lazy">`:''}<div class="kd-pop-body"><div class="kd-pop-drama">${p.drama}</div><div class="kd-pop-place">${p.abroad?'\u2708 ':'\uD83D\uDCCD '}${p.place.replace(/\s\u2014\s/g,' \u00B7 ')}</div><a class="kd-pop-btn" href="${panoLink(p.lat,p.lng)}" target="_blank" rel="noopener noreferrer">Look around here \u2192</a></div></div>`;

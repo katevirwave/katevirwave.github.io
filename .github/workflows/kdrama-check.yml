@@ -1,0 +1,56 @@
+name: K-drama page health check
+
+# Runs every Monday, and every time kdrama.html changes on main.
+# If anything is broken it opens a GitHub issue (GitHub emails you about it).
+on:
+  schedule:
+    - cron: "17 8 * * 1"
+  push:
+    branches: [main]
+    paths: ["kdrama.html", "scripts/check_kdrama.py"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install checker tools
+        run: |
+          pip install playwright==1.47.0 pillow
+          python -m playwright install --with-deps chromium
+
+      - name: Check posters, map and page
+        id: check
+        run: python3 scripts/check_kdrama.py 2>&1 | tee check.log; exit ${PIPESTATUS[0]}
+
+      - name: Open an issue if something broke
+        if: failure() && steps.check.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          {
+            echo "The automatic check found problems on https://katejulia.com/kdrama.html"
+            echo
+            echo '```'
+            grep -E '^FAIL' check.log || tail -20 check.log
+            echo '```'
+            echo
+            echo "Full log: $RUN_URL"
+          } > body.md
+          EXISTING=$(gh issue list --state open --search "K-drama page check failed in:title" --json number --jq '.[0].number')
+          if [ -n "$EXISTING" ]; then
+            gh issue comment "$EXISTING" --body-file body.md
+          else
+            gh issue create --title "K-drama page check failed" --body-file body.md
+          fi

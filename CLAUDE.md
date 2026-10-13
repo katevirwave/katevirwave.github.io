@@ -42,6 +42,17 @@ See `scripts/VISUAL_QA.md` for full options and agent workflows.
 - No frameworks. Plain HTML/CSS/JS only.
 - `.debug/` is gitignored. Never commit it.
 
+## K-drama page (`kdrama.html`): required for every change
+
+- **Every new show needs a poster.** When you add an entry to `shows`, also add its TMDB poster path to `POSTERS` (same exact title as the key). Find it on themoviedb.org: search the English title, or the Korean `kr` title if the English one is ambiguous, confirm the year matches, and use the poster file path (e.g. `"/abc123.jpg"`). Missing posters show up as blank tiles on the timeline.
+- **Map tiles come from OpenStreetMap** (`tile.openstreetmap.org`, no key needed). CARTO's free tiles stopped working in Oct 2026 (they now need an API key). Don't switch to a provider that needs a key.
+- **Run the health check before you finish:**
+  ```bash
+  pip install playwright pillow && python -m playwright install chromium   # first time only
+  python3 scripts/check_kdrama.py
+  ```
+  It must end with "All good." It also runs automatically every Monday and on every push to main that touches `kdrama.html` (`.github/workflows/kdrama-check.yml`), and opens a GitHub issue if anything breaks.
+
 ## Kate's voice rules (apply to ALL copy on the site)
 
 Kate reviewed the copy and gave two hard rules. Follow them in every note, heading, caption, and microcopy you write:
