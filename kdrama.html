@@ -267,6 +267,7 @@
   .kd-popup .leaflet-popup-content-wrapper{border-radius:15px;padding:0;overflow:hidden;box-shadow:0 10px 30px rgba(74,43,82,.28)}
   .kd-popup .leaflet-popup-content{margin:0;width:262px!important;font-family:'Space Grotesk',sans-serif}
   .kd-popup .leaflet-popup-tip{background:#fff}
+  .kd-tiles{filter:grayscale(.85) brightness(1.06) contrast(.88) sepia(.08)}
   .kd-pop-still{width:100%;height:132px;object-fit:cover;display:block}
   .kd-pop-body{padding:12px 14px 14px}
   .kd-pop-drama{font-family:'Gowun Batang',serif;font-size:18px;font-weight:700;color:var(--plum);line-height:1.15}
@@ -1009,6 +1010,18 @@ const shows = [
 // Fetched once, baked in — no API key or live calls at page load.
 const IMG_BASE = "https://image.tmdb.org/t/p/";
 const POSTERS = {
+  "Healer": "/too4Zig9bDJOfvnFfU1SaxKmGlR.jpg",
+  "High Society": "/qooQDYuUEcntuosvpWuhKvhDGDR.jpg",
+  "Something in the Rain": "/sTNXMCASbNn7cSzcQ7DVazixnAc.jpg",
+  "Vincenzo": "/qbkSS1cTjT4DzIwD44bdhTuYgdT.jpg",
+  "My Dearest": "/d00uWx8T84ZRsguQTqITl3HnFJO.jpg",
+  "Only for Love": "/aSDZcX0FIJJRMNiL7n9J39LyK46.jpg",
+  "Gangnam B-Side": "/4aeXrl8cSzUt8FHjqsHyoyZUox3.jpg",
+  "Idol I": "/ii3CB9QwIEwClqt7MgRoe188BbO.jpg",
+  "Our Sticky Love": "/tSZ4aFpTGc8Oj52SuzPUUZ7WKL0.jpg",
+  "Take Charge of My Heart": "/ecRrKGXfflZmDZBD4irdkybClT.jpg",
+  "Dream to You": "/cBiwrUwUNNYXTc5xrDEQWcMqftd.jpg",
+  "No Tail to Tell": "/bSX49M4tjDsnC8dOVQxt1sLgH6z.jpg",
   "Alchemy of Souls": "/gvOZN1NlAoL8iz9ghpES1zWA3w3.jpg",
   "Can This Love Be Translated?": "/zgUh4cgalSzBjbsT5P0qmU7Rjzk.jpg",
   "Hometown Cha-Cha-Cha": "/en6lrlJ1DhyvkeZEqrk3R6EJz1p.jpg",
@@ -1859,9 +1872,9 @@ let locMap=null;
 function buildLocMap(){
   if(locMap){ locMap.invalidateSize(); return; }
   locMap = L.map('locMap',{scrollWheelZoom:true, worldCopyJump:true, zoomControl:true}).setView([36.4,127.9],6);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
-    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-    subdomains:'abcd', maxZoom:19
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom:19, className:'kd-tiles'
   }).addTo(locMap);
   PLACES.forEach(p=>{
     const poster=posterUrl(p.drama);
