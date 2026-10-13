@@ -182,7 +182,25 @@
   .panel.active{display:block}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 
-  .filterbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;align-items:center}
+  .filterbar{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:0 2px 10px var(--shadow)}
+  .frow{display:grid;grid-template-columns:92px minmax(0,1fr);align-items:center;gap:12px}
+  .frow + .frow{padding-top:10px;border-top:1px dashed var(--line)}
+  .flab{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#9a8ea0;font-weight:700}
+  .fchips{display:flex;gap:7px;flex-wrap:wrap}
+  .chip .cnum{display:inline-block;margin-left:6px;font-size:10.5px;font-weight:700;color:#9a8ea0;font-variant-numeric:tabular-nums}
+  .chip.on .cnum{color:rgba(255,255,255,.75)}
+  .frow-seg .fchips{display:inline-flex;flex-wrap:nowrap;gap:0;background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:3px;justify-self:start;max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .frow-seg .chip{border:none;background:none;border-radius:18px;white-space:nowrap}
+  .frow-seg .chip.on{background:var(--plum);color:#fff}
+  .fcount{font-size:12.5px;color:#7a6e80;padding-top:4px}
+  .fcount b{color:var(--plum)}
+  .fclear{font:inherit;color:var(--rose);background:none;border:none;cursor:pointer;text-decoration:underline;padding:0}
+  @media (max-width:640px){
+    .frow{grid-template-columns:1fr;gap:6px}
+    .fchips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .fchips::-webkit-scrollbar{display:none}
+    .chip{white-space:nowrap}
+  }
   .chip{
     font-family:inherit;font-size:12.5px;font-weight:500;cursor:pointer;
     padding:6px 13px;border-radius:20px;border:1px solid var(--line);
@@ -1374,48 +1392,61 @@ const SHOW_RATINGS = {
   "Idol I":["binged","char","culture"],
 };
 
-const filters = [
-  {k:'all',label:'All'},
-  {k:'watched',label:'✓ Watched'},
-  {k:'want',label:'☆ Want to watch'},
-  {k:'partial',label:'◐ Started'},
-  {k:'fav',label:'♥ Favourites'},
-  {k:'rewatched',label:'↻ Rewatched'},
-  {k:'abroad',label:'✈ Filmed abroad'},
-  {sep:'by country'},
-  {k:'kdrama',label:'🇰🇷 K-dramas'},
-  {k:'cdrama',label:'🇨🇳 C-dramas'},
-  {sep:'rated for'},
-  {k:'cinematic',label:'🎬 Cinematic'},
-  {k:'char',label:'🌱 Character growth'},
-  {k:'side',label:'✨ Side characters'},
-  {k:'culture',label:'🇰🇷 Korea curiosity'},
-  {k:'binged',label:'🍿 Every minute'},
-  {k:'ff',label:'⏩ Fast-forwarded'},
+const FILTER_GROUPS = [
+  {label:'Status', seg:true, items:[
+    {k:'all',label:'All'},
+    {k:'watched',label:'Watched'},
+    {k:'partial',label:'Started'},
+    {k:'want',label:'Want to watch'}]},
+  {label:'Highlights', items:[
+    {k:'fav',label:'♥ Favourites'},
+    {k:'rewatched',label:'↻ Rewatched'},
+    {k:'abroad',label:'✈ Filmed abroad'}]},
+  {label:'Country', items:[
+    {k:'kdrama',label:'🇰🇷 K-dramas'},
+    {k:'cdrama',label:'🇨🇳 C-dramas'}]},
+  {label:'Rated for', items:[
+    {k:'binged',label:'🍿 Every minute'},
+    {k:'cinematic',label:'🎬 Cinematic'},
+    {k:'char',label:'🌱 Character growth'},
+    {k:'side',label:'✨ Side characters'},
+    {k:'culture',label:'🇰🇷 Korea curiosity'},
+    {k:'ff',label:'⏩ Fast-forwarded'}]},
 ];
-filters.forEach((f,i)=>{
-  if(f.sep){ const s=document.createElement('span'); s.className='filt-sep'; s.textContent=f.sep; filtersEl.appendChild(s); return; }
-  const b=document.createElement('button');
-  b.className='chip'+(i===0?' on':'');
-  b.textContent=f.label;
-  b.onclick=()=>{activeFilter=f.k;document.querySelectorAll('#filters .chip').forEach(c=>c.classList.remove('on'));b.classList.add('on');renderCards();};
-  filtersEl.appendChild(b);
+function matchesFilter(s,k){
+  if(k==='all')return true;
+  if(k==='abroad')return s.locs.some(l=>l.abroad);
+  if(k==='cdrama')return s.origin==='China';
+  if(k==='kdrama')return s.origin!=='China';
+  if(k==='fav')return !!s.fav;
+  if(k==='rewatched')return (s.rewatch||0)>0;
+  if(k==='partial')return s.depth==='partial';
+  if(k==='watched')return s.status==='watched'&&s.depth!=='partial';
+  if(RATE[k])return (SHOW_RATINGS[s.t]||[]).includes(k);
+  return s.status===k;
+}
+FILTER_GROUPS.forEach(g=>{
+  const row=document.createElement('div'); row.className='frow'+(g.seg?' frow-seg':'');
+  const lab=document.createElement('span'); lab.className='flab'; lab.textContent=g.label; row.appendChild(lab);
+  const box=document.createElement('div'); box.className='fchips';
+  g.items.forEach(f=>{
+    const n=shows.filter(s=>matchesFilter(s,f.k)).length;
+    const b=document.createElement('button');
+    b.type='button'; b.className='chip'+(f.k==='all'?' on':''); b.dataset.f=f.k;
+    b.innerHTML=`${f.label}<span class="cnum">${n}</span>`;
+    b.onclick=()=>{activeFilter=f.k;document.querySelectorAll('#filters .chip').forEach(c=>c.classList.remove('on'));b.classList.add('on');renderCards();};
+    box.appendChild(b);
+  });
+  row.appendChild(box); filtersEl.appendChild(row);
 });
+const fcount=document.createElement('div'); fcount.className='fcount'; filtersEl.appendChild(fcount);
 
 function renderCards(){
   cardsEl.innerHTML='';
-  shows.filter(s=>{
-    if(activeFilter==='all')return true;
-    if(activeFilter==='abroad')return s.locs.some(l=>l.abroad);
-    if(activeFilter==='cdrama')return s.origin==='China';
-    if(activeFilter==='kdrama')return s.origin!=='China';
-    if(activeFilter==='fav')return !!s.fav;
-    if(activeFilter==='rewatched')return (s.rewatch||0)>0;
-    if(activeFilter==='partial')return s.depth==='partial';
-    if(activeFilter==='watched')return s.status==='watched'&&s.depth!=='partial';
-    if(RATE[activeFilter])return (SHOW_RATINGS[s.t]||[]).includes(activeFilter);
-    return s.status===activeFilter;
-  }).forEach(s=>{
+  const shown=shows.filter(s=>matchesFilter(s,activeFilter));
+  const fc=document.querySelector('#filters .fcount');
+  if(fc){ const on=document.querySelector('#filters .chip.on'); fc.innerHTML=activeFilter==='all'?`Showing all <b>${shown.length}</b> dramas`:`Showing <b>${shown.length}</b> · <button type="button" class="fclear">clear filter</button>`; const cl=fc.querySelector('.fclear'); if(cl) cl.onclick=()=>document.querySelector('#filters .chip[data-f="all"]').click(); }
+  shown.forEach(s=>{
     const card=document.createElement('div');
     card.className='card';
     let badge;
