@@ -122,6 +122,13 @@
   .why-h{font-family:'Gowun Batang',serif;font-size:23px;color:var(--plum);margin-bottom:12px}
   .why-inner p{font-family:'Gowun Batang',serif;font-size:16px;line-height:1.72;color:#4a3f4d}
   .why-inner em{font-style:italic;color:var(--rose)}
+  /* newsletter signup */
+  .sub-band{padding:26px 20px 6px}
+  .sub-inner{max-width:520px;margin:0 auto;text-align:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 20px 12px;box-shadow:0 2px 10px var(--shadow)}
+  .sub-inner .why-h{font-size:20px;margin-bottom:6px}
+  .sub-inner p{font-family:'Gowun Batang',serif;font-size:15px;line-height:1.6;color:#4a3f4d;margin-bottom:10px}
+  .sub-inner a{color:var(--plum);font-weight:600}
+  .sub-inner iframe{display:block;width:100%;max-width:480px;height:124px;margin:0 auto;border:0;background:transparent}
 
   .backbar{padding:14px 20px;font-size:13px}
   .backbar a{color:var(--plum);text-decoration:none;font-weight:600;letter-spacing:.04em}
@@ -759,6 +766,14 @@
   <div class="why-inner">
     <h2 class="why-h">Why K-dramas?</h2>
     <p>Because sixteen hours of a world that <em>starts</em>, means something, and actually <em>ends</em> did what rest couldn't. Every thread tied off. Every piece fitting. For a brain that never stops running the pattern, a story that resolves is the closest thing to putting it down. I started at Christmas 2024. I haven't stopped. I just started taking notes, and built this.</p>
+  </div>
+</section>
+
+<section class="sub-band" id="subscribe" aria-labelledby="sub-title">
+  <div class="sub-inner">
+    <h2 class="why-h" id="sub-title">One drama a week, in your inbox</h2>
+    <p>What I'm watching, what's worth starting, and the rabbit holes in between. From <a href="https://breathingkatedrama.substack.com" target="_blank" rel="noopener noreferrer">Breathing Kate Drama</a> on Substack.</p>
+    <iframe src="https://breathingkatedrama.substack.com/embed" title="Subscribe to Breathing Kate Drama" loading="lazy" scrolling="no"></iframe>
   </div>
 </section>
 
@@ -2397,7 +2412,7 @@ document.querySelectorAll('.tab').forEach(t=>{
     if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
   }),{rootMargin:'0px 0px -8% 0px',threshold:.08});
   function watch(el,delay){ el.classList.add('rv'); if(delay) el.style.setProperty('--d',delay+'s'); io.observe(el); }
-  ['.why-inner','.howto-head','.tl-wrap','.filterbar','#awWeb .note','#locations > .note','.abroad-banner','.learn-intro','footer']
+  ['.why-inner','.sub-inner','.howto-head','.tl-wrap','.filterbar','#awWeb .note','#locations > .note','.abroad-banner','.learn-intro','footer']
     .forEach(q=>document.querySelectorAll(q).forEach(el=>watch(el,0)));
   document.querySelectorAll('.howto-step').forEach((el,i)=>watch(el,(i*0.09).toFixed(2)));
   const cardsBox=document.getElementById('cards');
