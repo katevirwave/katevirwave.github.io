@@ -444,6 +444,23 @@
   .sd-hole:hover{border-color:var(--rose)}
   .card{cursor:pointer}
 
+
+  /* FILMS */
+  .fest{max-width:760px;margin:0 auto 26px;text-align:center;background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px 22px;box-shadow:0 2px 10px var(--shadow)}
+  .fest-kicker{font-size:12px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#c0603f;margin-bottom:8px}
+  .fest h3{font-family:'Gowun Batang',serif;font-size:24px;line-height:1.2;color:var(--plum);margin-bottom:8px}
+  .fest p{font-family:'Gowun Batang',serif;font-size:16px;line-height:1.6;color:#4a3f4d}
+  .fest .fest-meta{font-family:inherit;font-size:13px;color:#8a7d90;margin-top:10px}
+  .fest .fest-meta a{color:var(--plum)}
+  .films-h{font-family:'Gowun Batang',serif;font-size:19px;color:var(--plum);text-align:center;margin:6px 0 14px}
+  .films-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px;max-width:760px;margin:0 auto}
+  .film-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;gap:14px;box-shadow:0 2px 10px var(--shadow)}
+  .film-card img{width:92px;height:138px;object-fit:cover;border-radius:10px;flex:0 0 92px;box-shadow:0 3px 10px var(--shadow);background:var(--rose-soft)}
+  .film-card h5{font-family:'Gowun Batang',serif;font-size:19px;line-height:1.15;color:var(--plum)}
+  .film-meta{font-size:12.5px;color:#8a7d90;margin-top:3px}
+  .film-status{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:#c0603f;background:#fbe9e1;border-radius:20px;padding:3px 9px}
+  .film-note{margin-top:9px;font-family:'Gowun Batang',serif;font-size:13.5px;line-height:1.5;color:#4a3f4d}
+  .film-where{margin-top:8px;font-size:12px;color:var(--jade);font-weight:600}
   /* SHOP — things a drama made me want */
   .shop-intro{max-width:640px;margin:0 auto 30px;text-align:center}
   .shop-intro p{font-family:'Gowun Batang',serif;font-size:16px;line-height:1.7;color:#4a3f4d;margin-bottom:12px}
@@ -485,7 +502,7 @@
   .howto-head h2{font-family:'Gowun Batang',serif;font-size:26px;color:var(--plum);letter-spacing:.01em}
   .howto-head h2 .kr{display:block;font-size:.5em;color:var(--rose);letter-spacing:.3em;margin-top:6px;font-weight:400}
   .howto-head p{font-size:13.5px;color:#7a6e80;margin-top:8px}
-  .howto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px}
+  .howto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
   .hs-items{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:8px}
   .hs-item{width:48px;height:48px;border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center;font-size:25px;box-shadow:0 4px 12px var(--shadow)}
   .hs-item:nth-child(1){transform:rotate(-8deg) translateY(6px)}
@@ -619,7 +636,7 @@
 <section class="howto" id="howto" aria-labelledby="howto-title">
   <div class="howto-head">
     <h2 id="howto-title">How to use this page<span class="kr">사용 설명서</span></h2>
-    <p>Five rooms. Tap one to jump in.</p>
+    <p>Six rooms. Tap one to jump in.</p>
   </div>
   <div class="howto-grid">
     <button class="howto-step" type="button" data-go="shows" style="--ac:#d96a8f;--ac2:#fbe6ee">
@@ -669,6 +686,12 @@
       </span>
       <span class="hs-body"><span class="hs-kr">사고 싶은 것</span><b>Things to Buy</b><span class="txt">The things a drama put on my wishlist. Each card says which show put it there and why.</span><span class="howto-go">Open Things to Buy <i>→</i></span></span>
     </button>
+    <button class="howto-step" type="button" data-go="films" style="--ac:#c0603f;--ac2:#fbe9e1">
+      <span class="hs-art" aria-hidden="true"><span class="hs-ep">EP 06</span>
+        <span class="hs-items"><span class="hs-item">🎬</span><span class="hs-item">🎟️</span><span class="hs-item">🍿</span></span>
+      </span>
+      <span class="hs-body"><span class="hs-kr">영화</span><b>Films</b><span class="txt">Korean films, and my first Korean film festival: LKFF 2026 in London.</span><span class="howto-go">Open Films <i>→</i></span></span>
+    </button>
   </div>
 </section>
 
@@ -678,6 +701,7 @@
   <button class="tab" data-tab="locations">Locations</button>
   <button class="tab" data-tab="learning">Learning Korea</button>
   <button class="tab" data-tab="shop">Things to Buy</button>
+  <button class="tab" data-tab="films">Films</button>
 </nav>
 
 <div class="wrap">
@@ -753,6 +777,18 @@
     <div class="lk-nav" id="lkNav"></div>
     <div id="learnwrap"></div>
     <p class="learn-foot">I'm not formally learning the language yet. The Korean here is a landmark to notice in passing. This is what the dramas sent me to find out. Corrections and additions always welcome.</p>
+  </section>
+
+  <!-- FILMS -->
+  <section class="panel" id="films">
+    <div class="fest">
+      <div class="fest-kicker">London Korean Film Festival · 2 to 16 November 2026</div>
+      <h3>LKFF 2026 is my first Korean film festival</h3>
+      <p>And I can't wait. A couple of friends have also signed up to go as well.</p>
+      <p class="fest-meta">BFI Southbank · Ciné Lumière · ICA · <a href="https://www.koreanfilm.co.uk/" target="_blank" rel="noopener noreferrer">Festival programme</a></p>
+    </div>
+    <h4 class="films-h">Watching before the festival</h4>
+    <div class="films-grid" id="filmsGrid"></div>
   </section>
 
   <!-- THINGS TO BUY -->
@@ -1306,6 +1342,32 @@ function renderCards(){
   });
 }
 renderCards();
+
+// ---------- films ----------
+const FILM_LOG = [
+  {t:"Parasite", kr:"기생충", yr:2019, dir:"Bong Joon-ho", status:"Want to watch",
+   poster:"/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg",
+   note:"Two of its actors, Lee Jung-eun and Park So-dam, are in this year's LKFF opening film.",
+   where:"Free on ITVX"},
+  {t:"Burning", kr:"버닝", yr:2018, dir:"Lee Chang-dong", status:"Want to watch",
+   poster:"/kXiF80o74fE9gf3Utf9moAI7ar0.jpg",
+   note:"Lee Chang-dong's new film, Possible Love, is showing at LKFF 2026.",
+   where:"Rent on BFI Player"}
+];
+(function(){
+  const g=document.getElementById('filmsGrid'); if(!g) return;
+  g.innerHTML=FILM_LOG.map(f=>`
+    <div class="film-card">
+      <img src="${IMG_BASE}w185${f.poster}" alt="${f.t} poster" loading="lazy" onerror="this.style.visibility='hidden'">
+      <div>
+        <h5>${f.t}</h5>
+        <div class="film-meta">${f.yr} · ${f.dir} · ${f.kr}</div>
+        <span class="film-status">${f.status}</span>
+        <div class="film-note">${f.note}</div>
+        <div class="film-where">📺 ${f.where}</div>
+      </div>
+    </div>`).join('');
+})();
 
 // ---------- things to buy ----------
 const SHOP = [
