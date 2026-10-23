@@ -535,6 +535,10 @@
   .shop-intro p{font-family:'Gowun Batang',serif;font-size:16px;line-height:1.7;color:#4a3f4d;margin-bottom:12px}
   .shop-intro p:first-child{font-size:19px;color:var(--plum)}
   .shop-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+  .wt-kr{font-size:12px;color:#8a7e92;font-weight:500;margin-left:4px}
+  .wt-tags{display:flex;flex-wrap:wrap;gap:6px;margin:11px 0 2px}
+  .wt-t{font-size:11px;font-weight:600;color:#6b5f6f;background:#fbf8f4;border:1px solid var(--line);border-radius:10px;padding:3px 9px}
+  .wt-t.drama{background:var(--rose-soft);color:var(--plum);border-color:#f3cfd9}
   .shop-card{
     background:#fff;border:1px solid var(--line);border-radius:16px;
     padding:18px 18px 16px;box-shadow:0 2px 10px var(--shadow);
@@ -835,6 +839,12 @@
     </span>
     <span class="ep-meta"><span class="ep-no">EP 06</span><span class="ep-name">Films</span><span class="ep-kr">영화</span></span>
   </button>
+  <button class="tab ep" data-tab="webtoons" style="--ac:#6b6fc0;--ac2:#e9e9f7">
+    <span class="ep-art hs-art" aria-hidden="true">
+      <span class="hs-items"><span class="hs-item">📖</span><span class="hs-item">💘</span><span class="hs-item">🌸</span></span>
+    </span>
+    <span class="ep-meta"><span class="ep-no">EP 07</span><span class="ep-name">Webtoons</span><span class="ep-kr">웹툰</span></span>
+  </button>
 </nav>
 
 <div class="wrap">
@@ -931,6 +941,15 @@
       <p>Every so often a show holds up an object and I want it in my own hands. A prop, a food, a thing two people made together on screen. This is the running list, and the reason each one is on it.</p>
     </div>
     <div class="shop-grid" id="shopGrid"></div>
+  </section>
+
+  <!-- WEBTOONS -->
+  <section class="panel" id="webtoons">
+    <div class="shop-intro">
+      <p>Webtoons I think I'd love, picked from what the dramas already proved I love.</p>
+      <p>So many of my favourites started here: Business Proposal, Our Sticky Love, Make Me Tingle, Take Charge of My Heart, Dreaming of a Freaking Fairytale. This is the reading list, each one tied to a show that already got me. Most are free in English on WEBTOON.</p>
+    </div>
+    <div class="shop-grid" id="webtoonGrid"></div>
   </section>
 
 </div>
@@ -1693,6 +1712,53 @@ const SHOP = [
       </div>
       <div class="shop-note">${item.note}</div>
       ${item.link ? `<a class="shop-buy" href="${item.link}" target="_blank" rel="noopener noreferrer">${item.linkLabel||'Find it'}</a>` : ''}
+    </div>`).join('');
+})();
+
+// ---------- webtoons to read ----------
+const WEBTOONS = [
+  {title:"Yumi's Cells", kr:"유미의 세포들", tie:"Love Next Door", drama:true,
+   tags:["Romance","Slice-of-life","Adult life"],
+   note:"A woman's feelings run her life as a little crew of brain cells, through dating, heartbreak and a career she is still figuring out. It has the grown-up honesty of Love Next Door, drawn panel by panel."},
+  {title:"Cheese in the Trap", kr:"치즈인더트랩", tie:"Can This Love Be Translated?", drama:true,
+   tags:["Campus","Romance","Psychological"],
+   note:"A campus romance with a male lead you can never quite read, warm one moment and cold the next. It lives in the place you loved in Translated, the darkness inside someone still learning how to be loved."},
+  {title:"Your Letter", kr:"너의 편지", tie:"Idol I",
+   tags:["Healing","Emotional","One sitting"],
+   note:"Short, soft, and quietly devastating. A girl, a hidden letter, and small kindnesses that travel further than she knows. For a day you want the sadness and depth of life that Idol I gave you."},
+  {title:"The Remarried Empress", kr:"재혼 황후", tie:"King the Land",
+   tags:["Fantasy","Romance","Court"],
+   note:"A wronged empress stops pleading for her place and calmly builds a new one. Palace power, patient strategy, and a lead who keeps her composure. The chaebol-court feeling of King the Land, turned all the way up."},
+  {title:"Lore Olympus", tie:"Alchemy of Souls",
+   tags:["Fantasy","Romance","Mythology"],
+   note:"Hades and Persephone retold in lush colour, with a whole living world around them. For the part of you that fell for how properly Alchemy of Souls built its world."},
+  {title:"Spirit Fingers", kr:"스피릿 핑거스", tie:"Hometown Cha-Cha-Cha",
+   tags:["Coming-of-age","Healing","Found family"],
+   note:"A shy girl falls in with a scrappy art club and slowly becomes herself. Warm, funny, full of found family. The healing Hometown Cha-Cha-Cha gave you, in watercolour."},
+  {title:"Marry My Husband", kr:"내 남편과 결혼해줘", tie:"a satisfying, every-piece-lands ending", drama:true,
+   tags:["Revenge","Romance","Second chance"],
+   note:"A betrayed wife gets a second chance to live it all over and set it right. Melodrama with the puzzle-fit justice you keep praising in a good ending."},
+  {title:"Semantic Error", kr:"시맨틱 에러", tie:"a really good slow burn", drama:true,
+   tags:["BL","Campus","Enemies to lovers"],
+   note:"A rule-following coding student and the free-spirited art major who drives him up the wall. A beloved slow burn, short enough to finish in a weekend. Here for whenever you want to try BL."},
+  {title:"Business Proposal", kr:"사내맞선", tie:"Business Proposal", drama:true,
+   tags:["Office romance","Comedy","Read the source"],
+   note:"You have seen the drama. Read the webtoon it grew from and watch exactly what they changed, the pacing and the endings you always have opinions about."},
+];
+(function(){
+  const grid=document.getElementById('webtoonGrid'); if(!grid) return;
+  grid.innerHTML = WEBTOONS.map(w=>`
+    <div class="shop-card">
+      <div class="shop-head">
+        <div class="shop-thumb" aria-hidden="true">📖</div>
+        <div class="shop-headtext">
+          <h3>${w.title}${w.kr?`<span class="wt-kr">${w.kr}</span>`:''}</h3>
+          <div class="shop-from">If you loved ${w.tie}</div>
+        </div>
+      </div>
+      <div class="shop-note">${w.note}</div>
+      <div class="wt-tags">${w.tags.map(t=>`<span class="wt-t">${t}</span>`).join('')}${w.drama?`<span class="wt-t drama">also a K-drama</span>`:''}</div>
+      <a class="shop-buy" href="https://www.google.com/search?q=${encodeURIComponent(w.title+' webtoon read english')}" target="_blank" rel="noopener noreferrer">Where to read →</a>
     </div>`).join('');
 })();
 
